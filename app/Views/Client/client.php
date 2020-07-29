@@ -145,4 +145,4 @@ $payments->showElem();
 		</div>
 	</div>
 </div>
-<script src="/assets/js/phone_number_handler.js"></script>
+<script src="/assets/js/client_edit_hendler.js"></script>

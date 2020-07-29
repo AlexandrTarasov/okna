@@ -4,7 +4,7 @@ namespace AppComp;
 
 use PDO;
 
-class DB
+class DB 
 {
 	static $conf = [
 		'host'     => DB_HOSTNAME,
@@ -31,6 +31,12 @@ class DB
 		$stmt->execute();
 		return $stmt;
 	}
+
+	public function lastId()
+	{
+		return $this->db->lastInsertId();
+	}
+
 	public function update($sql)
 	{	
 		$stmt = $this->db->prepare($sql);

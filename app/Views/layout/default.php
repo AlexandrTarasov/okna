@@ -9,8 +9,8 @@
         <title></title>
         <link href="/assets/css/styles.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js"
- crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+		<script src="/assets/js/phone_number_handler.js"></script>
 <style>
 	#dataTable{font-size: 13px;}
 	.add{font-size: 26px; color: hsl(120, 83%, 79.2%);margin: -13px 0 -13px 10px;}
@@ -31,7 +31,8 @@
 			<!-- Navbar Search-->
 			<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
 				<div class="input-group">
-					<input class="form-control" style="width:290px;" type="text" placeholder="Поиск по содержимому в колонках" aria-label="Search" aria-describedby="basic-addon2" />
+					<input class="form-control" style="width:290px;" type="search" id="search" name="search"
+  pattern="[^'\x22]+"" placeholder="Поиск по содержимому в колонках" aria-label="Search" aria-describedby="basic-addon2" />
 					<div class="input-group-append">
 						<button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
 					</div>
@@ -123,73 +124,78 @@
 				</footer>
 			</div>
        </div>
-<!-- modal for requests -->
+<!-- modal add enquery -->
 <style>
 	/*works only for modals below */
 	.fa-viber{font-size:19px;}
 	.off{color: hsl(282.9, 3.3%, 57.8%);}
 </style>
-<div class="fade bd-example-modal-lg modal" tabindex="-1" role="dialog" id="add_enquery_modal" aria-hidden="true">
+<div class="fade bd-example-modal-lg modal" tabindex="-1" role="dialog" 
+	id="add_enquery_modal" aria-hidden="true">
+	<form id="add_enquiry_modal_form">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Добавить запрос</h5>
+				<h5 class="modal-title"> <i class="fas fa-funnel-dollar clr-red"></i> </i>Добавить запрос</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">
+			<div id="back_message_enquery_modal"> </div>
+			<div class="modal-body" id="add_enquery_modal_body">
 				<div class="form-group" style="margin-bottom: 0rem;">
 					<div class="form-row">
 						<div class="col mb-2">
-							<input type="text"  class="form-control form-control-sm" id="" placeholder="ФИО">
+							<input type="text" name="fio" required class="form-control form-control-sm" id="" placeholder="ФИО">
 						</div>
 						<div class="col mb-2">
-							<input type="email" class="form-control form-control-sm" id="" placeholder="Email">
+							<input type="email" name="email" class="form-control form-control-sm" id="" placeholder="Email">
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col mb-2">
 							<div class="input-group input-group-sm">
-								<input type="tel" class="form-control" id="" title="tel 1" placeholder="000-000-00-00">
-								<div class="input-group-append ">
-									<span class="input-group-text" title="viber_span" style="z-index:100;" ><i title="viber_svg"class="off fab fa-viber"></i></span>
+								<input type="tel" required class="form-control" name="phone_1" id="phone_1_enquery_form" title="tel 1" placeholder="000-000-00-00"  pattern="\([0-9]{3}\)-[0-9]{3}-[0-9]{2}-[0-9]{2}">
+								<div class="input-group-append">
+									<span class="input-group-text" title="viber_span" 
+										style="z-index:100;" ><i title="viber_svg" class="off fab fa-viber"></i></span>
 								</div>
 							</div>
 						</div>
 
 						<div class="col mb-2">
-							<input type="tel" class="form-control form-control-sm" title="tel 2" placeholder="000-000-00-00" 
-							id="" placeholder="Тел 2">
+							<input type="tel" class="form-control form-control-sm"  name="phone_2"  title="tel 2" placeholder="(000)-000-00-00" 
+							id="phone_2_enquery_form"  pattern="\([0-9]{3}\)-[0-9]{3}-[0-9]{2}-[0-9]{2}" placeholder="(000)-000-00-00">
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col mb-2">
-							<input type="text" class="form-control form-control-sm" id="" placeholder="Адрес установки">
+							<input type="text" class="form-control form-control-sm" name="address" id="" placeholder="Адрес установки">
 						</div>
 						<div class="col mb-2">
-							<select class="form-control form-control-sm">
-								<option value="">Новаый запрос</option>
-								<option value="">В обработке</option>
-								<option value="">Отменён</option>
+							<select class="form-control form-control-sm" name="status">
+								<option value="new">Новаый запрос</option>
+								<option value="processing">В обработке</option>
+								<option value="accepted">Принят</option>
+								<option value="canceled">Отменён</option>
 							</select>
 						</div>
 					</div>
-					<textarea class="form-control mb-2" id=""  placeholder="Комментарий" rows="2"></textarea>
+					<textarea class="form-control mb-2" id=""  placeholder="Комментарий" name="comment" rows="2"></textarea>
 
 					<div class="form-row">
 						<div class="col mb-1">
-							<select class="form-control form-control-sm">
-								<option value="">Звонок</option>
-								<option value="">Adwords</option>
-								<option value="">FB</option>
-								<option value="">Instagram</option>
-								<option value="">Рекомендация</option>
-								<option value="">Youtube</option>
+							<select class="form-control form-control-sm"  name="source">
+								<option value="call">Звонок</option>
+								<option value="adwords">Adwords</option>
+								<option value="facebook">FB</option>
+								<option value="instagram">Instagram</option>
+								<option value="recommendation">Рекомендация</option>
+								<option value="youtube">Youtube</option>
 							</select>
 						</div>
 						<div class="col mb-2">
-							<input type="date" class="form-control form-control-sm" id="order_date_inp" value="" >
+							<input type="date" class="form-control form-control-sm" name="date" id="order_date_inp" value="" >
 						</div>
 					</div>
 					<hr>
@@ -200,11 +206,13 @@
 			</div>
 		</div>
 	</div>
+	</form>
 </div>
 <!--// modal for requests -->
 
-<!-- modal for clients -->
+<!-- modal add client -->
 <div class="fade bd-example-modal-lg modal" tabindex="-1" role="dialog" id="add_client_modal" aria-hidden="true">
+	<form id="add_client_modal_form">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -213,38 +221,39 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">
+			<div id="back_message_client_modal"></div>
+			<div class="modal-body" id="add_client_modal_body">
 				<div class="form-group" style="margin-bottom: 0rem;">
 					<div class="form-row">
 						<div class="col mb-2">
-							<input type="text"  class="form-control form-control-sm" id="" placeholder="ФИО">
+							<input type="text" name="fio" required class="form-control form-control-sm" id="" placeholder="ФИО">
 						</div>
 						<div class="col mb-2">
-							<input type="email" class="form-control form-control-sm" id="" placeholder="Email">
+							<input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" name="email" class="form-control form-control-sm" id="" placeholder="Email">
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col mb-2">
 							<div class="input-group input-group-sm">
-								<input type="tel" class="form-control" id="" placeholder="000-000-00-00">
+								<input type="tel" required class="form-control" name="phone_1" id="phone_1_client_form" placeholder="(000)-000-00-00"  pattern="\([0-9]{3}\)-[0-9]{3}-[0-9]{2}-[0-9]{2}">
 								<div class="input-group-append ">
-									<span class="input-group-text" id="viber_client_act_span"><i class="off fab fa-viber" id="viber_client_i"></i></span>
+									<span class="input-group-text" title="viber_span" id="viber_client_act_span"><i class="off fab fa-viber" title="viber_svg" id="viber_client_i"></i></span>
 								</div>
 							</div>
 						</div>
 
 						<div class="col mb-2">
-							<input type="tel" class="form-control form-control-sm" pattern="[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}" 
-							id="" placeholder="Тел 2">
+							<input type="tel" class="form-control form-control-sm"  name="phone_2"  pattern="\([0-9]{3}\)-[0-9]{3}-[0-9]{2}-[0-9]{2}" 
+							id="phone_2_client_form" placeholder="(000)-000-00-00">
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col mb-2">
-							<input type="text" class="form-control form-control-sm" id="" placeholder="Адрес установки">
+							<input type="text" class="form-control form-control-sm" name="address" id="" placeholder="Адрес клиента">
 						</div>
 
 					</div>
-					<textarea class="form-control mb-2" id=""  placeholder="Комментарий" rows="2"></textarea>
+					<textarea class="form-control mb-2" id="" name="comment"  placeholder="Комментарий" rows="2"></textarea>
 
 					<div class="form-row">
 						<div class="col mb-1">
@@ -255,16 +264,17 @@
 					</div>
 					<hr>
 					<div class="text-center" style="margin:-7px;">
-						<button type="submit" class="btn btn-success">+</button>
+						<button type="submit" id="add_client_button"class="btn btn-success">+</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	</form>
 </div>
 <!--// end modal for client -->
 
-<!-- modal for installer -->
+<!-- modal add installer -->
 <div class="fade modal" tabindex="-1" role="dialog" id="add_installer_modal" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -278,7 +288,7 @@
 				<div class="form-group" style="margin-bottom: 0rem;">
 					<div class="form-row">
 						<div class="col mb-2">
-							<input type="text"  class="form-control form-control-sm" id="" placeholder="Login">
+							<input type="email" class="form-control form-control-sm" id="" placeholder="Email">
 						</div>
 						<div class="col mb-2">
 							<input type="text" class="form-control form-control-sm" id="" placeholder="Password">
@@ -288,16 +298,13 @@
 						<div class="col mb-2">
 							<input type="text"  class="form-control form-control-sm" id="" placeholder="ФИО">
 						</div>
-						<div class="col mb-2">
-							<input type="email" class="form-control form-control-sm" id="" placeholder="Email">
-						</div>
 					</div>
 					<div class="form-row">
 						<div class="col mb-2">
 							<div class="input-group input-group-sm">
 								<input type="tel" class="form-control" id="" placeholder="Тел 1">
 								<div class="input-group-append ">
-									<span class="input-group-text" id="viber_installer_act_span"><i class="off fab fa-viber" id="viber_installer_i"></i></span>
+									<span class="input-group-text" title="viber_span" id="viber_installer_act_span"><i class="off fab fa-viber" title="viber_svg" id="viber_installer_i"></i></span>
 								</div>
 							</div>
 						</div>
@@ -308,7 +315,7 @@
 					</div>
 					<div class="form-row">
 						<div class="col mb-2">
-							<input type="text" class="form-control form-control-sm" id="" placeholder="Адрес установки">
+							<input type="text" class="form-control form-control-sm" id="" placeholder="Адрес">
 						</div>
 
 					</div>
@@ -332,7 +339,7 @@
 </div>
 <!--// end modal for installers -->
 
-<!-- modal for supplier -->
+<!-- modal add supplier -->
 <div class="fade modal" tabindex="-1" role="dialog" id="add_supplier_modal" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -365,7 +372,7 @@
 							<div class="input-group input-group-sm">
 								<input type="tel" class="form-control" id="" placeholder="Тел 1">
 								<div class="input-group-append ">
-									<span class="input-group-text" id="viber_supplier_act_span"><i class="off fab fa-viber" id="viber_supplier_i"></i></span>
+									<span class="input-group-text" title="viber_span" id="viber_supplier_act_span"><i class="off fab fa-viber" title="viber_svg" id="viber_supplier_i"></i></span>
 								</div>
 							</div>
 						</div>
@@ -392,6 +399,7 @@
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
         <script src="/assets/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="/assets/js/scripts.js"></script>
+        <script src="/assets/js/add_data_from_modals.js"></script>
         <!-- <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script> -->
         <!-- <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script> -->
         <!-- <script src="files/demo/datatables&#45;demo.js"></script> -->
@@ -418,38 +426,69 @@ window.onload = function (){
 	// $('#addRequestModal').modal('show');
 }
 
+
+
+
 /*enquery modal process */
 let enquery_form = {
-	phone1 : 'adf', 
-	phone2 : 'adf',
-	phone1_viber : 0,
+	viber : 0,
 }
-
 add_enquery_modal.onclick=(e)=>{
-	let icon = '';
-	if(  e.target.title == "viber_span" ){
-		icon = e.target.childNodes[0];
-	} else if(  e.target.textContent == "viber_svg" ){
-		icon = e.target;
-	} else if(  e.target.nodeName == "path" ){
-		icon = e.target.parentNode;
-	}
 
-	if( icon ){
-		if(enquery_form.phone1_viber == 0){
+	let icon = clickOnViberIcon(e);
+	if( typeof icon === 'object' ){
+		if(enquery_form.viber == 0){
 			changeViberState(icon, 'on');
 			// viber_i.style.color ='purple';
-			enquery_form.phone1_viber = 1;
+			enquery_form.viber = 1;
 		} else{
 			changeViberState(icon, 'off');
 			// viber_i.style.color ='grey';
-			enquery_form.phone1_viber = 0;
+			enquery_form.viber = 0;
 		}
 	}
-	console.log(enquery_form.phone1_viber);
 }
-/* end enquery modal process */
+phone_1_enquery_form.addEventListener("input", function(event){
+	makePhoneNumber(event, phone_1_enquery_form);
+});
+phone_2_enquery_form.addEventListener("input", function(event){
+	makePhoneNumber(event, phone_2_enquery_form);
+});
+/* -- */
 
+/*client modal process */
+let client_form = {
+	viber : 0,
+}
+add_client_modal.onclick=(e)=>{
+	let icon = clickOnViberIcon(e);
+	if( typeof icon === 'object' ){
+		if(client_form.viber == 0){
+			changeViberState(icon, 'on');
+			client_form.viber = 1;
+		} else{
+			changeViberState(icon, 'off');
+			client_form.viber = 0;
+		}
+	}
+}
+phone_1_client_form.addEventListener("input", function(event){
+	makePhoneNumber(event, phone_1_client_form);
+});
+phone_2_client_form.addEventListener("input", function(event){
+	makePhoneNumber(event, phone_2_client_form);
+});
+/* -- */
+
+function clickOnViberIcon(e){
+	if(  e.target.title == "viber_span" ){
+		return e.target.childNodes[0];
+	} else if(  e.target.textContent == "viber_svg" ){
+		return  e.target;
+	} else if(  e.target.nodeName == "path" ){
+		return e.target.parentNode;
+	} else	{ return false; }
+}
 
 function changeViberState(obj, action){
 	if( action == 'on' ){

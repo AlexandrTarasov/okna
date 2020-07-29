@@ -162,7 +162,8 @@ $payments->showElem();
 		</div>
 	</div>
 </div>
-<script src="/assets/js/phone_number_handler.js"></script>
+
+<script src="/assets/js/supplier_edit_hendler.js"></script>
 <script src="/assets/js/update_data.js"></script>
 <script src="/assets/js/admin_sluice.js"></script>
 <script>

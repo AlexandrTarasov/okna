@@ -16,4 +16,39 @@ class Enquiry extends Model
 		$sql ="SELECT * FROM `leads` ";
 		return $this->db->row($sql);
 	}
+
+	public function setClient($data, $only='')
+	{
+		/*TODO viber fiels have to take it away farther*/
+		$address = '';
+		$comment = '';
+		if( $only === 'only' ){
+			$address = $data['address'];
+			$comment = $data['comment'];
+		}
+		$res = $this->db->query("INSERT INTO `clients` (`name`, `phone`, `phone2`, `address`,`comment`, `email`, `viber`, `viber_is`) 
+			VALUES (
+				'".$data['fio']."', 
+				'".$data['phone_1']."', 
+				'".$data['phone_2']."', 
+				'".$address."', 
+				'".$comment."', 
+				'".$data['email']."', 
+				'',
+				'".$data['viber_is']."') ");
+		return (int) $this->db->lastId();
+	}
+
+	public function setLead($last_client_id, $data)
+	{
+		$res = $this->db->query("INSERT INTO `leads` (`client_id`, `address`, `comment`, `source`, `date`, `status`) 
+			VALUES (
+				'".$last_client_id."', 
+				'".$data['address']."', 
+				'".$data['comment']."', 
+				'".$data['source']."',
+				'".$data['date']."',
+				'".$data['status']."')");
+		return (int) $this->db->lastId();
+	}
 }
