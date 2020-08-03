@@ -5,7 +5,7 @@
 	a.links{ color: hsl(213.6, 76.9%, 42.4%); }
 </style>
 <div class="card mb-4">
-	<div class="card-header"><?=$title . ' / всего: ' .$total?></div>
+	<div class="card-header"><i class="fas fa-people-carry" style="color: hsl(200.4, 100%, 41%);"></i> <?=$title . ' / всего: ' .$total?></div>
 	<div class="card-body" style="padding:0px;">
 		<div class="table-responsive">
 			<table class="table table-bordered table-hover table-sm" id="dataTable" width="100%" cellspacing="0">

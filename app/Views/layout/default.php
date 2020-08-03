@@ -32,7 +32,7 @@
 			<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
 				<div class="input-group">
 					<input class="form-control" style="width:290px;" type="search" id="search" name="search"
-  pattern="[^'\x22]+"" placeholder="Поиск по содержимому в колонках" aria-label="Search" aria-describedby="basic-addon2" />
+  pattern="[^'\x22]+" placeholder="Поиск по содержимому в колонках" aria-label="Search" aria-describedby="basic-addon2" />
 					<div class="input-group-append">
 						<button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
 					</div>
@@ -75,7 +75,7 @@
 							<a class="nav-link" href="/clients"><div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>Клиенты
 								<span class="add" id="clients_span" data-toggle="modal"  data-target="#add_client_modal">+</span></a>
 							<a class="nav-link" href="/installers"><div class="sb-nav-link-icon"><i class="fas fa-people-carry"></i></div>Монтажники
-								<span class="add" id="installers_span" data-toggle="modal"  data-target="#add_installer_modal">+</span></a>
+								</a>
 							<a class="nav-link" href="/suppliers"><div class="sb-nav-link-icon"><i class="fas fa-briefcase"></i></div>Поставщики
 								<span class="add" id="suppliers_span" data-toggle="modal"  data-target="#add_supplier_modal">+</span></a>
 
@@ -141,12 +141,13 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div id="back_message_enquery_modal"> </div>
+			<div id="back_message_enquery_modal"></div>
 			<div class="modal-body" id="add_enquery_modal_body">
 				<div class="form-group" style="margin-bottom: 0rem;">
 					<div class="form-row">
 						<div class="col mb-2">
 							<input type="text" name="fio" required class="form-control form-control-sm" id="" placeholder="ФИО">
+							<input id="client_id_input" name="client_id" hidden value="">
 						</div>
 						<div class="col mb-2">
 							<input type="email" name="email" class="form-control form-control-sm" id="" placeholder="Email">
@@ -155,17 +156,18 @@
 					<div class="form-row">
 						<div class="col mb-2">
 							<div class="input-group input-group-sm">
-								<input type="tel" required class="form-control" name="phone_1" id="phone_1_enquery_form" title="tel 1" placeholder="000-000-00-00"  pattern="\([0-9]{3}\)-[0-9]{3}-[0-9]{2}-[0-9]{2}">
+								<input type="tel" required class="form-control" name="phone_1" id="phone_1_enquery_form" 
+									title="tel 1" placeholder="000-000-00-00"  pattern="\([0-9]{3}\)-[0-9]{3}-[0-9]{2}-[0-9]{2}">
 								<div class="input-group-append">
 									<span class="input-group-text" title="viber_span" 
-										style="z-index:100;" ><i title="viber_svg" class="off fab fa-viber"></i></span>
+										style="z-index:100;" ><i title="viber_svg" id="enquery_viber" class="off fab fa-viber"></i></span>
 								</div>
 							</div>
 						</div>
 
 						<div class="col mb-2">
 							<input type="tel" class="form-control form-control-sm"  name="phone_2"  title="tel 2" placeholder="(000)-000-00-00" 
-							id="phone_2_enquery_form"  pattern="\([0-9]{3}\)-[0-9]{3}-[0-9]{2}-[0-9]{2}" placeholder="(000)-000-00-00">
+							id="phone_2_enquery_form"  pattern="\([0-9]{3}\)-[0-9]{3}-[0-9]{2}-[0-9]{2}" value="">
 						</div>
 					</div>
 					<div class="form-row">
@@ -194,9 +196,9 @@
 								<option value="youtube">Youtube</option>
 							</select>
 						</div>
-						<div class="col mb-2">
+						<!--div class="col mb-2">
 							<input type="date" class="form-control form-control-sm" name="date" id="order_date_inp" value="" >
-						</div>
+						</div-->
 					</div>
 					<hr>
 					<div class="text-center" style="margin:-7px;">
@@ -274,71 +276,6 @@
 </div>
 <!--// end modal for client -->
 
-<!-- modal add installer -->
-<div class="fade modal" tabindex="-1" role="dialog" id="add_installer_modal" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title"><i class="fas fa-people-carry clr-red"></i> Добавить монтажника</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="form-group" style="margin-bottom: 0rem;">
-					<div class="form-row">
-						<div class="col mb-2">
-							<input type="email" class="form-control form-control-sm" id="" placeholder="Email">
-						</div>
-						<div class="col mb-2">
-							<input type="text" class="form-control form-control-sm" id="" placeholder="Password">
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="col mb-2">
-							<input type="text"  class="form-control form-control-sm" id="" placeholder="ФИО">
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="col mb-2">
-							<div class="input-group input-group-sm">
-								<input type="tel" class="form-control" id="" placeholder="Тел 1">
-								<div class="input-group-append ">
-									<span class="input-group-text" title="viber_span" id="viber_installer_act_span"><i class="off fab fa-viber" title="viber_svg" id="viber_installer_i"></i></span>
-								</div>
-							</div>
-						</div>
-
-						<div class="col mb-2">
-							<input type="tel" class="form-control form-control-sm" id="" placeholder="Тел 2">
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="col mb-2">
-							<input type="text" class="form-control form-control-sm" id="" placeholder="Адрес">
-						</div>
-
-					</div>
-					<textarea class="form-control mb-2" id=""  placeholder="Комментарий" rows="2"></textarea>
-
-					<div class="form-row">
-						<div class="col mb-1">
-
-						</div>
-						<div class="col mb-2">
-						</div>
-					</div>
-					<hr>
-					<div class="text-center" style="margin:-7px;">
-						<button type="submit" class="btn btn-success">+</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<!--// end modal for installers -->
-
 <!-- modal add supplier -->
 <div class="fade modal" tabindex="-1" role="dialog" id="add_supplier_modal" aria-hidden="true">
 	<div class="modal-dialog">
@@ -411,9 +348,7 @@ request_span.onclick=(e)=>{
 clients_span.onclick=(e)=>{
 	e.preventDefault()
 }
-installers_span.onclick=(e)=>{
-	e.preventDefault()
-}
+
 suppliers_span.onclick=(e)=>{
 	e.preventDefault()
 }
@@ -450,6 +385,10 @@ add_enquery_modal.onclick=(e)=>{
 }
 phone_1_enquery_form.addEventListener("input", function(event){
 	makePhoneNumber(event, phone_1_enquery_form);
+	let clean_number = event.target.value.replace(/\(|\)|\-|_/gi, '');
+	if( clean_number.length == 10 ){
+		checkPhoneExistance(clean_number, 'check_if_client_phone_exists', 'enquery'); 
+	}
 });
 phone_2_enquery_form.addEventListener("input", function(event){
 	makePhoneNumber(event, phone_2_enquery_form);

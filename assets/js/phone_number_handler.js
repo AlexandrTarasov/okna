@@ -1,6 +1,7 @@
 function shapePhone(phone_input)
 {
 	let phone = phone_input.defaultValue;
+	console.log(phone_input);
 	if( phone == '' ){
 		return;
 	}

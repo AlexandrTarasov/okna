@@ -39,6 +39,12 @@ class Enquiry extends Model
 		return (int) $this->db->lastId();
 	}
 
+	public function checkClientByPhone($phone)
+	{
+		$sql = "SELECT * from  clients WHERE phone = $phone OR phone2 = $phone";
+		return $this->db->row($sql);
+	}
+
 	public function setLead($last_client_id, $data)
 	{
 		$res = $this->db->query("INSERT INTO `leads` (`client_id`, `address`, `comment`, `source`, `date`, `status`) 
@@ -47,7 +53,7 @@ class Enquiry extends Model
 				'".$data['address']."', 
 				'".$data['comment']."', 
 				'".$data['source']."',
-				'".$data['date']."',
+				now(),
 				'".$data['status']."')");
 		return (int) $this->db->lastId();
 	}

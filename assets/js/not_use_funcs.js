@@ -32,7 +32,7 @@
 
 
 function goSluise(value, from_node){
-
+	console.log(value);
 	let path = "ajax_sluice";
 	var xhttp = new XMLHttpRequest();
 	xhttp.open("POST", "/" + path, false);

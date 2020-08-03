@@ -9,7 +9,7 @@ class User extends Model
 		// $params = [
 		// 	'mail' => $mail,
 		// ];
-		return $this->db->row('SELECT * FROM `atom_users` 
+		return $this->db->row('SELECT * FROM `users` 
 			ORDER BY id DESC');
 	}
 
