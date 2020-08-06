@@ -10,7 +10,7 @@ class Order extends Model
 			LEFT JOIN  clients ON (clients.id = orders.client_id)
 			LEFT JOIN  installers ON (installers.id = orders.installer_id) 
 			WHERE status != 'archive'
-			ORDER BY id DESC";
+			ORDER BY montage_date DESC";
 		return $this->db->row($sql);
 	}
 
