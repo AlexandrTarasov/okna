@@ -107,7 +107,8 @@ class SluiceController extends Controller
 			}
 		}
 
-		if( ($this->post['from_node'] == 'check_if_client_phone_exists') ){
+		if( ($this->post['from_node'] == 'enquery_phone_exists') || 
+			($this->post['from_node'] == 'client_phone_exists')){
 			$model = new AppM\Enquiry();
 			// $resp = $model->checkClientByPhone('38' . $this->post['phone']);
 			if (!empty($resp = $model->checkClientByPhone('38' . $this->post['phone']))){
@@ -121,7 +122,16 @@ class SluiceController extends Controller
 			}
 			
 		}
-
+		if( $this->post['from_node'] == 'add_supplier_modal_form'){
+			$model_supplier = new AppM\Supplier();
+			$this->post['manager_phone'] = $this->cleanPhone($this->post['manager_phone']);
+			if (is_numeric($model_supplier->setSupplier($this->post))){
+				echo '1';
+				return;
+			}else{
+				echo __FUNCTION__.' went wrong';
+			}
+		}
 	}
 
 	public function cleanPhone($phone_number)

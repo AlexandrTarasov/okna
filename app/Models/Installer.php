@@ -9,7 +9,7 @@ class Installer extends Model
 		// $params = [
 		// 	'mail' => $mail,
 		// ];
-		return $this->db->row('SELECT * FROM `installers` ORDER BY id DESC');
+		return $this->db->row('SELECT * FROM `users` where role_id = 5  ORDER BY id DESC');
 	}
 
 }

@@ -40,7 +40,7 @@ foreach($suppliers as $supplier){
 	}
 
 
-	if( $supplier['viber'] ){
+	if( $supplier['viber_is'] ){
 		$viber_ico="<i class=\"fab fa-viber\"></i>";
 	}
 	if( $supplier['comment'] ){

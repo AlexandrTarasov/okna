@@ -12,9 +12,9 @@
 				<thead>
 					<tr style="background: 1px hsl(110.4, 100%, 95.1%);">
 						<th>Имя</th>
-						<th>Phone</th>
-						<th>Последние 5 работ</th>
-						<th>Mail</th>
+						<th>Имя юзера</th>
+						<th>Телефон</th>
+						<th>Мэйл</th>
 						<th>Коммент.</th>
 						<th>act</th>
 					</tr>
@@ -24,8 +24,8 @@
 foreach($installers as $installer){
 	echo"<tr>"; 
 	echo"<td>".$installer['name']."</td>";
+	echo"<td>".$installer['username']."</td>";
 	echo"<td>".$installer['phone']."</td>";
-	echo"<td></td>";
 	echo"<td>".$installer['email']."</td>";
 	echo"<td>".$installer['comment']."</td>";
 	echo"<td style='text-align:center;'> <i style='color:red;' class=\"far fa-trash-alt\"></i> </td>";

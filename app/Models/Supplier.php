@@ -36,4 +36,19 @@ class Supplier extends Model
 		return $this->db->row("SELECT * FROM `orders_payments` 
 			WHERE `user_type` = 'supplier' AND user_id = '".$user_id."' ");
 	}
+
+	public function setSupplier($data)
+	{
+		// dd($data);
+		$res = $this->db->query("INSERT INTO `suppliers` (`company_name`, `manager_name`, `manager_phone`, `manager_email`, `address`,  `comment`, `viber_is`) 
+			VALUES (
+				'".$data['company_name']."', 
+				'".$data['manager_name']."', 
+				'".$data['manager_phone']."', 
+				'".$data['manager_email']."',
+				'".$data['address']."',
+				'".$data['comment']."',
+				'".$data['viber_is']."')");
+		return (int) $this->db->lastId();
+	}
 }

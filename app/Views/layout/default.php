@@ -278,6 +278,7 @@
 
 <!-- modal add supplier -->
 <div class="fade modal" tabindex="-1" role="dialog" id="add_supplier_modal" aria-hidden="true">
+	<form  id="add_supplier_modal_form">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -286,39 +287,36 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">
+			<div id="back_message_supplier_modal"></div>
+			<div class="modal-body" id="add_supplier_modal_body">
 				<div class="form-group" style="margin-bottom: 0rem;">
 					<div class="form-row">
 						<div class="col mb-2">
-							<input type="text"  class="form-control form-control-sm" id="" placeholder="Название компании">
+							<input type="text" required name="company_name" class="form-control form-control-sm" id="" placeholder="Название компании">
 						</div>
 						<div class="col mb-2">
-							<input type="text" class="form-control form-control-sm" id="" placeholder="Адрес компании">
+							<input type="text" name="address"class="form-control form-control-sm" id="" placeholder="Адрес компании">
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col mb-2">
-							<input type="text"  class="form-control form-control-sm" id="" placeholder="Имя менеджера">
+							<input type="text" name="manager_name" class="form-control form-control-sm" id="" placeholder="Имя менеджера">
 						</div>
 						<div class="col mb-2">
-							<input type="email" class="form-control form-control-sm" id="" placeholder="Мэйл менеджера">
+							<input type="email" name="manager_email"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"  class="form-control form-control-sm" id="" placeholder="Мэйл менеджера">
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col mb-2">
 							<div class="input-group input-group-sm">
-								<input type="tel" class="form-control" id="" placeholder="Тел 1">
+								<input type="tel" class="form-control" name="manager_phone" required id="phone_1_supplier_form" placeholder="(000)-000-00-00"  pattern="\([0-9]{3}\)-[0-9]{3}-[0-9]{2}-[0-9]{2}">
 								<div class="input-group-append ">
 									<span class="input-group-text" title="viber_span" id="viber_supplier_act_span"><i class="off fab fa-viber" title="viber_svg" id="viber_supplier_i"></i></span>
 								</div>
 							</div>
 						</div>
-
-						<div class="col mb-2">
-							<input type="tel" class="form-control form-control-sm" id="" placeholder="Тел 2">
-						</div>
 					</div>
-					<textarea class="form-control mb-2" id=""  placeholder="Комментарий" rows="2"></textarea>
+					<textarea class="form-control mb-2" id=""  name="comment"  placeholder="Комментарий" rows="2"></textarea>
 
 					<hr>
 					<div class="text-center" style="margin:-7px;">
@@ -328,6 +326,7 @@
 			</div>
 		</div>
 	</div>
+	<form>
 </div>
 <!--// end modal for supplier -->
 
@@ -357,7 +356,7 @@ window.onload = function (){
 	let month = [ '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
 	var today = new Date();
 	var date = today.getFullYear()+'-'+month[today.getMonth()]+'-'+today.getDate();
-	order_date_inp.value = date;
+	// order_date_inp.value = date;
 	// $('#addRequestModal').modal('show');
 }
 
@@ -387,7 +386,7 @@ phone_1_enquery_form.addEventListener("input", function(event){
 	makePhoneNumber(event, phone_1_enquery_form);
 	let clean_number = event.target.value.replace(/\(|\)|\-|_/gi, '');
 	if( clean_number.length == 10 ){
-		checkPhoneExistance(clean_number, 'check_if_client_phone_exists', 'enquery'); 
+		checkPhoneExistance(clean_number, 'enquery_phone_exists'); 
 	}
 });
 phone_2_enquery_form.addEventListener("input", function(event){
@@ -413,12 +412,38 @@ add_client_modal.onclick=(e)=>{
 }
 phone_1_client_form.addEventListener("input", function(event){
 	makePhoneNumber(event, phone_1_client_form);
+	let clean_number = event.target.value.replace(/\(|\)|\-|_/gi, '');
+	if( clean_number.length == 10 ){
+		checkPhoneExistance(clean_number, 'client_phone_exists'); 
+	}
 });
 phone_2_client_form.addEventListener("input", function(event){
 	makePhoneNumber(event, phone_2_client_form);
 });
 /* -- */
 
+
+/*supplier modal process*/
+let supplier_form = {
+	viber : 0,
+}
+add_supplier_modal.onclick=(e)=>{
+	let icon = clickOnViberIcon(e);
+	if( typeof icon === 'object' ){
+		if(supplier_form.viber == 0){
+			changeViberState(icon, 'on');
+			supplier_form.viber = 1;
+		} else{
+			changeViberState(icon, 'off');
+			supplier_form.viber = 0;
+		}
+	}
+}
+phone_1_supplier_form.addEventListener("input", function(event){
+	makePhoneNumber(event, phone_1_supplier_form);
+});
+
+/*---*/
 function clickOnViberIcon(e){
 	if(  e.target.title == "viber_span" ){
 		return e.target.childNodes[0];
