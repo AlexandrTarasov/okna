@@ -7,11 +7,12 @@ class HTMLWrapper
 	public $wrapped;
 	private $to_wrap;
 
-	public function __construct($arr_to_wrap)
+	public function __construct(array $arr_to_wrap)
 	{
-		if(is_array($arr_to_wrap)) {
+		if(!empty($arr_to_wrap)) {
 			$this->to_wrap = $arr_to_wrap;
 		}
+		// else{ throw new \Exception("array is empty"); }
 		return $this;
 	}
 
@@ -61,6 +62,9 @@ class HTMLWrapper
 
 	public function wrapSupplierPaymentsTable()
 	{
+		if( empty($this->to_wrap )){
+			return $this;
+		}
 		foreach($this->to_wrap as $payment){
 			$status = '';
 			$type   = '';
@@ -111,6 +115,15 @@ class HTMLWrapper
 			$this->wrapped .="	<td>".$payment['amount']."</td>";
 			$this->wrapped .="	<td>".$status."</td>";
 			$this->wrapped .="</tr>";
+		}
+		return $this;
+	}
+
+	public function makeOptionsList($selected_num = 0, array $names_of_fields) 
+	{
+		foreach($this->to_wrap as $opt){
+			$selected = ( $selected_num == $opt[$names_of_fields[0]] ) ? ' selected ': ''; 
+			$this->wrapped .= '<option '.$selected.' value="'.$opt[$names_of_fields[0]].'">'.$opt[$names_of_fields[1]].'</option>';
 		}
 		return $this;
 	}

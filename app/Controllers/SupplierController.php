@@ -34,10 +34,10 @@ class SupplierController extends Controller
 		$payments   = $this->model->getSupplierPayments($supplier[0]['id']);
 		$html_wrapper = new HTMLWrapper($payments);
 
-		if( $supplier[0]['manager_phone'] !=='' && $supplier[0]['manager_phone'] == $supplier[0]['viber']){
+		if( $supplier[0]['manager_phone'] !=='' && $supplier[0]['manager_phone'] == $supplier[0]['viber_is']){
 			$viber_1 = 'viber_on';
 		}
-		if( $supplier[0]['manager2_phone'] !=='' && $supplier[0]['manager2_phone'] == $supplier[0]['viber']){
+		if( $supplier[0]['manager2_phone'] !=='' && $supplier[0]['manager2_phone'] == $supplier[0]['viber_is']){
 			$viber_2 = 'viber_on';
 		}
 

@@ -18,4 +18,10 @@ class User extends Model
 		return $this->db->row('SELECT * FROM atom_roles');
 	}
 
+	public function getUsersByRole($role_id)
+	{
+		// dd($role_id);
+		return $this->db->row("SELECT id, username FROM users WHERE role_id = '".$role_id."' ");
+	}
+	
 }

@@ -122,22 +122,6 @@ foreach($orders as $order){
 					<tbody>
 <?php
 $payments->showElem();
-// foreach($payments as $payment){
-					// $date_create = date_create($payment['date_create']);
-					// $date_receiving = '-';
-					// if( $payment['date_receiving'] !== '0000-00-00 00:00:00' ){
-					// 	$date_receiving = date_format(date_create($payment['date_receiving']),"Y/m/d");
-					// }
-					// echo"<tr>";
-					// echo"	<td><a href=/order/".$payment['order_id'].">".$payment['order_id']."</a></td>";
-					// echo"	<td>".$payment['type']."</td>";
-					// echo"	<td>".date_format($date_create,"Y/m/d")."</td>";
-					// echo"	<td>".$date_receiving."</td>";
-					// echo"	<td>".$payment['method']."</td>";
-					// echo"	<td>".$payment['amount']."</td>";
-					// echo"	<td>".$payment['status']."</td>";
-					// echo"</tr>";
-// }
 ?>
 					</tbody>
 				</table>

@@ -42,4 +42,9 @@ class Client extends Model
 	{
 		return $this->db->row('SELECT * FROM `orders_payments` WHERE `user_id` = '.$id.' ORDER BY `order_id` DESC');
 	}
+	public function updateClientComment($id, $val)
+	{
+		return $this->db->update("UPDATE `clients` SET `comment` = '".$val."'
+			WHERE id='".$id."' ");
+	}
 }

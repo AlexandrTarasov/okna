@@ -3,6 +3,7 @@
 namespace AppCont;
 
 use AppComp\Status;
+use AppComp\HTMLWrapper;
 
 class OrderController extends Controller
 {
@@ -44,6 +45,23 @@ class OrderController extends Controller
 		$order = $this->model->getOrder($id);
 		$client = $this->model->getClient($order[0]['client_id']);
 		$status_options = new Status($order[0]['status']);
+		$managers_list = $this->model->getUsersByRoleID(2);
+		$installers_list = $this->model->getUsersByRoleID(5);
+		$suppliers_list =$this->model->getSuppliers();
+		$gaugers_list = $this->model->getUsersByRoleID(5);
+
+		$managers_wrap = new HTMLWrapper($managers_list);
+		$managers_options = $managers_wrap->makeOptionsList($order[0]['manager_id'],['id', 'username'])->receiveElem();
+
+		$suppliers_wrap = new HTMLWrapper($suppliers_list);
+		$suppliers_options = $suppliers_wrap->makeOptionsList($order[0]['supplier_id'], ['id', 'company_name'])->receiveElem();
+
+		$installers_wrap = new HTMLWrapper($installers_list);
+		$installers_options = $installers_wrap->makeOptionsList($order[0]['installer_id'],['id', 'username'])->receiveElem();
+
+		$gaugers_wrap = new HTMLWrapper($gaugers_list);
+		$gaugers_options = $gaugers_wrap->makeOptionsList($order[0]['gauger_id'],['id', 'username'])->receiveElem();
+
 		$resalt = [
 			'title'   => 'Заказ',
 			'id'      => $order[0]['id'],
@@ -52,7 +70,10 @@ class OrderController extends Controller
 			'order'   => $order,
 			'status'  => $status_options->render(),
 			'client'  => $client,
-			// 'client' => $client,
+			'managers_options' => $managers_options,
+			'suppliers_options'=>$suppliers_options,
+			'installers_options' => $installers_options,
+			'gaugers_options' => $gaugers_options,
 		];
 		$this->runView(__METHOD__)->renderWithData($resalt);
 	}

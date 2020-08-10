@@ -44,4 +44,31 @@ class Order extends Model
 			ORDER BY montage_date DESC";
 		return $this->db->row($sql);
 	}
+
+	public function updateOrderMain($id, $val, $column)
+	{
+		// dd($val);
+		if( $id==='' || $column==='' ){
+			return "There is no id or column name passed in ".__FUNCTION__;
+		}
+		if( $val === '' ){
+			$val = "NULL";
+		}else{$val = "'$val'";}
+		// dd($val);
+		return $this->db->update("UPDATE `orders` SET `".$column."` = $val 
+			WHERE id='".$id."' ");
+	}
+
+	public function getUsersByRoleID($id)
+	{
+		$user_model = new User();
+		return $user_model->getUsersByRole($id);
+	}
+
+	public function getSuppliers()
+	{
+		$user_model = new Supplier();
+		return $user_model->getSuppliers();
+	}
+
 }

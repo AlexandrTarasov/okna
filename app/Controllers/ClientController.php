@@ -39,7 +39,7 @@ class ClientController extends Controller
 		$client_orders = $this->model->getClientsOrders($id);
 		// dd($client_info);
 		$client_payments = $this->model->getClientPayments($id);
-		$html_wrapper = new HTMLWrapper($client_payments );
+		$html_wrapper = new HTMLWrapper($client_payments);
 
 		if( ($client_info[0]['phone'] !='' ) && ($client_info[0]['phone'] == $client_info[0]['viber'])){
 			$viber_1 = 'viber_on';

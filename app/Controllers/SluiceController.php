@@ -41,7 +41,6 @@ class SluiceController extends Controller
 		}
 
 		if( ($this->post['from_node'] == 'add_enquiry_modal_form') ){
-
 			if( $this->post['fio'] == '' || $this->post['phone_1'] == '' ){
 				echo "Фио и Телефон должны быть заполнены";
 				return false;
@@ -132,6 +131,20 @@ class SluiceController extends Controller
 				echo __FUNCTION__.' went wrong';
 			}
 		}
+//Order handling
+		if( ($info = explode('_', $this->post['from_node']))[0] === 'order'){
+			// dd($this->post);
+			$method = $info[1].'OrderMain';
+			$column = $info[2]. (isset($info[3]) ? "_".$info[3] : '');
+			$model_order = new AppM\Order();
+			echo $model_order->$method($this->post['id'], $this->post['val'], $column);
+		}
+
+		if( $this->post['from_node'] ==='client_update_comment' ){
+			$model_client = new AppM\Client();
+			echo $model_client->updateClientComment($this->post['id'], $this->post['val']);
+		}
+// ---
 	}
 
 	public function cleanPhone($phone_number)

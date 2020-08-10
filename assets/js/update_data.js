@@ -35,10 +35,10 @@ supplier_manager1_name.oninput=(e)=>{
 }
 
 
-function showSavedCase(input_node){
-	console.log(input_node);
-	input_node.style.background = 'lightgreen';
-	setTimeout(function(){
-		input_node.style.background = 'white';
-	}, 2000);
-}
+// function showSavedCase(input_node){
+// 	console.log(input_node);
+// 	input_node.style.background = 'lightgreen';
+// 	setTimeout(function(){
+// 		input_node.style.background = 'white';
+// 	}, 2000);
+// }
