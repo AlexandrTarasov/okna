@@ -5,10 +5,11 @@
 	a.links{ color: hsl(213.6, 76.9%, 42.4%); }
 	.status-select{border: 1px solid lightgray; padding: 2px;}
 	.round{border-radius:5px;}
-	.status-new 	   {border:3px solid lightgreen;}
-	.status-processing {border:3px solid lightblue; color: hsl(194.4, 37.7%, 39%);}
-	.status-canceled   {border:3px solid lightgray; color: hsl(0, 2.3%, 65.9%);}
+	.status-new 	   {background:lightgreen;}
+	.status-processing {background:lightblue; color: hsl(194.4, 37.7%, 39%);}
+	.status-canceled   {background:lightgray; color: hsl(0, 2.3%, 65.9%);}
 	.status-{color: hsl(0, 85.7%, 72.5%)};
+	.pointer{cursor: pointer;}
 </style>
 <div class="card mb-4">
 	<div class="card-header"><?=$title . ' / было всего: ' .$total. '/ из них не в заказах '.$stay_as_enquery ?></div>
@@ -65,14 +66,15 @@ foreach($enquiries as $enquiry){
 	// ! statuses processing
 
 	echo"<tr>"; 
-	echo'<td><input id="" type="date" value="'.$enquiry['date'].'"></td>';
+	echo'<td><input id="" type="date" disabled value="'.$enquiry['date'].'"></td>';
 	echo'<td>'.$select_of_statuses.'</td>';
 	echo"<td><a href='/client/".$enquiry['client_id']."' class=''>".$enquiry['client_name']."</a></td>";
 	echo"<td>".$enquiry['address']."</td>";
 	echo"<td>".$source."</td>";
 	echo"<td>".$enquiry['comment']."</td>";
 	// echo"<td style='text-align:center;'> <i style='color:red;' class=\"far fa-trash-alt\"></i> </td>";
-	echo"<td style='text-align:center;'> <i style='color:green; font-size: 16px;' title='в заказы' class=\"fas fa-file-import\"></i> </td>";
+	echo"<td style='text-align:center;'> <i style='color:green; font-size: 16px; cursor: pointer;'
+		title='в заказы' onclick=\"makeOrder(".$enquiry['id'].", ".$enquiry['client_id'].", '".$enquiry['address']."')\" class=\"fas fa-file-import\"></i> </td>";
 	echo"</tr>"; 
 }
 ?>
@@ -81,33 +83,52 @@ foreach($enquiries as $enquiry){
 		</div>
 	</div>
 </div>
-
+<script src="/assets/js/admin_sluice.js"></script>
 <script>
 	let current_enquiry = {
 		status_option_id : '',
 	}
 
-	function saveOption(node){
-		current_enquiry.status_option_id = node.selectedIndex;
-		console.log(current_enquiry.status_option_id);
-	}
+function saveOption(node){
+	current_enquiry.status_option_id = node.selectedIndex;
+	console.log(current_enquiry.status_option_id);
+}
 
-	function changeRole(node)
-	{
-		let selected_index = node.selectedIndex;
-		if (confirm("Изменить статуc?") == true) {
-			alert("Изменили");
-		} else {
-			alert("Оставили как есть");
-			node.selectedIndex = current_enquiry.status_option_id; 
-		} 
-		current_enquiry.status_option_id = '';
-	}
+function changeRole(node)
+{
+	let selected_index = node.selectedIndex;
+	if (confirm("Изменить статуc?") == true) {
+		alert("Изменили");
+	} else {
+		alert("Оставили как есть");
+		node.selectedIndex = current_enquiry.status_option_id; 
+	} 
+	current_enquiry.status_option_id = '';
+}
 
-	order_status.onchange=(e)=>{
-		console.log(e.target.value);
-		window.location.href = "/enquiry/sort/"+e.target.value;
-	}
+order_status.onchange=(e)=>{
+	console.log(e.target.value);
+	window.location.href = "/enquiry/sort/"+e.target.value;
+}
 
+
+function makeOrder(enquery_id, client_id, address){
+	res = goSluice(enquery_id, client_id+'||'+address, 'generate_enquiry')
+	res.then(data => {
+		data.text().then(function(text) {
+			/*if text is number*/
+			if( isNumeric(text)){
+				window.location.href = "/order/"+text;
+			}
+			else{ console.log(text); }
+		})
+	}).catch(err => {
+		console.error('Error: ', err);
+	});
+}
+
+function isNumeric(value) {
+    return /^-{0,1}\d+$/.test(value);
+}
 
 </script>

@@ -145,6 +145,18 @@ class SluiceController extends Controller
 			echo $model_client->updateClientComment($this->post['id'], $this->post['val']);
 		}
 // ---
+		if( $this->post['from_node'] === 'generate_enquiry' ){
+			$data = explode('||', $this->post['val']);
+			$lead_id = $this->post['id'];
+			$client_id = $data[0];
+			$address = $data[1];
+			$model_order = new AppM\Order();
+			echo $id_of_new_order = $model_order->setOrder($lead_id, $client_id, $address);
+			if( is_numeric($id_of_new_order )){
+				$model_enquiry = new AppM\Enquiry();
+				$model_enquiry->updateStatus($lead_id, 'accepted');
+			}else{echo 'id_of_new_order no number '.__FUNCTION__;}
+		}
 	}
 
 	public function cleanPhone($phone_number)

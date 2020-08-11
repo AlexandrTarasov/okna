@@ -57,4 +57,9 @@ class Enquiry extends Model
 				'".$data['status']."')");
 		return (int) $this->db->lastId();
 	}
+	public function updateStatus($id, $status)
+	{
+		return $this->db->query("UPDATE `leads`  SET `status` = '".$status."' 
+			WHERE `id`='".$id."' ");
+	}
 }
