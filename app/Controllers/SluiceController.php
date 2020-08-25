@@ -157,6 +157,22 @@ class SluiceController extends Controller
 				$model_enquiry->updateStatus($lead_id, 'accepted');
 			}else{echo 'id_of_new_order no number '.__FUNCTION__;}
 		}
+
+		if( $this->post['from_node'] === 'add_payment_form' ){
+			$model_order = new AppM\Order();
+			$last_payment_id = $model_order->addPayment($this->post['order_id'], 
+				$_SESSION["user_id"],
+				$this->post['user_type'],
+				$this->post['method'],
+				$this->post['amount'],
+				$this->post['type'],
+				$this->test_input($this->post['comment']),
+				$this->post['date_create'],
+				$this->post['status'],
+			);
+			echo ($last_payment_id);
+			// dd($this->post);
+		}
 	}
 
 	public function cleanPhone($phone_number)

@@ -9,9 +9,10 @@
 	.flt-rt{float:right;}
 	.ptr{cursor:pointer;}
 	.dsp-no{display:none;}
+	.supplier_icon{color: hsl(205.7, 42%, 60.8%);}
 </style>
 <div class="card mb-4">
-	<div class="card-header"><?=$title . ' / всего: ' .$total?></div>
+	<div class="card-header"> <i class="fas fa-briefcase supplier_icon"></i> <?=$title . ' / всего: ' .$total?></div>
 	<div class="card-body" style="padding:0px;">
 		<div class="table-responsive">
 			<table class="table table-bordered table-hover table-sm" id="dataTable" width="100%" cellspacing="0">
@@ -20,6 +21,7 @@
 						<th>Company</th>
 						<th class="w150">Manager</th>
 						<th>Тел.</th>
+						<th>Наша ID</th>
 						<th>Коммент.</th>
 					</tr>
 				</thead>
@@ -50,6 +52,7 @@ foreach($suppliers as $supplier){
 	echo"<td ".$ct."><a href=\"/supplier/".$supplier['id']."\" class=>".$supplier['company_name']."</a>".$comment."</td>";
 	echo"<td>".$supplier['manager_name']."</td>";
 	echo'<td class="w150"><a href="tel:'.$phone.'">'.$phone.'</a> '.$viber_ico.'</td>';
+	echo"<td>".$supplier['our_id_in_company']."</td>";
 	echo"<td contenteditable='true' onclick='editNodeContent(this)' title='comment'
 		onblur='resetNodeContent(this)'><div class='far fa-save clr-grn flt-rt ptr dsp-no' onclick='saveContent(this)'></div>".$supplier['comment']."</td>";
 	echo"</tr>"; 

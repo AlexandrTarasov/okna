@@ -17,6 +17,11 @@ class Enquiry extends Model
 		return $this->db->row($sql);
 	}
 
+	public function getEnquiry($client_id)
+	{
+		$sql ="SELECT * FROM `leads` WHERE client_id = $client_id";
+		return $this->db->row($sql)[0];
+	}
 	public function setClient($data, $only='')
 	{
 		/*TODO viber fiels have to take it away farther*/

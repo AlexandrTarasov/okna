@@ -14,6 +14,15 @@ class Order extends Model
 		return $this->db->row($sql);
 	}
 
+	public function getOrdersOfOneClient($client_id, $current_order_id)
+	{
+		$sql ="SELECT orders.*, installers.name as inst_name, clients.name AS client_name FROM `orders` 
+			LEFT JOIN  clients ON (clients.id = orders.client_id)
+			LEFT JOIN  installers ON (installers.id = orders.installer_id) 
+			WHERE orders.client_id = $client_id AND orders.id != $current_order_id";
+		return $this->db->row($sql);
+	}
+
 	public function getOrder($id)
 	{
 		$sql ="SELECT orders.*, installers.name as inst_name, clients.name AS client_name FROM `orders` 
@@ -120,5 +129,37 @@ class Order extends Model
 			'new')");
 		return (int) $this->db->lastId();
 
+	}
+
+	public function addPayment($order_id, $user_id, $user_type, $method,
+		$amount, $type, $comment, $date_create, $status)
+	{
+		$res = $this->db->query("INSERT INTO `orders_payments` (
+			`order_id`,
+			`user_id`,
+			`user_type`,
+			`method`,
+			`amount`,
+			`type`,
+			`comment`, 
+			`date_create`, 
+			`status`) 
+		VALUES (
+			'".$order_id."',
+			'".$user_id."',
+			'".$user_type."',
+			'".$method."',
+			'".$amount."',
+			'".$type."',
+			'".$comment."',
+			'".$date_create."',
+			'".$status."')");
+		return (int) $this->db->lastId();
+	}
+
+	public function getOrderPayments($id)
+	{
+		$sql = "SELECT * from `orders_payments` WHERE `order_id` = $id Order BY id DESC";
+		return $this->db->row($sql);
 	}
 }

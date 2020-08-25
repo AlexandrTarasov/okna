@@ -18,6 +18,13 @@
 	.status-selector-div {width: 190px; float: right;}
 	.status-selector  { width: 65%; padding: 1px; height:unset;}
 	.form-control { transition: background 1s; }
+	#payments_table tr th input{font-size:12px;}
+	#payments_table tr { font-size:14px;}
+	#payments_table tr th{vertical-align: middle;padding: 0.25rem;} 
+	#client_orders_table tr {font-size:12px;} 
+	#client_orders_table tr th{vertical-align: middle;padding: 0.25rem;} 
+
+
 </style>
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
@@ -43,13 +50,13 @@
 							<div class="input-group-prepend">
 								<span class="input-group-text" id="">Замер</span>
 							</div>
-							<input class="form-control" type="date" id="measurement_date_input" value="<?=$order[0]['measurement_date']?>">
+							<input class="form-control" type="date"  id="measurement_date_input" value="<?=$order[0]['measurement_date']?>">
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
 								<span class="input-group-text" id="">Вывоз</span>
 							</div>
-							<input class="form-control" type="date" id="removal_date_input" value="<?=$order[0]['removal_date']?>">
+							<input class="form-control" type="date" disabled id="removal_date_input" value="<?=$order[0]['removal_date']?>">
 						</div>
 						
 						<div class="input-group mb-3">
@@ -194,7 +201,7 @@
 					</div>
 					<div class="col-3"><label>Фактический остаток:</label></div>
 					<div class="col-3">
-						<input type="number" disabled class="form-control " id="balance_input" value="<?=$order[0]['balance']?>">
+						<input type="number" disabled class="form-control " id="balance_input" value="<?=$actual_balance?>">
 					</div>
 				</div>
 				<hr>
@@ -210,7 +217,7 @@
 			<div class="card-header">Оплата по заказу</div>
 			<div class="card-body p-1" style="padding:0px;">
 				<button type="button" class="btn btn-primary m-2" data-toggle="modal" data-target="#payment_modal">Добавить</button>
-				<table class="table table-bordered" style="margin-bottom: 0px;">
+				<table class="table table-bordered" id="payments_table" style="margin-bottom: 0px;">
 					<thead>
 						<tr>
 							<th>Тип</th>
@@ -218,8 +225,9 @@
 							<th>Дата оплаты</th>
 							<th>Сумма</th>
 							<th>Статус</th>
-							<th width="80"></th>
+							<th></th>
 						</tr>
+						<?=$payments_th?>
 					</thead>
 				</table>
 			</div>
@@ -294,20 +302,20 @@
 							</tr>
 							<tr>
 								<td>Адрес</td>
-								<td></td>
+								<td><?=$enquiry_data['address']?></td>
 							</tr>
 							<tr>
 								<td>Комментарий</td>
-								<td></td>
+								<td><?=$enquiry_data['comment']?></td>
 							</tr>
 							<tr>
 								<td>Источник</td>
-								<td> <i class="ion-ios-telephone"></i> Звонок</td>
+								<td> <i class="ion-ios-telephone"></i> <?=$enquiry_data['source']?></td>
 							</tr>
 							<tr>
 								<td>Дата</td>
-								<td>03.04.2020</td>
-							</tr>		
+								<td><?=$enquiry_data['date']?></td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -318,7 +326,7 @@
 		<div class="card">
 			<div class="card-header">Заказы клиента</div>
 			<div class="card-body" style="padding:0px;">
-				<table class="table table-bordered" style="margin-bottom: 0px;">
+				<table class="table table-bordered" id="client_orders_table" style="margin-bottom: 0px;">
 					<thead>
 						<tr>
 							<th>ID</th>
@@ -328,6 +336,7 @@
 							<th>Адрес монтажа</th>
 							<th>Статус</th>
 						</tr>
+						<?=$other_client_orders_th?>
 					</thead>
 					<tbody>
 					</tbody>
@@ -344,33 +353,33 @@
 			<div class="modal-header">
 				<h5 class="modal-title">Добавить оплату</h5>
 			</div>
+			<form id="add_payment_form">
 			<div class="modal-body">
-				<input type="hidden" name="id" value=""> 
+				<input type="hidden" name="order_id" value="<?=$id?>"> 
 				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-prepend">
 						<label class="input-group-text" >Тип</label>
 					</div>
-					<select name="type" class="form-control">
+					<select name="type" id="payment_type_select"  required class="form-control">
+						<option value="">-</option>
 						<option value="income">Доход</option>
 						<option value="outgo">Расход</option>
 					</select>
 				</div>
 				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-prepend">
-						<label class="input-group-text" >Кто/Кому</label>
+						<label class="input-group-text" id="payee_payer_lable"></label>
 					</div>
-					<select name="user_type" class="form-control">
-						<option value="client">Клиент</option>
-						<option value="installer">Монтажник</option>
-						<option value="supplier">Поставщик</option>
-						<option value="gauger">Замерщик</option>
+					<select name="user_type" id="payee_or_payer" required class="form-control">
+						<option value="" >-</option>
 					</select>
 				</div>
 				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-prepend">
 						<label class="input-group-text" >Методы оплаты</label>
 					</div>
-					<select name="method" class="form-control">
+					<select name="method"  required class="form-control">
+						<option value="">-</option>
 						<option value="cash">Наличные</option>
 						<option value="cashless">Безнал</option>
 						<option value="card">Карта</option>
@@ -383,36 +392,25 @@
 					<div class="input-group-prepend">
 						<span class="input-group-text" id="inputGroup-sizing-sm">Сумма оплаты</span>
 					</div>
-					<input class="form-control" type="number">
+					<input class="form-control" required name="amount" type="number">
 				</div>
 
 				<hr>
 				<div class="form-group">
 					<label>Дата оплаты</label>
-					<input type="date" name="date_create" class="form-control" value="03.04.2020" >
-				</div>
-				<div class="form-group">
-					<label>Дата Получения</label>
-					<input type="date" name="date_receiving" class="form-control" value="" >
+					<input type="date" name="date_create" class="form-control" required value="" >
 				</div>
 				<div class="form-group">
 					<label>Комментарий</label>
 					<textarea class="form-control" style="resize: vertical" name="comment"></textarea>
 				</div>
-				<div class="input-group input-group-sm">
-					<div class="input-group-prepend">
-						<label class="input-group-text" >Статус оплаты</label>
-					</div>
-					<select name="status" class="custom-select">
-						<option value="sent">Отправлено</option>
-						<option value="received">Получено</option>
-					</select>
-				</div>
+				<input hidden class="form-control" name="status"id="" placeholder="" value="sent">
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-				<button type="button" class="btn btn-primary">Сохранить</button>
+				<button type="submit" class="btn btn-primary" >Сохранить</button>
 			</div>
+			</form>
 		</div>
 	</div>
 </div>
@@ -456,4 +454,39 @@ let p_4 = phone_a.innerText.slice(10, 12);
 let usable_phone = '(' + p_1 + ')-' + p_2 + '-' + p_3 + '-' + p_4 ;
 phone_a.innerText = usable_phone;
 // | convert phone number
+
+add_payment_form.onsubmit = async (e) => {
+	e.preventDefault();
+	let formData = new FormData(add_payment_form);
+	formData.append('from_node', 'add_payment_form');
+	console.log(formData.get('amount'));
+
+	let response = await fetch('/sluice', {
+		method: 'POST',
+		body: formData
+	});
+	response.text().then(function (text){
+		if( text === '1' ){
+			//reload the page
+		}else{
+
+		}
+		console.log(text);
+	});
+}
+
+payment_type_select.onchange=(e)=>{
+	let opt_val = payment_type_select.options[payment_type_select.selectedIndex].value;
+	console.log(opt_val);
+	if( opt_val === 'income' ){
+		payee_payer_lable.innerHTML="Кто платит";
+		payee_or_payer.innerHTML = "<option value=\"client\">Клиент</option>";
+	}
+	else if( opt_val === 'outgo' ){
+		payee_payer_lable.innerHTML="Кому платим";
+		payee_or_payer.innerHTML = "<option value=\"installer\">Монтажнику</option> <option value=\"supplier\">Поставщику</option> <option value=\"gauger\">Замерщику</option>";
+	}
+}
+
+
 </script>

@@ -127,4 +127,108 @@ class HTMLWrapper
 		}
 		return $this;
 	}
+	public function makeThlist()
+	{
+		$temp_arr = [];
+		foreach($this->to_wrap as $arr){
+			foreach($arr as $key => $val){
+				if( $key === 'type' ){
+					if( $val === 'income' ){
+						$temp_arr[0] = '<th>'.$this->wrapInBadge($val, 'success').'</th>';
+					}
+					if( $val === 'outgo' ){
+						$temp_arr[0] = '<th>'.$this->wrapInBadge($val, 'danger').'</th>';
+					}
+				}
+
+				if( $key === 'user_type' ){
+					if( $val =='gauger' ){ $val = 'Замерщик';}
+					if( $val =='client' ){ $val = 'Клиент';}
+					if( $val =='installer' ){ $val = 'Установщик';}
+					if( $val =='supplier' ){ $val = 'Поставщик';}
+					$temp_arr[1] = '<th>'.$val.'</th>';
+				}
+				if( $key === 'date_create' ){
+					$temp_arr[2]= '<th><input class="form-control" type="datetime" value="'.$val.'"></th>';
+				}
+				if( $key === 'amount' ){
+					$temp_arr[3]= '<th>'.$val.'</th>';
+				}
+				if( $key === 'status' ){
+					if( $val === 'sent' ){
+						$val = 'Отправлен';
+						$temp_arr[4] = '<th>'.$this->wrapInBadge($val, 'warning').'</th>';
+					}
+					if( $val === 'received' ){
+						$val = 'Получен';
+						$temp_arr[4] = '<th>'.$this->wrapInBadge($val, 'success').'</th>';
+					}
+					if( $val === 'canceled' ){
+						$val = 'Отменён';
+						$temp_arr[4] = '<th>'.$this->wrapInBadge($val, 'secondary').'</th>';
+					}
+				}
+				if( $key === 'id' ){
+					if($_SESSION['user_role'] == '3'){
+						$temp_arr[5] = '<th><a href="/payment_edit/'.$val.'" class=""><i class="fas fa-edit"></i></a></th>';
+					}else {
+						$temp_arr[5] = '<th><a href="/payment_info/'.$val.'" class=""><i class="fas fa-info"></i></a></th>';
+					}
+				}
+			}
+
+			ksort($temp_arr);
+			$this->wrapped .= "<tr>".implode($temp_arr)."<tr>";
+
+		}
+		return $this;
+	}
+	public function makeThOrdersList()
+	{
+		$temp_arr = [];
+		foreach($this->to_wrap as $arr){
+			foreach($arr as $key => $val){
+				if( $key === 'id' ){
+					$temp_arr[0]= '<th><a href="/order/'.$val.'" class="">'.$val.'</a></th>';
+				}
+				if( $key === 'contract_number' ){
+					$temp_arr[1]= '<th><a href="/order/'.$val.'" class="">'.$val.'</a></th>';
+				}
+				if( $key === 'readiness_date' ){
+					$temp_arr[2]= '<th>'.$val.'</th>';
+				}
+				if( $key === 'inst_name' ){
+					$temp_arr[3]= '<th>'.$val.'</th>';
+				}
+				if( $key === 'address' ){
+					$temp_arr[4]= '<th>'.$val.'</th>';
+				}
+				if( $key === 'status' ){
+					$temp_arr[5]= '<th>'.$val.'</th>';
+				}
+			}
+			ksort($temp_arr);
+			$this->wrapped .= "<tr>".implode($temp_arr)."<tr>";
+		}
+		return $this;
+	}
+	/**
+	 * can get
+	 * @param  'primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'
+	 * @return string
+	 */
+	private function wrapInBadge($val, $type)
+	{
+		$arr = [
+			'primary'  =>'primary'  ,
+			'secondary'=>'secondary',
+			'success'  =>'success'  ,
+			'danger'   =>'danger'   ,
+			'warning'  =>'warning'  ,
+			'info'	   =>'info'	 ,
+			'light'	   =>'light',
+			'dark' 	   =>'dark',
+		];
+		return '<span class="badge badge-'.$arr[$type].'">'.$val.'</span>';
+	}
 }

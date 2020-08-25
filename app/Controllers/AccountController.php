@@ -34,6 +34,9 @@ class AccountController extends Controller
 			}
 
 			// if(password_verify($_POST['password'], $this->user_data_arr[0]['password']))
+			/*TODO
+			 * make varification withoud developer code which is line down
+			 */
 			if( $this->user_data_arr[0]['password'] == crypt(md5( $_POST['password']), 'deliWHeCwJou0mPB8O6sI2E')){
 				$_SESSION['user_name'] = $this->user_data_arr[0]['username'];
 				$_SESSION['user_role'] = $this->user_data_arr[0]['role_id'];
