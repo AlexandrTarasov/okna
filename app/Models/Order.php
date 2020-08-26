@@ -16,18 +16,18 @@ class Order extends Model
 
 	public function getOrdersOfOneClient($client_id, $current_order_id)
 	{
-		$sql ="SELECT orders.*, installers.name as inst_name, clients.name AS client_name FROM `orders` 
+		$sql ="SELECT orders.*, users.name as inst_name, clients.name AS client_name FROM `orders` 
 			LEFT JOIN  clients ON (clients.id = orders.client_id)
-			LEFT JOIN  installers ON (installers.id = orders.installer_id) 
+			LEFT JOIN  users ON (users.id = orders.installer_id) 
 			WHERE orders.client_id = $client_id AND orders.id != $current_order_id";
 		return $this->db->row($sql);
 	}
 
 	public function getOrder($id)
 	{
-		$sql ="SELECT orders.*, installers.name as inst_name, clients.name AS client_name FROM `orders` 
+		$sql ="SELECT orders.*, users.name as inst_name, clients.name AS client_name FROM `orders` 
 			LEFT JOIN  clients ON (clients.id = orders.client_id)
-			LEFT JOIN  installers ON (installers.id = orders.installer_id) 
+			LEFT JOIN  users ON (users.id = orders.installer_id) 
 			WHERE orders.id = '".$id."' ";
 		return $this->db->row($sql);
 	}

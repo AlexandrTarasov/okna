@@ -21,7 +21,7 @@ class User extends Model
 	public function getUsersByRole($role_id)
 	{
 		// dd($role_id);
-		return $this->db->row("SELECT id, username FROM users WHERE role_id = '".$role_id."' ");
+		return $this->db->row("SELECT id, name, username FROM users WHERE role_id = '".$role_id."' ");
 	}
 	
 	public function delUser($id)

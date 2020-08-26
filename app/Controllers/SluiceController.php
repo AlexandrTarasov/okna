@@ -168,8 +168,7 @@ class SluiceController extends Controller
 				$this->post['type'],
 				$this->test_input($this->post['comment']),
 				$this->post['date_create'],
-				$this->post['status'],
-			);
+				$this->post['status']);
 			echo ($last_payment_id);
 			return;
 			// dd($this->post);

@@ -60,16 +60,16 @@ class OrderController extends Controller
 		$enquiry_data = $enquiry_obj->getEnquiry($order[0]['client_id']);
 
 		$managers_wrap = new HTMLWrapper($managers_list);
-		$managers_options = $managers_wrap->makeOptionsList($order[0]['manager_id'],['id', 'username'])->receiveElem();
+		$managers_options = $managers_wrap->makeOptionsList($order[0]['manager_id'],['id', 'name'])->receiveElem();
 
 		$suppliers_wrap = new HTMLWrapper($suppliers_list);
 		$suppliers_options = $suppliers_wrap->makeOptionsList($order[0]['supplier_id'], ['id', 'company_name'])->receiveElem();
 
 		$installers_wrap = new HTMLWrapper($installers_list);
-		$installers_options = $installers_wrap->makeOptionsList($order[0]['installer_id'],['id', 'username'])->receiveElem();
+		$installers_options = $installers_wrap->makeOptionsList($order[0]['installer_id'],['id', 'name'])->receiveElem();
 
 		$gaugers_wrap = new HTMLWrapper($gaugers_list);
-		$gaugers_options = $gaugers_wrap->makeOptionsList($order[0]['gauger_id'],['id', 'username'])->receiveElem();
+		$gaugers_options = $gaugers_wrap->makeOptionsList($order[0]['gauger_id'],['id', 'name'])->receiveElem();
 
 		$payments = $this->model->getOrderPayments($id);
 		if( !empty($payments )){
