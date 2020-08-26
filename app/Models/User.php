@@ -24,4 +24,12 @@ class User extends Model
 		return $this->db->row("SELECT id, username FROM users WHERE role_id = '".$role_id."' ");
 	}
 	
+	public function delUser($id)
+	{
+		return $this->db->query("DELETE FROM `users` WHERE `users`.`id` = $id ");
+	}
+	public function setUser()
+	{
+		//
+	}
 }

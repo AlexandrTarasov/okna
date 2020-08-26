@@ -171,7 +171,15 @@ class SluiceController extends Controller
 				$this->post['status'],
 			);
 			echo ($last_payment_id);
+			return;
 			// dd($this->post);
+		}
+
+		if( ($this->post['from_node'] == 'del_user') ){
+			$model = new AppM\User();
+			$res = $model->delUser($this->post['id']);
+			echo 1;
+			return;
 		}
 	}
 

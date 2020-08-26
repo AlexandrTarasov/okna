@@ -29,7 +29,18 @@
 
 
 foreach($users as $user){
-	//make select for role
+	
+	$phone 	   = '';
+	if( $user['phone'] !=='0' ){
+		$user['phone'] = str_replace('38', '', $user['phone']);
+		$phone .= '('.substr($user['phone'], 0, 3).')-';
+		$phone .= substr($user['phone'], 3, 3).'-';
+		$phone .= substr($user['phone'], -4, 2).'-'; 
+		$phone .= substr($user['phone'], -2, 2); 
+		$phone = '<a href="tel:'.$phone.'" class="">'.$phone.'</a>';
+	}
+
+
 	$role_css = '';
 	if($user['role_id'] == 2)  $role_css =  'role-manager-color';
 	if($user['role_id'] == 3)  $role_css =  'role-admin-color';
@@ -45,12 +56,11 @@ foreach($users as $user){
 	echo"<tr>"; 
 	echo"<td>".$user['username']."</td>";
 	echo"<td>".$user['name']."</td>";
-	// echo"<td>".$user['role_id']."</td>";
 	echo"<td>".$roles_select."</td>";
 	echo"<td>".$user['email']."</td>";
-	echo"<td>".$user['phone']."</td>";
+	echo"<td>".$phone."</td>";
 	echo"<td>".$user['comment']."</td>";
-	echo"<td style='text-align:center;'><i style='color:red;' class=\"far fa-trash-alt\"></i> </td>";
+	echo"<td style='text-align:center;'><a href='#' onclick=\"userDel(".$user['id'].", this)\" class=\"\"><i style='color:red;' class=\"far fa-trash-alt\"></i></a></td>";
 	echo"</tr>"; 
 }
 ?>
@@ -60,7 +70,7 @@ foreach($users as $user){
 	</div>
 </div>
 
-<!-- modal add installer -->
+<!-- modal add user -->
 <div class="fade modal" tabindex="-1" role="dialog" id="add_user_modal" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -120,6 +130,7 @@ foreach($users as $user){
 	</div>
 </div>
 <!--// end modal for installers -->
+<script src="/assets/js/admin_sluice.js"></script>
 
 <script>
 	let processing_role = {
@@ -140,4 +151,22 @@ foreach($users as $user){
 		processing_role.role_option_id = '';
 		} 
 	}
+
+function userDel(user_id, node){
+	var r = confirm("Удалить пользователя ?");
+	if (r == true) {
+		res = goSluice(user_id, '', 'del_user');
+		res.then(data => {
+			data.text().then(function(text) {
+				if( text == '1' ){
+					node.parentNode.parentNode.remove();
+				}
+				else{ console.log(text); }
+			})
+		});
+	} else {
+
+	} 
+}
+
 </script>
