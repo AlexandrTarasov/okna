@@ -466,10 +466,9 @@ add_payment_form.onsubmit = async (e) => {
 		body: formData
 	});
 	response.text().then(function (text){
-		if( text === '1' ){
-			//reload the page
+		if(!isNaN (text) ){
+			location.reload();
 		}else{
-
 		}
 		console.log(text);
 	});

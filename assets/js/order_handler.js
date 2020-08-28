@@ -13,6 +13,8 @@ let order = {
 	gauger_id: '', 
 	square_meters: '',
 	calculation_number: '',
+	contract_number: '',
+	vendor_number: '',
 	total_price: '',
 	montage_price:'',
 	additional_price:'',
@@ -113,6 +115,19 @@ calculation_number_input.oninput=(e)=>{
 	order.calculation_number = calculation_number_input.value;
 	let res = goSluice(order.id, order.calculation_number, 'order_update_calculation_number');
 	responseHendler(res, calculation_number_input);
+}
+
+contract_number_input.oninput=(e)=>{
+	order.contract_number = contract_number_input.value;
+	let res = goSluice(order.id, order.contract_number, 'order_update_contract_number');
+	responseHendler(res, contract_number_input);
+}
+
+
+vendor_number_input.oninput=(e)=>{
+	order.vendor_number = vendor_number_input.value;
+	let res = goSluice(order.id, order.vendor_number, 'order_update_vendor_number');
+	responseHendler(res, vendor_number_input);
 }
 
 total_price_input.oninput=(e)=>{

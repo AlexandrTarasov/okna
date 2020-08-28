@@ -6,9 +6,9 @@ class Order extends Model
 {
 	public function getOrders()
 	{
-		$sql ="SELECT orders.*, installers.name as inst_name, clients.name AS client_name FROM `orders` 
+		$sql ="SELECT orders.*, users.name as inst_name, clients.name AS client_name FROM `orders` 
 			LEFT JOIN  clients ON (clients.id = orders.client_id)
-			LEFT JOIN  installers ON (installers.id = orders.installer_id) 
+			LEFT JOIN  users ON (users.id = orders.installer_id) 
 			WHERE status != 'archive'
 			ORDER BY montage_date DESC";
 		return $this->db->row($sql);
@@ -52,9 +52,9 @@ class Order extends Model
 
 	public function getOrdersBy($param)
 	{
-		$sql ="SELECT orders.*, installers.name as inst_name, clients.name AS client_name FROM `orders` 
+		$sql ="SELECT orders.*, users.name as inst_name, clients.name AS client_name FROM `orders` 
 			LEFT JOIN  clients ON (clients.id = orders.client_id)
-			LEFT JOIN  installers ON (installers.id = orders.installer_id) 
+			LEFT JOIN  users ON (users.id = orders.installer_id) 
 			WHERE status = '".$param."' 
 			ORDER BY montage_date DESC";
 		return $this->db->row($sql);
@@ -134,6 +134,7 @@ class Order extends Model
 	public function addPayment($order_id, $user_id, $user_type, $method,
 		$amount, $type, $comment, $date_create, $status)
 	{
+		$date_create = $date_create." ".date("H:i:s");
 		$res = $this->db->query("INSERT INTO `orders_payments` (
 			`order_id`,
 			`user_id`,
