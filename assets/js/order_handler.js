@@ -74,9 +74,32 @@ manager_select.oninput=(e)=>{
 
 supplier_select.oninput=(e)=>{
 	order.supplier_id = supplier_select.options[supplier_select.selectedIndex].value;
-	console.log(order.supplier_id);
 	let res = goSluice(order.id, order.supplier_id, 'order_update_supplier_id');
-	responseHendler(res, supplier_select);
+	res.then(data => {
+		data.text().then( function(text) {
+			if( text == '1' ){
+				showSavedCase(supplier_select);
+				var list = document.getElementsByTagName("DATA");
+				let event = new Event("input");
+				for (let item of list) {
+					if((item.innerText === order.supplier_id) && (item.value !== '') ){
+						console.log(item.value+'-');
+						contract_number_input.value = item.value+'-'+contract_number_input.value;
+						contract_number_input.dispatchEvent(event);
+						vendor_number_input.value = item.value+'-'+vendor_number_input.value;
+						vendor_number_input.dispatchEvent(event);
+						break;
+					}else{
+						// contract_number_input.value = contract_number_input.value.split("-")[1];
+						// vendor_number_input.value = vendor_number_input.value.split("-")[1];
+					}
+				}
+			}
+			else{ 
+				console.log(text); 
+			}
+		})
+	})
 }
 
 address_input.oninput=(e)=>{
@@ -87,7 +110,6 @@ address_input.oninput=(e)=>{
 
 installer_select.oninput=(e)=>{
 	order.installer_id = installer_select.options[installer_select.selectedIndex].value;
-	console.log(order.installer_id);
 	let res = goSluice(order.id, order.installer_id, 'order_update_installer_id');
 	responseHendler(res, installer_select);
 }
@@ -175,15 +197,17 @@ client_comment_textarea.oninput=(e)=>{
 function responseHendler(res, node)
 {
 	res.then(data => {
-		data.text().then(function(text) {
+		data.text().then( function(text) {
 			if( text == '1' ){
 				showSavedCase(node);
 			}
-			else{ console.log(text); }
+			else{ 
+				console.log(text); 
+			}
 		})
 	}).catch(err => {
 		console.error('Error: ', err);
-	});
+	})
 }
 
 //*order status color apply

@@ -139,12 +139,12 @@ class SluiceController extends Controller
 			$model_order = new AppM\Order();
 			echo $model_order->$method($this->post['id'], $this->post['val'], $column);
 		}
-
+//
 		if( $this->post['from_node'] ==='client_update_comment' ){
 			$model_client = new AppM\Client();
 			echo $model_client->updateClientComment($this->post['id'], $this->post['val']);
 		}
-// ---
+
 		if( $this->post['from_node'] === 'generate_enquiry' ){
 			$data = explode('||', $this->post['val']);
 			$lead_id = $this->post['id'];

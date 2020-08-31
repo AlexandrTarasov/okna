@@ -26,6 +26,7 @@
 
 
 </style>
+<ul class="d-none"><?=$id_given_by_supplier?> </ul>
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active" aria-current="page"><?=$title?> id <span id="order_id" class="badge badge-light"><?=$id?></span></li>

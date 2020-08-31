@@ -46,6 +46,7 @@ class OrderController extends Controller
 		$all_income_sum = 0;
 		$other_client_orders_th = '';
 		$payments_th = '';
+		$id_given_by_supplier = '';
 
 		$order = $this->model->getOrder($id);
 		$other_client_orders = $this->model->getOrdersOfOneClient($order[0]['client_id'], $id);
@@ -54,6 +55,9 @@ class OrderController extends Controller
 		$managers_list = $this->model->getUsersByRoleID(2);
 		$installers_list = $this->model->getUsersByRoleID(5);
 		$suppliers_list =$this->model->getSuppliers();
+		foreach($suppliers_list as $val){
+			$id_given_by_supplier .= '<li><data value = "'.$val['our_id_in_company'].'" >'.$val['id'].'</data></li>';
+		};
 		$gaugers_list = $this->model->getUsersByRoleID(5);
 
 		$enquiry_obj = new Enquiry();
@@ -104,6 +108,7 @@ class OrderController extends Controller
 			'actual_balance'  	=> $actual_balance,
 			'enquiry_data' 		=> $enquiry_data,
 			'other_client_orders_th' => $other_client_orders_th,
+			'id_given_by_supplier' => $id_given_by_supplier,
 		];
 		$this->runView(__METHOD__)->renderWithData($resalt);
 	}

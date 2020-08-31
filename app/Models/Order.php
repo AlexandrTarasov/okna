@@ -89,6 +89,7 @@ class Order extends Model
 	public function setOrder($lead_id, $client_id, $address )
 	{
 		$last_order_id = $this->getLastOne()['id'];
+		$next_order_id = (int)$last_order_id + 1;
 		$res = $this->db->query("INSERT INTO `orders` (
 		`lead_id`,
 		`client_id`, 
@@ -111,8 +112,8 @@ class Order extends Model
 		VALUES (
 			'".$lead_id."',
 			'".$client_id."', 
-			'".$last_order_id."',
-			'".$last_order_id."', 
+			'".$next_order_id."',
+			'".$next_order_id."', 
 			'".$address."',
 			0,
 			0,
