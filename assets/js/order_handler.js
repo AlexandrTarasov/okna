@@ -81,18 +81,22 @@ supplier_select.oninput=(e)=>{
 				showSavedCase(supplier_select);
 				var list = document.getElementsByTagName("DATA");
 				let event = new Event("input");
+				let company_id_in_suppl_company = false;
 				for (let item of list) {
 					if((item.innerText === order.supplier_id) && (item.value !== '') ){
-						console.log(item.value+'-');
 						contract_number_input.value = item.value+'-'+contract_number_input.value;
 						contract_number_input.dispatchEvent(event);
 						vendor_number_input.value = item.value+'-'+vendor_number_input.value;
 						vendor_number_input.dispatchEvent(event);
+						company_id_in_suppl_company = true;
 						break;
-					}else{
-						// contract_number_input.value = contract_number_input.value.split("-")[1];
-						// vendor_number_input.value = vendor_number_input.value.split("-")[1];
 					}
+				}
+				if( !company_id_in_suppl_company ){
+					contract_number_input.value = order.id;
+					contract_number_input.dispatchEvent(event);
+					vendor_number_input.value = order.id;
+					vendor_number_input.dispatchEvent(event);
 				}
 			}
 			else{ 
