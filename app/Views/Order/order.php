@@ -55,7 +55,7 @@
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
-								<span class="input-group-text" id="">Вывоз</span>
+								<span class="input-group-text" id="">На вывоз</span>
 							</div>
 							<input class="form-control" type="date" disabled id="removal_date_input" value="<?=$order[0]['removal_date']?>">
 						</div>

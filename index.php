@@ -12,6 +12,7 @@ $router->add([
 	'/logout' 			=> 'AppCont\AccountController@logOutAction',
 	'/sluice'			=> 'AppCont\SluiceController@indexAction',
 	'/orders'			=> 'AppCont\OrderController@indexAction',
+	'/request_for_out'	=> 'AppCont\TakeoutsController@indexAction',
 	'/order/:num'		=> 'AppCont\OrderController@orderAction',
 	'/orders/sort/:any'	=> 'AppCont\OrderController@sortByAction',
 	'/clients'		    => 'AppCont\ClientController@indexAction',

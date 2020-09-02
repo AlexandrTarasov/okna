@@ -55,8 +55,11 @@ readiness_date_input.oninput=(e)=>{
 
 montage_date_input.oninput=(e)=>{
 	order.montage_date = montage_date_input.value;
+	removal_date_input.value = setRemovalData(montage_date_input.value);
 	let res = goSluice(order.id, order.montage_date, 'order_update_montage_date');
 	responseHendler(res, montage_date_input);
+	let event = new Event("input");
+	removal_date_input.dispatchEvent(event);
 }
 
 calculation_link_input.oninput=(e)=>{
@@ -250,7 +253,20 @@ if( installer_select_val== 0 ){
 if( gauger_select_val== 0 ){
 	gauger_select.style.border='1px solid red';
 }
-//
 
+
+function setRemovalData(montage_date)
+{
+	console.log()
+	var d = new Date(montage_date);
+	let cur_day = d.getDate();
+	let cur_week_day = d.getDay();
+	if( cur_week_day == '1' ){
+		d.setDate(d.getDate() - 3);
+	}else{
+		d.setDate(d.getDate() - 1);
+	}
+	return  d.toISOString().split('T')[0];
+}
 
 
