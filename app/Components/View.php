@@ -31,6 +31,9 @@ class View
 	public function renderWithData($data)
 	{
 		// dd($this);
+		$layout_obj = new Layout();
+		$layout_data = $layout_obj->takeoutsBadgeForLayout('', $this->layout);
+		$data['takeouts_badge_number'] = $layout_data;
 		extract($data);
 		if( file_exists('app/Views/'.$this->path.'.php') ){
 			ob_start();

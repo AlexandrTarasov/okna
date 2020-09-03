@@ -15,16 +15,22 @@
 	.td-with-comment{background: hsl(65.7, 100%, 95.9%);}
 	a.links{ color: hsl(213.6, 76.9%, 42.4%); }
 	.empty-mount-data{color: hsl(0, 0%, 87.5%); border: 1px solid hsl(0, 0%, 87.5%);}
+	.today_montage{background: lightgreen;}
+	.form_css{right: 5px; position: absolute; top: 5px;}
 </style>
 <div class="card mb-4">
 	<div class="card-header"><?=$title .': '. $total?>
-		/ Сортировка по умолчанию:
-		<select class="">
-			<option value="">дата монтажа</option>
-			<option value="">дата создания</option>
-			<option value="">статус</option>
-		</select>
-	</div>
+			<form class="d-none d-md-inline-block form-inline form_css">
+				<div class="input-group">
+					<input class="form-control" style="width:290px;" type="search" id="search" name="search"
+  pattern="[^'\x22]+" placeholder="(Aдрес или Клиент или № доровора)" aria-label="Search" aria-describedby="basic-addon2" />
+					<div class="input-group-append">
+						<button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+					</div>
+				</div>
+			</form>
+
+</div>
 	<div class="card-body" style="padding:0px;">
 		<div class="table-responsive">
 			<table class="table table-bordered table-hover table-sm" id="dataTable" width="100%" cellspacing="0">
@@ -57,11 +63,17 @@ foreach($orders as $order){
 	$mont    = "<input class='empty-mount-data' type='date' value=''> ";
 	$comment = "";
 	$ct      = "";
+	$montage_date_class = "";
+	$montage_date_title = "";
 	$status_selector_css = ' status-'.$order['status']; 
 	$status = '<div class="round status-'.$order['status'].'" >'.$statuses[$order['status']].' </div>';
 
+	if( $order['montage_date'] === date("Y-m-d") ){
+		$montage_date_class = 'today_montage';
+		$montage_date_title = "Установка сегодня";
+	}
 	if( $order['montage_date'] ){
-		$mont = "<input class='' type='date' id=''  value='".$order['montage_date']."'>";
+		$mont = "<input class='".$montage_date_class."' type='date' title='".$montage_date_title."'  value='".$order['montage_date']."'>";
 	}
 	if( $order['comment'] ){
 		$comment = "<i title='".$order['comment']."' class=\"far fa-comment-dots\"></i>";

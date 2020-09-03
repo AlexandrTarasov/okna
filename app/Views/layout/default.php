@@ -4,9 +4,7 @@
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title></title>
+		<title><?=$title?></title>
         <link href="/assets/css/styles.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
@@ -28,18 +26,8 @@
 		<nav class="sb-topnav navbar navbar-expand navbar-light bg-light">
 		<a class="navbar-brand" href="/orders"><img class="logo" src="<?=HTTPS_IMAGE?>logo.png"></a>
 			<button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
-			<!-- Navbar Search-->
-			<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-				<div class="input-group">
-					<input class="form-control" style="width:290px;" type="search" id="search" name="search"
-  pattern="[^'\x22]+" placeholder="Поиск по содержимому в колонках" aria-label="Search" aria-describedby="basic-addon2" />
-					<div class="input-group-append">
-						<button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
-					</div>
-				</div>
-			</form>
-			<!-- Navbar-->
-			<ul class="navbar-nav ml-auto ml-md-0">
+
+			<ul class="navbar-nav ml-auto">
 				<li class="nav-item">
 					<a class="nav-link" id="" href="/users" role="button"  aria-haspopup="true" aria-expanded="false">
 					<i class="far fa-id-card" title="users"></i>
@@ -70,8 +58,10 @@
 							<a class="nav-link" href="/orders"><div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>Заказы</a>
 							<a class="nav-link" href="/enquiry">
 								<div class="sb-nav-link-icon"><i class="fas fa-funnel-dollar"></i> </div>Запросы
-								<span class="add" id="request_span" data-toggle="modal"  data-target="#add_enquery_modal">+</span></a>
-							<a class="nav-link" href="/request_for_out"><div class="sb-nav-link-icon"><i class="fas fa-truck-moving"></i></div>Заявки на вывоз</a>
+								<span class="add" id="request_span" data-toggle="modal"  data-target="#add_enquery_modal">+</span>
+							</a>
+							<a class="nav-link" href="/request_for_out">
+								<div class="sb-nav-link-icon"><i class="fas fa-truck-moving"></i></div>Заявки на вывоз<?=$takeouts_badge_number?></a>
 							<a class="nav-link" href="/clients"><div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>Клиенты
 								<span class="add" id="clients_span" data-toggle="modal"  data-target="#add_client_modal">+</span></a>
 							<a class="nav-link" href="/installers"><div class="sb-nav-link-icon"><i class="fas fa-people-carry"></i></div>Монтажники
