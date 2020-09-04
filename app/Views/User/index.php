@@ -72,6 +72,7 @@ foreach($users as $user){
 
 <!-- modal add user -->
 <div class="fade modal" tabindex="-1" role="dialog" id="add_user_modal" aria-hidden="true">
+	<form  id="add_user_modal_form">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -80,46 +81,34 @@ foreach($users as $user){
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">
+			<div id="back_message_user_modal"></div>
+			<div class="modal-body" id="add_user_modal_body">
 				<div class="form-group" style="margin-bottom: 0rem;">
 					<div class="form-row">
 						<div class="col mb-2">
-							<input type="email" class="form-control form-control-sm" id="" placeholder="Email">
+							<input type="text" name="username" class="form-control form-control-sm" id="" placeholder="Login">
 						</div>
 						<div class="col mb-2">
-							<input type="text" class="form-control form-control-sm" id="" placeholder="Password">
+							<input type="email" name="email" class="form-control form-control-sm" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"  required id="" placeholder="Email">
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col mb-2">
-							<input type="text"  class="form-control form-control-sm" id="" placeholder="ФИО">
+							<input type="text" name="name" class="form-control form-control-sm" required id="" placeholder="ФИО">
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col mb-2">
 							<div class="input-group input-group-sm">
-								<input type="tel" class="form-control" id="" placeholder="Тел">
+								<input type="tel" name="phone" class="form-control"  required id="phone_user_form" placeholder="(000)-000-00-00" 
+								pattern="\([0-9]{3}\)-[0-9]{3}-[0-9]{2}-[0-9]{2}">
 								<div class="input-group-append ">
 									<span class="input-group-text" title="viber_span" id="viber_installer_act_span"><i class="off fab fa-viber" title="viber_svg" id="viber_installer_i"></i></span>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="form-row">
-						<div class="col mb-2">
-							<input type="text" class="form-control form-control-sm" id="" placeholder="Адрес">
-						</div>
-
-					</div>
-					<textarea class="form-control mb-2" id=""  placeholder="Комментарий" rows="2"></textarea>
-
-					<div class="form-row">
-						<div class="col mb-1">
-
-						</div>
-						<div class="col mb-2">
-						</div>
-					</div>
+					<textarea class="form-control  mb-2" id="" name="comment" placeholder="Комментарий" rows="2"></textarea>
 					<hr>
 					<div class="text-center" style="margin:-7px;">
 						<button type="submit" class="btn btn-success">+</button>
@@ -128,29 +117,72 @@ foreach($users as $user){
 			</div>
 		</div>
 	</div>
+	</form>
 </div>
 <!--// end modal for installers -->
 <script src="/assets/js/admin_sluice.js"></script>
 
 <script>
-	let processing_role = {
-		role_option_id : '',
-	}
+let processing_role = {
+	role_option_id : '',
+}
 
-	function saveOption(node){
-		processing_role.role_option_id = node.selectedIndex;
-	}
+function saveOption(node){
+	processing_role.role_option_id = node.selectedIndex;
+}
 
-	function changeRole(node)
-	{
-		let selected_index = node.selectedIndex;
-		if (confirm("Изменить роль?") == true) {
-			alert("Изменили");
-		} else {
-			node.selectedIndex = processing_role.role_option_id; 
-		processing_role.role_option_id = '';
-		} 
+function changeRole(node)
+{
+	let selected_index = node.selectedIndex;
+	if (confirm("Изменить роль?") == true) {
+		alert("Изменили");
+	} else {
+		node.selectedIndex = processing_role.role_option_id; 
+	processing_role.role_option_id = '';
+	} 
+}
+
+/*user modal process */
+let user_form = {
+	viber : 0,
+}
+add_user_modal.onclick=(e)=>{
+	let icon = clickOnViberIcon(e);
+	if( typeof icon === 'object' ){
+		if(user_form.viber == 0){
+			changeViberState(icon, 'on');
+			user_form.viber = 1;
+		} else{
+			changeViberState(icon, 'off');
+			user_form.viber = 0;
+		}
 	}
+}
+phone_user_form.addEventListener("input", function(event){
+	makePhoneNumber(event, phone_user_form);
+});
+
+add_user_modal_form.onsubmit = async (e) => {
+	e.preventDefault();
+	let formData = new FormData(add_user_modal_form);
+	formData.append('viber_is', user_form.viber);
+	formData.append('from_node', 'add_user_modal_form');
+	let response = await fetch('/sluice', {
+		method: 'POST',
+		body: formData
+	});
+	response.text().then(function (text){
+		var text_json = JSON.parse(text);
+		if( text_json.rsp === '1' ){
+			add_user_modal_body.innerHTML = '<div class="alert alert-info" role="alert">Юзер добавлен.</br> Пароль: '+text_json.pass+'</div>';
+		}else{
+			back_message_user_modal.innerHTML = text_json;
+		}
+		console.log(text_json);
+	});
+}
+	//
+
 
 function userDel(user_id, node){
 	var r = confirm("Удалить пользователя ?");

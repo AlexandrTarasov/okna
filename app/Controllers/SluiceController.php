@@ -131,6 +131,20 @@ class SluiceController extends Controller
 				echo __FUNCTION__.' went wrong';
 			}
 		}
+
+		if( $this->post['from_node'] == 'add_user_modal_form'){
+			$model_user = new AppM\User();
+			$this->post['phone'] = $this->cleanPhone($this->post['phone']);
+			$last_id_and_pass = $model_user->setUser($this->post);
+
+			if (is_numeric($last_id_and_pass[0])){
+				/*TODO add pass as is  into independent table, for easy use of it*/
+				echo json_encode(['rsp'=>'1', 'pass'=>$last_id_and_pass[1]]);
+				return;
+			}else{
+				echo __FUNCTION__.' went wrong';
+			}
+		}
 //Order handling
 		if( ($info = explode('_', $this->post['from_node']))[0] === 'order'){
 			// dd($this->post);
