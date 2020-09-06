@@ -163,9 +163,13 @@ class SluiceController extends Controller
 			$data = explode('||', $this->post['val']);
 			$lead_id = $this->post['id'];
 			$client_id = $data[0];
+			$manager_of_order = "NULL";
 			$address = $data[1];
 			$model_order = new AppM\Order();
-			echo $id_of_new_order = $model_order->setOrder($lead_id, $client_id, $address);
+			if( $_SESSION['user_role']  === '2'){ //if logged as manager put him as order manager
+				$manager_of_order = $_SESSION['user_id'];
+			}
+			echo $id_of_new_order = $model_order->setOrder($lead_id, $client_id, $address, $manager_of_order);
 			if( is_numeric($id_of_new_order )){
 				$model_enquiry = new AppM\Enquiry();
 				$model_enquiry->updateStatus($lead_id, 'accepted');

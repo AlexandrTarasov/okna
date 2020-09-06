@@ -14,10 +14,9 @@ class EnquiryController extends Controller
 
 	public function indexAction($url='')
 	{
-		// $prod_id = explode('_', $url);
+
 		$enqueries = $this->model->getEnquiries();
 		$total = $this->model->getTotalEnquiries();
-		// dd($total);
 
 		// dd($enqueries);
 		$resalt = [

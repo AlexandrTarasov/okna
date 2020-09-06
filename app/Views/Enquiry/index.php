@@ -36,7 +36,7 @@
 							<option value="instagram">Instagram</option>
 							<option value="recommendation">Рекомендация</option></th>
 						<th>Коммент.</th>
-						<th>act</th>
+						<th>Действие</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -74,7 +74,7 @@ foreach($enquiries as $enquiry){
 	echo"<td>".$enquiry['comment']."</td>";
 	// echo"<td style='text-align:center;'> <i style='color:red;' class=\"far fa-trash-alt\"></i> </td>";
 	echo"<td style='text-align:center;'> <i style='color:green; font-size: 16px; cursor: pointer;'
-		title='в заказы' onclick=\"makeOrder(".$enquiry['id'].", ".$enquiry['client_id'].", '".$enquiry['address']."')\" class=\"fas fa-file-import\"></i> </td>";
+		title='Принять в заказы' onclick=\"makeOrder(".$enquiry['id'].", ".$enquiry['client_id'].", '".$enquiry['address']."')\" class=\"fas fa-file-import\"></i> </td>";
 	echo"</tr>"; 
 }
 ?>
