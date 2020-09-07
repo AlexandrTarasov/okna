@@ -7,6 +7,8 @@
 	.role-dev-color{background:gray; font-weight: bold;}
 	.role-installer-color{background:hsl(196.7, 95.6%, 91.2%);}
 	.add_user{color: hsl(120, 32.5%, 49.4%);}
+	.hidden{display:none;}
+	.showed{display:block;}
 </style>
 <div class="card mb-4">
 	<div class="card-header"><?=$title . ' / всего: ' .$total?> / <span class="add_user" data-toggle="modal" data-target="#add_user_modal"><i class="fas fa-user-plus"></i></span> </div>
@@ -21,6 +23,7 @@
 						<th>Email</th>
 						<th>Телефон</th>
 						<th>Коммент</th>
+						<th>Pass</th>
 						<th style='text-align:center;'>Act</th>
 					</tr>
 				</thead>
@@ -29,9 +32,8 @@
 
 
 foreach($users as $user){
-	
 	$phone 	   = '';
-	if( $user['phone'] !=='0' ){
+	if( $user['phone'] !== NULL ){
 		$user['phone'] = str_replace('38', '', $user['phone']);
 		$phone .= '('.substr($user['phone'], 0, 3).')-';
 		$phone .= substr($user['phone'], 3, 3).'-';
@@ -46,7 +48,8 @@ foreach($users as $user){
 	if($user['role_id'] == 3)  $role_css =  'role-admin-color';
 	if($user['role_id'] == 4)  $role_css =  'role-dev-color';
 	if($user['role_id'] == 5)  $role_css =  'role-installer-color';
-	$roles_select = '<select class="custom-select roles-select '.$role_css.'" onfocus="saveOption(this)" onchange="changeRole(this)">';
+
+	$roles_select = '<select  id="'.$user['id'].'" class="custom-select  roles-select '.$role_css.'" onfocus="saveOption(this)" onchange="changeRole(this)">';
 	foreach($roles as $role){
 		$selected = ($role['id'] == $user['role_id']) ? ' selected ' : '';
 		$roles_select .='<option value="'.$role['id'].'"' .$selected. '>'.$role['name'].'</option>';
@@ -60,6 +63,11 @@ foreach($users as $user){
 	echo"<td>".$user['email']."</td>";
 	echo"<td>".$phone."</td>";
 	echo"<td>".$user['comment']."</td>";
+	echo"<td class='text-center'>
+		<span class=\"showed\" onclick=\"changeView(this)\"><i class=\"far fa-eye\"></i></span>
+		<span class=\"hidden\">".$user['password']."</span></td>
+	";
+	// echo"<td class='text-center'><a href='#' onclick='showPass();' ><i class=\"far fa-eye\"></i></a></td>";
 	echo"<td style='text-align:center;'><a href='#' onclick=\"userDel(".$user['id'].", this)\" class=\"\"><i style='color:red;' class=\"far fa-trash-alt\"></i></a></td>";
 	echo"</tr>"; 
 }
@@ -119,7 +127,9 @@ foreach($users as $user){
 	</div>
 	</form>
 </div>
-<!--// end modal for installers -->
+<!--//  -->
+
+
 <script src="/assets/js/admin_sluice.js"></script>
 
 <script>
@@ -134,11 +144,21 @@ function saveOption(node){
 function changeRole(node)
 {
 	let selected_index = node.selectedIndex;
+	var role_id = node.options[node.selectedIndex].value;
+	let user_id = node.id;
 	if (confirm("Изменить роль?") == true) {
-		alert("Изменили");
+		let res = goSluice(user_id, role_id, 'user_role_change');
+		res.then(data => {
+			data.text().then(function(text) {
+				if( text == '1' ){
+					// console.log(text)
+				}
+				console.log(text)
+			})
+		})
 	} else {
 		node.selectedIndex = processing_role.role_option_id; 
-	processing_role.role_option_id = '';
+		processing_role.role_option_id = '';
 	} 
 }
 
@@ -196,9 +216,14 @@ function userDel(user_id, node){
 				else{ console.log(text); }
 			})
 		});
-	} else {
-
-	} 
+	} else { } 
 }
 
+function changeView(node){
+	if (node.nextElementSibling.style.display == 'block'){
+		node.nextElementSibling.style.display="none";
+	}else{
+		node.nextElementSibling.style.display="block";
+	}
+}
 </script>

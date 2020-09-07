@@ -28,6 +28,19 @@ class User extends Model
 	{
 		return $this->db->query("DELETE FROM `users` WHERE `users`.`id` = $id ");
 	}
+	public function updateUserMain($id, $val, $column)
+	{
+			// dd($val);
+		if( $id==='' || $column==='' ){
+			return "There is no id or column name passed in ".__FUNCTION__;
+		}
+		if( $val === '' ){
+			$val = "NULL";
+		}else{$val = "'$val'";}
+		// dd($val);
+		return $this->db->update("UPDATE `users` SET `".$column."` = $val 
+			WHERE id='".$id."' ");
+	}
 	public function setUser($data)
 	{
 		$rand_pass = $this->randomPassword();

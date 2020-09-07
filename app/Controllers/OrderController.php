@@ -19,7 +19,11 @@ class OrderController extends Controller
 	public function indexAction($url='')
 	{
 		// $prod_id = explode('_', $url);
-		$orders = $this->model->getOrders();
+		$manager_id = '';
+		if( $_SESSION['user_role'] === '2'){
+			$manager_id = $_SESSION['user_id'];
+		}
+		$orders = $this->model->getOrders($manager_id);
 		$resalt = [
 			'title' => 'Заказы ',
 			'message' => $this->message,
@@ -112,6 +116,4 @@ class OrderController extends Controller
 		];
 		$this->runView(__METHOD__)->renderWithData($resalt);
 	}
-
-
 }

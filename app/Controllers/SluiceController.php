@@ -198,6 +198,19 @@ class SluiceController extends Controller
 			echo 1;
 			return;
 		}
+
+		if( ($this->post['from_node'] == 'user_role_change') ){
+			$model = new AppM\User();
+			$res = $model->updateUserMain($this->post['id'], $this->post['val'], 'role_id');
+			if( is_numeric($res)){
+				echo 1;
+				return;
+			}
+			echo $res;
+			return;
+		}
+
+
 	}
 
 	public function cleanPhone($phone_number)

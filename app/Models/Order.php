@@ -4,12 +4,16 @@ namespace AppM;
 
 class Order extends Model
 {
-	public function getOrders()
+	public function getOrders($manager_id = '')
 	{
+		$extra_sql = '';
+		if( $manager_id !== '' ){
+			$extra_sql = " AND manager_id = $manager_id";
+		}
 		$sql ="SELECT orders.*, users.name as inst_name, clients.name AS client_name FROM `orders` 
 			LEFT JOIN  clients ON (clients.id = orders.client_id)
 			LEFT JOIN  users ON (users.id = orders.installer_id) 
-			WHERE status != 'archive'
+			WHERE status != 'archive' $extra_sql
 			ORDER BY montage_date DESC";
 		return $this->db->row($sql);
 	}

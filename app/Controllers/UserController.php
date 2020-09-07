@@ -10,6 +10,9 @@ class UserController extends Controller
 	public function __construct()
 	{
 		parent::__construct(__CLASS__);
+		if( $_SESSION['user_role'] !== '3' ){
+			exit();
+		}
 	}
 
 	public function indexAction($url='')
