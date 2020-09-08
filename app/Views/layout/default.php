@@ -20,6 +20,13 @@
 	.form-control::placeholder { color: hsl(200, 2.1%, 71.6%);}
 	.clr-red{color: hsl(0, 100%, 50%);}
 	.form-row .col{min-width: 300px; }
+/* up botton */
+	.back_to_top { position: fixed; bottom: 50px; right: 20px; z-index: 9999; width: 30px; 
+		height: 30px; text-align: center; line-height: 30px; background: #f5f5f5;
+		color: #444; cursor: pointer; z-index: 8; border-radius: 25px; display: none; border: 1px solid hsl(0, 1.2%, 67.5%);}
+	.back_to_top:hover { background: #e9ebec; }
+	.back_to_top-show { display: block; }
+/* up button end */
 </style>
     </head>
 	<body class="sb-nav-fixed">
@@ -90,6 +97,7 @@
 					</div>
 				</main>
 				<footer class="py-4 bg-light mt-auto">
+					<a class="back_to_top" title="Наверх">↑</a>
 					<div class="container-fluid"> </div>
 				</footer>
 			</div>
@@ -301,7 +309,6 @@
 <!--// end modal for supplier -->
 
 
-
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
         <script src="/assets/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="/assets/js/scripts.js"></script>
@@ -432,8 +439,31 @@ function changeViberState(obj, action){
 		obj.style.color ='gray';
 	}
 }
-
-
+// button up start
+(function() {
+	'use strict';
+	function backToTop() {
+		if (window.pageYOffset > 0) {
+			window.scrollBy(0, -80);
+			setTimeout(backToTop, 0);
+		}
+	}
+	function trackScroll() {
+		var scrolled = window.pageYOffset;
+		var coords = document.documentElement.clientHeight;
+		if (scrolled > 200) {
+			goTopBtn.classList.add('back_to_top-show');
+		}
+		if (scrolled < 200) {
+			goTopBtn.classList.remove('back_to_top-show');
+		}
+	}
+	
+	window.addEventListener('scroll', trackScroll);
+	var goTopBtn = document.querySelector('.back_to_top');
+	goTopBtn.addEventListener('click', backToTop);
+})();
+// end button up 
 </script>
     </body>
 </html>
