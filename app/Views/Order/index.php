@@ -17,9 +17,10 @@
 	.empty-mount-data{color: hsl(0, 0%, 87.5%); border: 1px solid hsl(0, 0%, 87.5%);}
 	.today_montage{background: lightgreen;}
 	.form_css{right: 5px; position: absolute; top: 5px;}
+	.fa-shopping-cart{color: hsl(205.7, 42%, 60.8%);}
 </style>
 <div class="card mb-4">
-	<div class="card-header"><?=$title .': '. $total?>
+	<div class="card-header"> <i class="fas fa-shopping-cart"></i> <?=$title .': '. $total?>
 			<form class="d-none d-md-inline-block form-inline form_css">
 				<div class="input-group">
 					<input class="form-control" style="width:290px;" type="search" id="search" name="search"

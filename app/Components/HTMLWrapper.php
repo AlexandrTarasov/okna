@@ -132,6 +132,8 @@ class HTMLWrapper
 		$temp_arr = [];
 		foreach($this->to_wrap as $arr){
 			foreach($arr as $key => $val){
+				$comment = '';
+
 				if( $key === 'type' ){
 					if( $val === 'income' ){
 						$temp_arr[0] = '<th>'.$this->wrapInBadge($val, 'success').'</th>';
@@ -168,11 +170,18 @@ class HTMLWrapper
 						$temp_arr[4] = '<th>'.$this->wrapInBadge($val, 'secondary').'</th>';
 					}
 				}
-				if( $key === 'id' ){
-					if($_SESSION['user_role'] == '3'){
+				if($_SESSION['user_role'] == '3'){
+					if( $key === 'id' ){
 						$temp_arr[5] = '<th><a href="/payment_edit/'.$val.'" class=""><i class="fas fa-edit"></i></a></th>';
-					}else {
-						$temp_arr[5] = '<th><a href="/payment_info/'.$val.'" class=""><i class="fas fa-info"></i></a></th>';
+					}
+					
+				} else {
+					if( $key === 'comment' ){
+						if( $val !=='' ){
+							$temp_arr[5] = '<th><i title="'.$val.'" class="fas fa-info-circle"></i></th>';
+						}else{
+							$temp_arr[5] = '<th></th>';
+						}
 					}
 				}
 			}

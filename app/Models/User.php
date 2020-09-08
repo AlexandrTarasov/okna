@@ -23,6 +23,12 @@ class User extends Model
 		// dd($role_id);
 		return $this->db->row("SELECT id, name, username FROM users WHERE role_id = '".$role_id."' ");
 	}
+
+	public function getRoleByid($role_id)
+	{
+		// dd($role_id);
+		return $this->db->row("SELECT description FROM atom_roles WHERE id = '".$role_id."' ");
+	}
 	
 	public function delUser($id)
 	{

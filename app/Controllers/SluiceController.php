@@ -210,6 +210,18 @@ class SluiceController extends Controller
 			return;
 		}
 
+		if( ($this->post['from_node'] == 'payment_status_update') ){
+			
+			$model = new AppM\Payment();
+			$res = $model->updatePaymentMain($this->post['id'], $this->post['val'], 'status');
+			if( is_numeric($res)){
+				echo 1;
+				return;
+			}
+			echo $res;
+			return;
+		}
+
 
 	}
 

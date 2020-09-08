@@ -28,16 +28,23 @@
 			<button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
 
 			<ul class="navbar-nav ml-auto">
+<?php  if($_SESSION['user_role'] === '3'){?>
 				<li class="nav-item">
-					<a class="nav-link" id="" href="/users" role="button"  aria-haspopup="true" aria-expanded="false">
-					<i class="far fa-id-card" title="users"></i>
+					<a class="nav-link" id="" href="/payment_edit/0" role="button" title="Оплаты" aria-haspopup="true" aria-expanded="false">
+						<i class="fas fa-dollar-sign"></i>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" id="" href="/users" role="button" title="Юзеры"  aria-haspopup="true" aria-expanded="false">
+					<i class="far fa-id-card"></i>
 					</a>
 				</li>
 				<li>
-					<a class="nav-link" id="" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+					<a class="nav-link" id="" href="#" role="button" aria-haspopup="true" title="Настройки" aria-expanded="false">
 						<i class="fas fa-cogs fa-fw"></i>
 					</a>
 				</li>
+<?php } ?>
 				<li>
 					<a class="nav-link" id="" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 						<i class="fas fa-globe fa-fw"></i>
@@ -68,38 +75,11 @@
 								</a>
 							<a class="nav-link" href="/suppliers"><div class="sb-nav-link-icon"><i class="fas fa-briefcase"></i></div>Поставщики
 								<span class="add" id="suppliers_span" data-toggle="modal"  data-target="#add_supplier_modal">+</span></a>
-
-							<!--div class="sb-sidenav-menu-heading">Interface</div>
-							<a class="nav-link collapsed" href="#" data-toggle="collapse"data-target="#collapseLayouts" 
-								aria-expanded="false" aria-controls="collapseLayouts">
-								<div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-								Layouts
-								<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div></a>
-							<div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-								<nav class="sb-sidenav-menu-nested nav">
-									<a class="nav-link" href="">Static Navigation</a>
-									<a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
-								</nav>
-							</div>
-							<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages" ><div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div> Pages
-								<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div></a>
-							<div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
-								<nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-									<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">Authentication <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div></a>
-									<div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
-										<nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="login.html">Login</a><a class="nav-link" href="register.html">Register</a><a class="nav-link" href="password.html">Forgot Password</a></nav>
-									</div>
-									<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">Error <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div></a>
-									<div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
-										<nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="401.html">401 Page</a><a class="nav-link" href="404.html">404 Page</a><a class="nav-link" href="500.html">500 Page</a></nav>
-									</div>
-								</nav>
-							</div-->
 						</div>
 					</div>
                     <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        admin
+                        <div class="small">Вы вошли как:</div>
+<?=$user_role?>
                     </div>
                 </nav>
             </div>

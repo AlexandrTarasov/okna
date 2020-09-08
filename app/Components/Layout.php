@@ -3,6 +3,7 @@
 namespace AppComp;
 
 use AppCont\TakeoutsController;
+use AppM\User;
 
 class Layout
 {
@@ -16,5 +17,13 @@ class Layout
 			return '<span class="badge badge-danger" style="margin-left: 23px;">'.$takeouts_num.'</span>';
 		}
 		return '';
+	}
+
+	public function userRoleForLayout($role_id)
+	{
+		$user_obj = new User();
+		return $user_obj->getRoleByid($role_id)[0];
+
+
 	}
 }

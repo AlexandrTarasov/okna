@@ -1,3 +1,10 @@
+<?php 
+
+$state = '';
+if( $_SESSION['user_role'] !== '3' ){
+	$state = 'disabled';
+}
+?>
 <style>
 	.badge-light { font-size: 15px; border: 1px solid hsl(0, 1.5%, 74.5%); }
 	.card-header {padding: 5px;}
@@ -98,7 +105,7 @@
 					</div>
 					<div class="col-12 form-group ">
 						<label>Менеджер:</label>
-						<select class="form-control" id="manager_select">
+						<select class="form-control" <?=$state?> id="manager_select">
 							<option value="">Не выбран</option>
 							<?=$managers_options?>
 						</select>

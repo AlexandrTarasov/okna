@@ -30,11 +30,12 @@ class View
 
 	public function renderWithData($data)
 	{
-		// dd($this);
 		$layout_obj = new Layout();
 		if( $this->layout == 'default' ){
-			$layout_data = $layout_obj->takeoutsBadgeForLayout('', $this->layout);
-			$data['takeouts_badge_number'] = $layout_data;
+			$takeouts_badge_number = $layout_obj->takeoutsBadgeForLayout('', $this->layout);
+			$user_role = $layout_obj->userRoleForLayout($_SESSION['user_role']);
+			$data['takeouts_badge_number'] = $takeouts_badge_number;
+			$data['user_role'] = $user_role['description'];
 		}
 		extract($data);
 		if( file_exists('app/Views/'.$this->path.'.php') ){

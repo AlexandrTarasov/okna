@@ -25,6 +25,7 @@ $router->add([
 	'/users'		    => 'AppCont\UserController@indexAction',
 	'/settings'		    => 'AppCont\SettingController@indexAction',
 	'/user/:num'		=> 'AppCont\UserController@userAction',
+	'/payment_edit/:num'	    => 'AppCont\PaymentController@indexAction',
 ]);
 
 if ( $router->isFound() ) {
