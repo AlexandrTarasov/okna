@@ -22,7 +22,12 @@ foreach($takeouts as $takeout){
 	echo"<td>".$takeout['address']."</td>";
 	echo"<td>".$takeout['montage_date']."</td>";
 	echo"<td>".$takeout['supplier_id']."</td>";
-	echo'<td><input class="" type="checkbox" id="" value="'.$takeout['contract_number'].'"></td>';
+	// echo'<td><input class="" type="checkbox" id="" value="'.$takeout[''].'"></td>';
+	if( $takeout['removal_request_sent'] == '1' ){
+		echo'<td><button type="button" class="btn btn-success disabled">Отправлен</button></td>';
+	}else {
+		echo'<td><button type="button" class="btn btn-info">Отметить как отправлен</button></td>';
+	}
 	echo"</tr>"; 
 }
 ?>
