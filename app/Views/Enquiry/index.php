@@ -49,6 +49,14 @@ foreach($enquiries as $enquiry){
 	$source = '';
 	if( $enquiry['source'] == 'call' ){
 		$source ='<i class="fas fa-phone-alt"></i>'; 
+	}elseif( $enquiry['source'] == 'facebook' ){
+		$source ='<i class="fab fa-facebook-f"></i>'; 
+	}elseif( $enquiry['source'] == 'recommendation' ){
+		$source ='<i class="fas fa-people-arrows"></i>'; 
+	}elseif( $enquiry['source'] == 'site' ){
+		$source ='<i class="fas fa-globe"></i>'; 
+	} else{
+		$source = $enquiry['source'];
 	}
 	//statuses processing
 	$status_selector_css = ' status-'.$enquiry['status']; 
