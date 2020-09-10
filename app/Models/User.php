@@ -9,7 +9,8 @@ class User extends Model
 		// $params = [
 		// 	'mail' => $mail,
 		// ];
-		return $this->db->row('SELECT * FROM `users` 
+		return $this->db->row('SELECT u.*, ui.str as pa_str FROM `users` AS u 
+		   LEFT JOIN u_i AS ui ON (u.id = ui.id)	
 			ORDER BY id DESC');
 	}
 
@@ -32,6 +33,7 @@ class User extends Model
 	
 	public function delUser($id)
 	{
+		$this->db->query("DELETE FROM `u_i` WHERE `u_i`.`id` = $id ");
 		return $this->db->query("DELETE FROM `users` WHERE `users`.`id` = $id ");
 	}
 	public function updateUserMain($id, $val, $column)
@@ -58,10 +60,17 @@ class User extends Model
 				'".$data['name']."', 
 				'".$data['phone']."',
 				'".$data['comment']."',
-				'".$rand_pass."',
+				'".password_hash($rand_pass, PASSWORD_DEFAULT)."',
 				'0',
 				'".$data['viber_is']."')");
 		return [ (int) $this->db->lastId(), $rand_pass];
+	}
+
+	public function set_u_i($id_pass_arr)
+	{
+		/*TODO make 2 chars shift*/
+		$this->db->query("INSERT INTO `u_i` (`id`,  `str`) VALUES ('".$id_pass_arr[0]."', '".$id_pass_arr[1]."') ");
+
 	}
 
 	private function randomPassword(): string

@@ -17,7 +17,6 @@ class AccountController extends Controller
 
 	public function indexAction()
 	{
-		// dd(password_hash('Jx6-EFa-p8g-WrZ', PASSWORD_DEFAULT));
 		if( isset($_SESSION['admin']) && $_SESSION['admin'] ===1 ){
 				$this->runView(__METHOD__)->redirect('/adminpanel');
 		}

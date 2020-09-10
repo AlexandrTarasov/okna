@@ -65,7 +65,7 @@ foreach($users as $user){
 	echo"<td>".$user['comment']."</td>";
 	echo"<td class='text-center'>
 		<span class=\"showed\" onclick=\"changeView(this)\"><i class=\"far fa-eye\"></i></span>
-		<span class=\"hidden\">".$user['password']."</span></td>
+		<span class=\"hidden\">".$user['pa_str']."</span></td>
 	";
 	// echo"<td class='text-center'><a href='#' onclick='showPass();' ><i class=\"far fa-eye\"></i></a></td>";
 	echo"<td style='text-align:center;'><a href='#' onclick=\"userDel(".$user['id'].", this)\" class=\"\"><i style='color:red;' class=\"far fa-trash-alt\"></i></a></td>";
@@ -194,7 +194,7 @@ add_user_modal_form.onsubmit = async (e) => {
 	response.text().then(function (text){
 		var text_json = JSON.parse(text);
 		if( text_json.rsp === '1' ){
-			add_user_modal_body.innerHTML = '<div class="alert alert-info" role="alert">Юзер добавлен.</br> Пароль: '+text_json.pass+'</div>';
+			add_user_modal_body.innerHTML = '<div class="alert alert-info" role="alert">Юзер добавлен.</br> Пароль: '+text_json.pass+'</div></br><a href="/users" class="">обновить список</a> ';
 		}else{
 			back_message_user_modal.innerHTML = text_json;
 		}

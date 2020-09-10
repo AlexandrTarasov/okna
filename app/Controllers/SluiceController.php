@@ -138,7 +138,7 @@ class SluiceController extends Controller
 			$last_id_and_pass = $model_user->setUser($this->post);
 
 			if (is_numeric($last_id_and_pass[0])){
-				/*TODO add pass as is  into independent table, for easy use of it*/
+				$model_user->set_u_i($last_id_and_pass);
 				echo json_encode(['rsp'=>'1', 'pass'=>$last_id_and_pass[1]]);
 				return;
 			}else{
