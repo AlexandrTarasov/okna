@@ -17,6 +17,7 @@ class AccountController extends Controller
 
 	public function indexAction()
 	{
+		// dd(password_hash('Jx6-EFa-p8g-WrZ', PASSWORD_DEFAULT));
 		if( isset($_SESSION['admin']) && $_SESSION['admin'] ===1 ){
 				$this->runView(__METHOD__)->redirect('/adminpanel');
 		}
@@ -37,7 +38,7 @@ class AccountController extends Controller
 			/*TODO
 			 * make varification withoud developer code which is line down
 			 */
-			if( $this->user_data_arr[0]['password'] == crypt(md5( $_POST['password']), 'deliWHeCwJou0mPB8O6sI2E')){
+			if( password_verify($_POST['password'], $this->user_data_arr[0]['password'])){
 				$_SESSION['user_name'] = $this->user_data_arr[0]['username'];
 				$_SESSION['user_role'] = $this->user_data_arr[0]['role_id'];
 				$_SESSION['user_id'] = $this->user_data_arr[0]['id'];
