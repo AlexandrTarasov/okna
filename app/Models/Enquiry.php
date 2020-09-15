@@ -7,7 +7,7 @@ class Enquiry extends Model
 	public function getEnquiries()
 	{
 		$sql ="SELECT leads.*, c.name as client_name FROM `leads` LEFT JOIN clients as c ON (leads.client_id = c.id)
-			WHERE status != 'accepted' ORDER BY id DESC";
+			WHERE status != 'accepted' ORDER BY id DESC LIMIT 30 ";
 		return $this->db->row($sql);
 	}
 
@@ -64,7 +64,7 @@ class Enquiry extends Model
 	}
 	public function updateStatus($id, $status)
 	{
-		return $this->db->query("UPDATE `leads`  SET `status` = '".$status."' 
+		return $this->db->update("UPDATE `leads`  SET `status` = '".$status."' 
 			WHERE `id`='".$id."' ");
 	}
 }

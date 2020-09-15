@@ -222,6 +222,17 @@ class SluiceController extends Controller
 			return;
 		}
 
+		if( ($this->post['from_node'] == 'update_lead_status') ){
+			$model = new AppM\Enquiry();
+			$res = $model->updateStatus($this->post['id'], $this->post['val']);
+			if( is_numeric($res)){
+				echo 1;
+				return;
+			}
+			echo $res;
+			return;
+		}	
+
 
 	}
 

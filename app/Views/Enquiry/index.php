@@ -10,6 +10,7 @@
 	.status-canceled   {background:lightgray; color: hsl(0, 2.3%, 65.9%);}
 	.status-{color: hsl(0, 85.7%, 72.5%)};
 	.pointer{cursor: pointer;}
+	.today_lead{background: lightgreen; color:black;}
 </style>
 <div class="card mb-4">
 	<div class="card-header"><?=$title . ' / было всего: ' .$total. '/ из них не в заказах '.$stay_as_enquery ?></div>
@@ -27,14 +28,16 @@
 						 </th>
 						<th>Клиент</th>
 						<th>Адрес</th>
-						<th><select id="source_selector_id" class="status-select round">
-							<option value="">Источник sort</option>
-							<option value="call">Звонок</option>
-							<option value="youtube">YouTube</option>
-							<option value="adwords">Adwords</option>
-							<option value="facebook">Facebook</option>
-							<option value="instagram">Instagram</option>
-							<option value="recommendation">Рекомендация</option></th>
+						<th>Ресурс
+<!-- <select id="source_selector_id" class="status&#45;select round"> -->
+<!-- 							<option value="">Источник sort</option> -->
+<!-- 							<option value="call">Звонок</option> -->
+<!-- 							<option value="youtube">YouTube</option> -->
+<!-- 							<option value="adwords">Adwords</option> -->
+<!-- 							<option value="facebook">Facebook</option> -->
+<!-- 							<option value="instagram">Instagram</option> -->
+<!-- 							<option value="recommendation">Рекомендация</option> -->
+						</th>
 						<th>Коммент.</th>
 						<th>Действие</th>
 					</tr>
@@ -43,8 +46,13 @@
 <?php
 
 $statuses = ['new'=>'Новый', 'processing'=>'В обработке', 'canceled'=>'Отменён', ''=>'Нет статуса'];
-
 foreach($enquiries as $enquiry){
+	$montage_date_class = "";
+	$montage_date_title = "";
+	if( $enquiry['date'] === date("Y-m-d") ){
+		$montage_date_class = 'today_lead';
+		$montage_date_title = "Сегодняшний запрос";
+	}
 	$status = '';
 	$source = '';
 	if( $enquiry['source'] == 'call' ){
@@ -61,28 +69,28 @@ foreach($enquiries as $enquiry){
 	//statuses processing
 	$status_selector_css = ' status-'.$enquiry['status']; 
 
-	$select_of_statuses = '<select id="cars" class="status-select round '.$status_selector_css.'"
-		onchange="changeRole(this)" onfocus="saveOption(this)">';
+	$select_of_statuses = '<select id="'.$enquiry['id'].'" class="status-select round '.$status_selector_css.'"
+		onchange="changeStatus(this)" >';
 	foreach($statuses as $key => $status){
 		$secected_opt = "";
 		if( $enquiry['status'] == $key ){
 			$secected_opt = "selected";
 		}
-		$select_of_statuses .= "<option value='".$key."' $secected_opt>$status</option>";
+		$select_of_statuses .= "<option value='".$key."' ".$secected_opt.">$status</option>";
 	}
 	$select_of_statuses .= "</select>";
 	// ! statuses processing
 
 	echo"<tr>"; 
-	echo'<td><input id="" type="date" disabled value="'.$enquiry['date'].'"></td>';
+	echo'<td><input id="" class="'.$montage_date_class.'" type="date" title = "'.$montage_date_title.'" disabled value="'.$enquiry['date'].'"></td>';
 	echo'<td>'.$select_of_statuses.'</td>';
 	echo"<td><a href='/client/".$enquiry['client_id']."' class=''>".$enquiry['client_name']."</a></td>";
 	echo"<td>".$enquiry['address']."</td>";
-	echo"<td>".$source."</td>";
+	echo"<td class=\"text-center\">".$source."</td>";
 	echo"<td>".$enquiry['comment']."</td>";
 	// echo"<td style='text-align:center;'> <i style='color:red;' class=\"far fa-trash-alt\"></i> </td>";
-	echo"<td style='text-align:center;'> <i style='color:green; font-size: 16px; cursor: pointer;'
-		title='Принять в заказы' onclick=\"makeOrder(".$enquiry['id'].", ".$enquiry['client_id'].", '".$enquiry['address']."')\" class=\"fas fa-file-import\"></i> </td>";
+	echo"<td style='text-align:center;'> <button  type=\"button\" style=\"padding:0; font-size:13px;\"
+		title='Принять в заказы' onclick=\"makeOrder(".$enquiry['id'].", ".$enquiry['client_id'].", '".$enquiry['address']."')\" class=\"btn btn-success\">В ЗАКАЗЫ</button></td>";
 	echo"</tr>"; 
 }
 ?>
@@ -97,19 +105,27 @@ foreach($enquiries as $enquiry){
 		status_option_id : '',
 	}
 
-function saveOption(node){
-	current_enquiry.status_option_id = node.selectedIndex;
-	console.log(current_enquiry.status_option_id);
-}
+// function saveOption(node){
+// 	current_enquiry.status_option_id = node.selectedIndex;
+// 	console.log(current_enquiry.status_option_id);
+// }
 
-function changeRole(node)
+function changeStatus(node)
 {
-	let selected_index = node.selectedIndex;
+	let new_status = node.options[node.selectedIndex];
+	console.log(new_status.value);
 	if (confirm("Изменить статуc?") == true) {
-		alert("Изменили");
+		let res = goSluice(node.id, new_status.value,'update_lead_status');
+			res.then(data => {
+			data.text().then(function(text) {
+				if( text == '1' ){
+					location.reload();
+				}
+				console.log(text)
+			})
+		})
 	} else {
-		alert("Оставили как есть");
-		node.selectedIndex = current_enquiry.status_option_id; 
+		// node.selectedIndex = current_enquiry.status_option_id; 
 	} 
 	current_enquiry.status_option_id = '';
 }
