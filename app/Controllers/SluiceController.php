@@ -154,10 +154,10 @@ class SluiceController extends Controller
 			echo $model_order->$method($this->post['id'], $this->post['val'], $column);
 		}
 //
-		if( $this->post['from_node'] ==='client_update_comment' ){
-			$model_client = new AppM\Client();
-			echo $model_client->updateClientComment($this->post['id'], $this->post['val']);
-		}
+		// if( $this->post['from_node'] ==='client_update_comment' ){
+		// 	$model_client = new AppM\Client();
+		// 	echo $model_client->updateClientMain($this->post['id'], $this->post['val'], 'comment');
+		// }
 
 		if( $this->post['from_node'] === 'generate_enquiry' ){
 			$data = explode('||', $this->post['val']);
@@ -232,7 +232,17 @@ class SluiceController extends Controller
 			echo $res;
 			return;
 		}	
-
+//client handling
+		if( ($info = explode('_', $this->post['from_node']))[0] === 'client'){
+			if( $info[2] === 'phone' || $info[2] === 'phone2'){
+				$this->post['val'] = $this->cleanPhone($this->post['val']);
+			}
+			$method = $info[1].'ClientMain';
+			$column = $info[2]. (isset($info[3]) ? "_".$info[3] : '');
+			$model_order = new AppM\Client();
+			echo $model_order->$method($this->post['id'], $this->post['val'], $column);
+		}
+//
 
 	}
 

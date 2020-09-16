@@ -7,7 +7,7 @@
 	.td-with-comment{background: hsl(65.7, 100%, 95.9%);}
 </style>
 <div class="card mb-4">
-	<div class="card-header"><?=$title . ' / всего: ' .$total?></div>
+	<div class="card-header"><?=$title . ' / на странице: ' .$total?></div>
 	<div class="card-body" style="padding:0px;">
 		<div class="table-responsive">
 			<table class="table table-bordered table-hover table-sm" id="dataTable" width="100%" cellspacing="0">
@@ -34,7 +34,7 @@ foreach($clients as $client){
 	$phone .= substr($client['phone'], -2, 2); 
 
 
-	if( $client['viber'] ){
+	if( $client['viber_is'] ==='1' ){
 		$viber_ico="<i class=\"fab fa-viber\"></i>";
 	}
 	if( $client['comment'] ){

@@ -20,6 +20,9 @@ class ClientController extends Controller
 		$clients = $this->model->getClients();
 
 		// dd($product);
+		/*TODO 
+		 * revove all vibers into "viber_is"
+		 */
 		$resalt = [
 			'title' => 'Клиенты',
 			'message' => $this->message,
@@ -41,11 +44,8 @@ class ClientController extends Controller
 		$client_payments = $this->model->getClientPayments($id);
 		$html_wrapper = new HTMLWrapper($client_payments);
 
-		if( ($client_info[0]['phone'] !='' ) && ($client_info[0]['phone'] == $client_info[0]['viber'])){
+		if( $client_info[0]['viber_is'] ==='1'  ){
 			$viber_1 = 'viber_on';
-		}
-		if( $client_info[0]['phone2'] !='' && $client_info[0]['phone2'] == $client_info[0]['viber']){
-			$viber_2 = 'viber_on';
 		}
 		$i = 0;
 		foreach($client_orders as $val){

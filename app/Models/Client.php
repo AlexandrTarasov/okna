@@ -9,7 +9,7 @@ class Client extends Model
 		// $params = [
 		// 	'mail' => $mail,
 		// ];
-		return $this->db->row('SELECT * FROM `clients` ORDER BY id DESC');
+		return $this->db->row('SELECT * FROM `clients` ORDER BY id DESC LIMIT 100');
 	}
 
 	public function getClient($id)
@@ -45,6 +45,18 @@ class Client extends Model
 	public function updateClientComment($id, $val)
 	{
 		return $this->db->update("UPDATE `clients` SET `comment` = '".$val."'
+			WHERE id='".$id."' ");
+	}
+
+	public function updateClientMain($id, $val, $column)
+	{
+		if( $id==='' || $column==='' ){
+			return "There is no id or column name passed in ".__FUNCTION__;
+		}
+		if( $val === '' ){
+			$val = "NULL";
+		}else{$val = "'$val'";}
+		return $this->db->update("UPDATE `clients` SET `".$column."` = $val 
 			WHERE id='".$id."' ");
 	}
 }

@@ -20,7 +20,7 @@
 
 // there is dublicat function in update_data.js
 function showSavedCase(input_node){
-	console.log(input_node);
+	// console.log(input_node);
 	input_node.style.background = 'lightgreen';
 	setTimeout(function(){
 		input_node.style.background = 'white';
