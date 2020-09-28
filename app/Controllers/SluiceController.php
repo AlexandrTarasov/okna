@@ -243,6 +243,17 @@ class SluiceController extends Controller
 			echo $model_order->$method($this->post['id'], $this->post['val'], $column);
 		}
 //
+		if( ($this->post['from_node'] == 'enquery_client_name_exists') ){
+			$model_client = new AppM\Client();
+			$clients_list =$model_client->getClientByName($this->post['fio']);
+
+			if (!empty($resp = $model_client->getClientByName($this->post['fio']))){
+				header('Content-Type: application/json');
+				echo(json_encode($resp));
+			}else{
+				echo '0';
+			}
+		}
 
 	}
 

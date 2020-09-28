@@ -26,6 +26,7 @@
 		color: #444; cursor: pointer; z-index: 8; border-radius: 25px; display: none; border: 1px solid hsl(0, 1.2%, 67.5%);}
 	.back_to_top:hover { background: #e9ebec; }
 	.back_to_top-show { display: block; }
+	.client_serch_dropdown{border: 1px solid hsl(0, 6%, 77.1%); margin-bottom: 10px; margin-top: -6px;}
 /* up button end */
 </style>
     </head>
@@ -71,7 +72,7 @@
 						<div class="nav">
 							<a class="nav-link" href="/orders"><div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>Заказы</a>
 							<a class="nav-link" href="/enquiry">
-								<div class="sb-nav-link-icon"><i class="fas fa-funnel-dollar"></i> </div>Запросы
+								<div class="sb-nav-link-icon"><i class="fas fa-funnel-dollar"></i> </div>Лиды
 								<span class="add" id="request_span" data-toggle="modal"  data-target="#add_enquery_modal">+</span>
 							</a>
 							<a class="nav-link" href="/request_for_out">
@@ -114,7 +115,7 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title"> <i class="fas fa-funnel-dollar clr-red"></i> </i>Добавить запрос</h5>
+				<h5 class="modal-title"> <i class="fas fa-funnel-dollar clr-red"></i> </i>Создать лида</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -124,13 +125,15 @@
 				<div class="form-group" style="margin-bottom: 0rem;">
 					<div class="form-row">
 						<div class="col mb-2">
-							<input type="text" name="fio" required class="form-control form-control-sm" id="" placeholder="ФИО">
+							<input type="text" name="fio" required class="form-control form-control-sm" id="fio_enquery_input" placeholder="ФИО">
 							<input id="client_id_input" name="client_id" hidden value="">
 						</div>
 						<div class="col mb-2">
 							<input type="email" name="email" class="form-control form-control-sm" id="" placeholder="Email">
 						</div>
 					</div>
+
+					<div class="row client_serch_dropdown" id="client_suggestions_dropdown"></div>
 					<div class="form-row">
 						<div class="col mb-2">
 							<div class="input-group input-group-sm">
@@ -144,17 +147,16 @@
 						</div>
 
 						<div class="col mb-2">
-							<input type="tel" class="form-control form-control-sm"  name="phone_2"  title="tel 2" placeholder="(000)-000-00-00" 
-							id="phone_2_enquery_form"  pattern="\([0-9]{3}\)-[0-9]{3}-[0-9]{2}-[0-9]{2}" value="">
+							<input type="tel" class="form-control form-control-sm"  name="phone_2"  title="tel 2" placeholder="(000)-000-00-00" id="phone_2_enquery_form"  pattern="\([0-9]{3}\)-[0-9]{3}-[0-9]{2}-[0-9]{2}" value="">
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col mb-2">
-							<input type="text" class="form-control form-control-sm" name="address" id="" placeholder="Адрес установки">
+							<input type="text" class="form-control form-control-sm" name="address" id="enquery_address_input" placeholder="Адрес установки">
 						</div>
 						<div class="col mb-2">
 							<select class="form-control form-control-sm" name="status">
-								<option value="new">Новаый запрос</option>
+								<option value="new">Новый запрос</option>
 								<option value="processing">В обработке</option>
 								<option value="accepted">Принят</option>
 								<option value="canceled">Отменён</option>
@@ -165,7 +167,8 @@
 
 					<div class="form-row">
 						<div class="col mb-1">
-							<select class="form-control form-control-sm"  name="source">
+							<select class="form-control form-control-sm"  required name="source">
+								<option value="">Откуда пришёл</option>
 								<option value="call">Звонок</option>
 								<option value="adwords">Adwords</option>
 								<option value="facebook">FB</option>
@@ -312,7 +315,7 @@
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
         <script src="/assets/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="/assets/js/scripts.js"></script>
-        <script src="/assets/js/add_data_from_modals.js"></script>
+		<script src="/assets/js/add_data_from_modals.js"></script>
         <!-- <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script> -->
         <!-- <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script> -->
         <!-- <script src="files/demo/datatables&#45;demo.js"></script> -->
@@ -366,9 +369,22 @@ phone_1_enquery_form.addEventListener("input", function(event){
 		checkPhoneExistance(clean_number, 'enquery_phone_exists'); 
 	}
 });
+
 phone_2_enquery_form.addEventListener("input", function(event){
-	makePhoneNumber(event, phone_2_enquery_form);
+	makephonenumber(event, phone_2_enquery_form);
 });
+
+fio_enquery_input.addEventListener("input", function(event){
+	if( fio_enquery_input.value.length > 2){
+		client_suggestions_dropdown.style.displsy = '';
+		checkNameExistance(fio_enquery_input.value, 'enquery_client_name_exists');
+	}else{
+		client_suggestions_dropdown.innerHTML = '';
+		client_suggestions_dropdown.style.displsy = 'none';
+	}
+});
+
+
 /* -- */
 
 /*client modal process */

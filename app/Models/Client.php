@@ -42,6 +42,11 @@ class Client extends Model
 	{
 		return $this->db->row('SELECT * FROM `orders_payments` WHERE `user_id` = '.$id.' ORDER BY `order_id` DESC');
 	}
+
+	public function getClientByName($name)
+	{
+		return $this->db->row("SELECT id, name, phone, address FROM `clients` WHERE name LIKE '%$name%' LIMIT 20");
+	}
 	public function updateClientComment($id, $val)
 	{
 		return $this->db->update("UPDATE `clients` SET `comment` = '".$val."'

@@ -20,7 +20,7 @@ class EnquiryController extends Controller
 
 		// dd($enqueries);
 		$resalt = [
-			'title' => 'Запросы',
+			'title' => 'Лиды',
 			'message' => $this->message,
 			'enquiries' => $enqueries,
 			// 'total' => count($enqueries),

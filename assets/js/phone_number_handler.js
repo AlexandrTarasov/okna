@@ -1,7 +1,6 @@
 function shapePhone(phone_input)
 {
 	let phone = phone_input.defaultValue;
-	console.log(phone_input);
 	if( phone == '' ){
 		return;
 	}
@@ -38,6 +37,12 @@ function makePhoneNumber(event, phone)
 	let value_of_input = phone.value;
 	let phone_pure_arr = [];
 	let back_phone_str = '';
+
+	value_of_input = value_of_input.replace(/\+|\(|\)|-|_/gi, "");
+	if( value_of_input.length > 10 ){
+		value_of_input = value_of_input.substr(-10);
+	}
+
 	for (let i = 0; i < value_of_input.length; i++ ) {
 		if(value_of_input.charAt(i) == "0" || 
 			value_of_input.charAt(i) == "1" ||
@@ -58,10 +63,10 @@ function makePhoneNumber(event, phone)
 	let cursor_position = 1;
 	for(let z = 0; z<phone_arr_pattern.length; z++) {
 		if( value_of_input.length > 2 ){
-			if(value_of_input.charAt(1) !== '0'){
-				phone.value = '';
-				alert("Первая цифра 0"); return false; 
-			}
+			// if(value_of_input.charAt(1) !== '0'){
+			// 	phone.value = '';
+			// 	alert("Первая цифра 0"); return false; 
+			// }
 		}
 		if( (phone_arr_pattern[z] == "_") && (phone_pure_arr.length > 0) ){
 			back_phone_str += phone_pure_arr[0];

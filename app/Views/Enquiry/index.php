@@ -89,8 +89,8 @@ foreach($enquiries as $enquiry){
 	echo"<td class=\"text-center\">".$source."</td>";
 	echo"<td>".$enquiry['comment']."</td>";
 	// echo"<td style='text-align:center;'> <i style='color:red;' class=\"far fa-trash-alt\"></i> </td>";
-	echo"<td style='text-align:center;'> <button  type=\"button\" style=\"padding:0; font-size:13px;\"
-		title='Принять в заказы' onclick=\"makeOrder(".$enquiry['id'].", ".$enquiry['client_id'].", '".$enquiry['address']."')\" class=\"btn btn-success\">В ЗАКАЗЫ</button></td>";
+	echo"<td style='text-align:center;'> <button  type=\"button\" style=\"padding:0 3px 0 3px; font-size:13px;\"
+		title='Принять в заказы' onclick=\"makeOrder(".$enquiry['id'].", ".$enquiry['client_id'].", '".$enquiry['address']."')\" class=\"btn btn-success\">В&nbsp;ЗАКАЗЫ</button></td>";
 	echo"</tr>"; 
 }
 ?>

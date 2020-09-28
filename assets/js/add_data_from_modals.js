@@ -57,6 +57,50 @@ add_supplier_modal.onsubmit = async (e) => {
 }
 
 
+async function checkNameExistance(fio, node){
+	let formData = new FormData();
+	formData.append('fio', fio);
+	formData.append('from_node', node);
+	let response =  await fetch('/sluice', {
+		method: 'POST',
+		body: formData,
+	});
+	let one_client_line = '<ul>';
+	let usable_phone = '';
+
+	response.json().then(data => { 
+		if('number' == typeof data){ 
+			client_suggestions_dropdown.innerHTML = '';
+			client_suggestions_dropdown.style.display = 'none';
+			return;
+		}
+		for (client of data) {
+			if( client.phone ){
+				let p_1 = client.phone.slice(2, 5);
+				let p_2 = client.phone.slice(5, 8);
+				let p_3 = client.phone.slice(8, 10);
+				let p_4 = client.phone.slice(10, 12);
+				usable_phone = '(' + p_1 + ')-' + p_2 + '-' + p_3 + '-' + p_4 ;
+			}
+			one_client_line += '<li><span style="color:blue;" onclick="insertCientData(\''+ client.id +'\',\'' + client.name +'\', \'' + usable_phone+'\', \''+ client.address +'\')"> '+ client.name +'</span> | '+ usable_phone +' | '+ client.address +'</li>';
+		} 
+		one_client_line +='</ul>';
+
+		client_suggestions_dropdown.style.display = '';
+		client_suggestions_dropdown.innerHTML = one_client_line;
+	});
+}
+
+function insertCientData(id, name, phone, address)
+{
+	fio_enquery_input.value = name;
+	client_id_input.value = id;
+	phone_1_enquery_form.value = phone;
+	enquery_address_input.value = address;
+	client_suggestions_dropdown.style.display = 'none';
+
+}
+
 async function checkPhoneExistance (phone, node ){
 	let formData = new FormData();
 	formData.append('phone', phone);
