@@ -172,6 +172,7 @@
 								<option value="call">Звонок</option>
 								<option value="adwords">Adwords</option>
 								<option value="facebook">FB</option>
+								<option value="dear-agent">Dear-agent</option>
 								<option value="instagram">Instagram</option>
 								<option value="recommendation">Рекомендация</option>
 								<option value="youtube">Youtube</option>
@@ -376,7 +377,6 @@ phone_2_enquery_form.addEventListener("input", function(event){
 
 fio_enquery_input.addEventListener("input", function(event){
 	if( fio_enquery_input.value.length > 2){
-		client_suggestions_dropdown.style.displsy = '';
 		checkNameExistance(fio_enquery_input.value, 'enquery_client_name_exists');
 	}else{
 		client_suggestions_dropdown.innerHTML = '';
