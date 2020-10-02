@@ -41,7 +41,11 @@ class AccountController extends Controller
 				$_SESSION['user_name'] = $this->user_data_arr[0]['username'];
 				$_SESSION['user_role'] = $this->user_data_arr[0]['role_id'];
 				$_SESSION['user_id'] = $this->user_data_arr[0]['id'];
-				$this->runView(__METHOD__)->redirect('/orders');
+				if( $_SESSION['user_role'] === '6'){
+					$this->runView(__METHOD__)->redirect('/ads_agent/');
+				}else{
+					$this->runView(__METHOD__)->redirect('/orders');
+				}
 			}else{
 				$this->thowErrLoginPage(__METHOD__, 'pass wrong');
 			}

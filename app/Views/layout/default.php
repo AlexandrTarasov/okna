@@ -168,7 +168,7 @@
 					<div class="form-row">
 						<div class="col mb-1">
 							<select class="form-control form-control-sm"  required name="source">
-								<option value="">Откуда пришёл</option>
+								<option value="">Выберите тип лида</option>
 								<option value="call">Звонок</option>
 								<option value="adwords">Adwords</option>
 								<option value="facebook">FB</option>

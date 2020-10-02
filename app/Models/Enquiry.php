@@ -6,8 +6,8 @@ class Enquiry extends Model
 {
 	public function getEnquiries()
 	{
-		$sql ="SELECT leads.*, c.name as client_name FROM `leads` LEFT JOIN clients as c ON (leads.client_id = c.id)
-			WHERE status != 'accepted' ORDER BY id DESC LIMIT 30 ";
+		$sql ="select leads.*, c.name as client_name from `leads` left join clients as c on (leads.client_id = c.id)
+			where status != 'accepted' order by id desc limit 30 ";
 		return $this->db->row($sql);
 	}
 

@@ -22,8 +22,9 @@ class View
 		}
 
 		$this->path = $way_part_1.'/'.$way_part_2;
-		if( $way_part_1 === 'Admin' ){
-			$this->layout = 'admin';
+		// dd($way_part_1);
+		if( $way_part_1 === 'AdsAgent' ){
+			$this->layout = 'ads-agent';
 		}
 		return $this;
 	}
@@ -31,12 +32,15 @@ class View
 	public function renderWithData($data)
 	{
 		$layout_obj = new Layout();
-		if( $this->layout == 'default' ){
+		if( $this->layout === 'default' ){
 			$takeouts_badge_number = $layout_obj->takeoutsBadgeForLayout('', $this->layout);
-			$user_role = $layout_obj->userRoleForLayout($_SESSION['user_role']);
 			$data['takeouts_badge_number'] = $takeouts_badge_number;
+		}
+		if( isset($_SESSION['user_role'] )){
+			$user_role = $layout_obj->userRoleForLayout($_SESSION['user_role']);
 			$data['user_role'] = $user_role['description'];
 		}
+
 		extract($data);
 		if( file_exists('app/Views/'.$this->path.'.php') ){
 			ob_start();
@@ -47,6 +51,8 @@ class View
 			throw new \Exception('file of layout not exist '.$this->path);
 		}
 	}
+
+
 	public function setView($way)
 	{
 		$this->path = str_replace('__construct', $way, $this->path);

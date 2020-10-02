@@ -17,6 +17,7 @@ $router->add([
 	'/orders/sort/:any'	=> 'AppCont\OrderController@sortByAction',
 	'/clients'		    => 'AppCont\ClientController@indexAction',
 	'/client/:num'		=> 'AppCont\ClientController@clientAction',
+	'/ads_agent/'		=> 'AppCont\AdsAgentController@indexAction',
 	'/installers'		=> 'AppCont\InstallerController@indexAction',
 	'/installer/:num'	=> 'AppCont\InstallerController@installerAction',
 	'/enquiry'		    => 'AppCont\EnquiryController@indexAction',
