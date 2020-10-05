@@ -11,6 +11,8 @@
 	.status-{color: hsl(0, 85.7%, 72.5%)};
 	.pointer{cursor: pointer;}
 	.today_lead{background: lightgreen; color:black;}
+	.cursor{cursor:pointer;}
+	.red{color:red;}
 </style>
 <div class="card mb-4">
 	<div class="card-header"><?=$title . ' / было всего: ' .$total. '/ из них не в заказах '.$stay_as_enquery ?></div>
@@ -40,6 +42,7 @@
 						</th>
 						<th>Коммент.</th>
 						<th>Действие</th>
+						<th>x</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -81,7 +84,7 @@ foreach($enquiries as $enquiry){
 	$select_of_statuses .= "</select>";
 	// ! statuses processing
 
-	echo"<tr>"; 
+	echo"<tr id='".$enquiry['id']."'>"; 
 	echo'<td><input id="" class="'.$montage_date_class.'" type="date" title = "'.$montage_date_title.'" disabled value="'.$enquiry['date'].'"></td>';
 	echo'<td>'.$select_of_statuses.'</td>';
 	echo"<td><a href='/client/".$enquiry['client_id']."' class=''>".$enquiry['client_name']."</a></td>";
@@ -91,6 +94,7 @@ foreach($enquiries as $enquiry){
 	// echo"<td style='text-align:center;'> <i style='color:red;' class=\"far fa-trash-alt\"></i> </td>";
 	echo"<td style='text-align:center;'> <button  type=\"button\" style=\"padding:0 3px 0 3px; font-size:13px;\"
 		title='Принять в заказы' onclick=\"makeOrder(".$enquiry['id'].", ".$enquiry['client_id'].", '".$enquiry['address']."')\" class=\"btn btn-success\">В&nbsp;ЗАКАЗЫ</button></td>";
+	echo"<td><div class='cursor red' onclick=\"del(".$enquiry['id'].")\">x</div></td>";
 	echo"</tr>"; 
 }
 ?>
@@ -116,7 +120,7 @@ function changeStatus(node)
 	console.log(new_status.value);
 	if (confirm("Изменить статуc?") == true) {
 		let res = goSluice(node.id, new_status.value,'update_lead_status');
-			res.then(data => {
+		res.then(data => {
 			data.text().then(function(text) {
 				if( text == '1' ){
 					location.reload();
@@ -153,6 +157,19 @@ function makeOrder(enquery_id, client_id, address){
 
 function isNumeric(value) {
     return /^-{0,1}\d+$/.test(value);
+}
+
+function del(id)
+{
+	let res = goSluice(id, '', 'delete_lead');
+	res.then(data => {
+		data.text().then(function(text) {
+			if( text == '1' ){
+				document.getElementById(id).style.display = 'none';
+			}
+			console.log(text)
+		})
+	})
 }
 
 </script>

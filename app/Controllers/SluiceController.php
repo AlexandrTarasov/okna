@@ -255,6 +255,15 @@ class SluiceController extends Controller
 			}
 		}
 
+		if( ($this->post['from_node'] == 'delete_lead') ){
+			$model_lead = new AppM\Enquiry();
+			if ($model_lead->delete($this->post['id']) == 1){
+				echo '1';
+			} else{
+				echo '0';
+			}
+		}
+
 	}
 
 	public function cleanPhone($phone_number)

@@ -14,7 +14,6 @@ class EnquiryController extends Controller
 
 	public function indexAction($url='')
 	{
-
 		$enqueries = $this->model->getEnquiries();
 		$total = $this->model->getTotalEnquiries();
 

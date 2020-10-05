@@ -67,4 +67,8 @@ class Enquiry extends Model
 		return $this->db->update("UPDATE `leads`  SET `status` = '".$status."' 
 			WHERE `id`='".$id."' ");
 	}
+	public function delete($id)
+	{
+		return $this->db->update("DELETE FROM `leads` WHERE `id`='".$id."' ");
+	}
 }
