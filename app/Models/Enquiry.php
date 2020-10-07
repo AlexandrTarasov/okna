@@ -4,11 +4,29 @@ namespace AppM;
 
 class Enquiry extends Model
 {
-	public function getEnquiries()
+	public function getEnquiries($sort_by = '')
+	{
+		$satatus = "";
+		if( $sort_by !== '' ){
+			if( $sort_by == 'no_status' ){
+				
+				$satatus = "where status = ''";
+			}else{
+				$satatus = "where status = '$sort_by'";
+			}
+		}elseif( $sort_by == 'all' ){
+			$satatus = "";
+		}
+		$sql ="select leads.*, c.name as client_name from `leads` left join clients as c on (leads.client_id = c.id)
+			$satatus order by id desc limit 30 ";
+		return $this->db->row($sql);
+	}
+
+	public function getEnquiry($id)
 	{
 		$sql ="select leads.*, c.name as client_name from `leads` left join clients as c on (leads.client_id = c.id)
-			where status != 'accepted' order by id desc limit 30 ";
-		return $this->db->row($sql);
+			where leads.id = $id order by leads.id desc  ";
+		return $this->db->row($sql)[0];
 	}
 
 	public function getTotalEnquiries()
@@ -17,7 +35,7 @@ class Enquiry extends Model
 		return $this->db->row($sql);
 	}
 
-	public function getEnquiry($client_id)
+	public function getClientEnquiry($client_id)
 	{
 		$sql ="SELECT * FROM `leads` WHERE client_id = $client_id";
 		return $this->db->row($sql)[0];
@@ -70,5 +88,20 @@ class Enquiry extends Model
 	public function delete($id)
 	{
 		return $this->db->update("DELETE FROM `leads` WHERE `id`='".$id."' ");
+	}
+
+	public function getENUMoptions($column_name)
+	{
+		$result = $this->db->query("SHOW COLUMNS FROM `leads` LIKE '$column_name' ");
+		$row = $result->fetch();
+		$type = $row['Type'];
+		preg_match('/enum\((.*)\)$/', $type, $matches);
+		$vals = explode(',', $matches[1]);
+		$trimmedvals = [];
+		foreach($vals as $key => $value) {
+			$value=trim($value, "'");
+			$trimmedvals[] = $value;
+		}
+		return $trimmedvals;
 	}
 }

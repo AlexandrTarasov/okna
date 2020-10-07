@@ -1,0 +1,4 @@
+.status-new 	   {background:lightgreen;}
+.status-processing {background:lightblue; color: hsl(194.4, 37.7%, 39%);}
+.status-canceled   {background:lightgray; color: hsl(0, 2.3%, 65.9%);}
+.status-accepted   {background: hsl(204.9, 100%, 72.5%);}

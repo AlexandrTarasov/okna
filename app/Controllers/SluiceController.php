@@ -222,16 +222,7 @@ class SluiceController extends Controller
 			return;
 		}
 
-		if( ($this->post['from_node'] == 'update_lead_status') ){
-			$model = new AppM\Enquiry();
-			$res = $model->updateStatus($this->post['id'], $this->post['val']);
-			if( is_numeric($res)){
-				echo 1;
-				return;
-			}
-			echo $res;
-			return;
-		}	
+
 //client handling
 		if( ($info = explode('_', $this->post['from_node']))[0] === 'client'){
 			if( $info[2] === 'phone' || $info[2] === 'phone2'){
@@ -254,8 +245,18 @@ class SluiceController extends Controller
 				echo '0';
 			}
 		}
-
-		if( ($this->post['from_node'] == 'delete_lead') ){
+///// lead handling
+		if( ($this->post['from_node'] == 'lead_update_status') ){
+			$model = new AppM\Enquiry();
+			$res = $model->updateStatus($this->post['id'], $this->post['val']);
+			if( is_numeric($res)){
+				echo 1;
+				return;
+			}
+			echo $res;
+			return;
+		}	
+		if( ($this->post['from_node'] == 'lead_delete') ){
 			$model_lead = new AppM\Enquiry();
 			if ($model_lead->delete($this->post['id']) == 1){
 				echo '1';
@@ -263,7 +264,7 @@ class SluiceController extends Controller
 				echo '0';
 			}
 		}
-
+////
 	}
 
 	public function cleanPhone($phone_number)

@@ -65,7 +65,7 @@ class OrderController extends Controller
 		$gaugers_list = $this->model->getUsersByRoleID(5);
 
 		$enquiry_obj = new Enquiry();
-		$enquiry_data = $enquiry_obj->getEnquiry($order[0]['client_id']);
+		$enquiry_data = $enquiry_obj->getClientEnquiry($order[0]['client_id']);
 
 		$managers_wrap = new HTMLWrapper($managers_list);
 		$managers_options = $managers_wrap->makeOptionsList($order[0]['manager_id'],['id', 'name'])->receiveElem();

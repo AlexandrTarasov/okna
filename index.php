@@ -21,6 +21,8 @@ $router->add([
 	'/installers'		=> 'AppCont\InstallerController@indexAction',
 	'/installer/:num'	=> 'AppCont\InstallerController@installerAction',
 	'/enquiry'		    => 'AppCont\EnquiryController@indexAction',
+	'/enquiry/sort/:any'=> 'AppCont\EnquiryController@sortByAction',
+	'/enquiry/:num'	    => 'AppCont\EnquiryController@enquiryAction',
 	'/suppliers'		=> 'AppCont\SupplierController@indexAction',
 	'/supplier/:num'	=> 'AppCont\SupplierController@supplierAction',
 	'/users'		    => 'AppCont\UserController@indexAction',

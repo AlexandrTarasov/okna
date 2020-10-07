@@ -138,7 +138,7 @@
 						<div class="col mb-2">
 							<div class="input-group input-group-sm">
 								<input type="tel" required class="form-control" name="phone_1" id="phone_1_enquery_form" 
-									title="tel 1" placeholder="000-000-00-00"  pattern="\([0-9]{3}\)-[0-9]{3}-[0-9]{2}-[0-9]{2}">
+									placeholder="000-000-00-00"  pattern="\([0-9]{3}\)-[0-9]{3}-[0-9]{2}-[0-9]{2}">
 								<div class="input-group-append">
 									<span class="input-group-text" title="viber_span" 
 										style="z-index:100;" ><i title="viber_svg" id="enquery_viber" class="off fab fa-viber"></i></span>
@@ -147,7 +147,7 @@
 						</div>
 
 						<div class="col mb-2">
-							<input type="tel" class="form-control form-control-sm"  name="phone_2"  title="tel 2" placeholder="(000)-000-00-00" id="phone_2_enquery_form"  pattern="\([0-9]{3}\)-[0-9]{3}-[0-9]{2}-[0-9]{2}" value="">
+							<input type="tel" class="form-control form-control-sm"  name="phone_2" placeholder="(000)-000-00-00" id="phone_2_enquery_form"  pattern="\([0-9]{3}\)-[0-9]{3}-[0-9]{2}-[0-9]{2}" value="">
 						</div>
 					</div>
 					<div class="form-row">
@@ -372,7 +372,7 @@ phone_1_enquery_form.addEventListener("input", function(event){
 });
 
 phone_2_enquery_form.addEventListener("input", function(event){
-	makephonenumber(event, phone_2_enquery_form);
+	makePhoneNumber(event, phone_2_enquery_form);
 });
 
 fio_enquery_input.addEventListener("input", function(event){

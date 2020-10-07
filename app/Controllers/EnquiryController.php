@@ -30,4 +30,34 @@ class EnquiryController extends Controller
 		$this->runView(__METHOD__)->renderWithData($resalt);
 	}
 
+	public function enquiryAction($id)
+	{
+		$enquery = $this->model->getEnquiry($id);
+		$statuses = $this->model->getENUMoptions('status');
+		$sources = $this->model->getENUMoptions('source');
+		// dd($statuses);
+		$resalt = [
+			'title' 	=> 'Лид',
+			'message' 	=> $this->message,
+			'enquery' 	=> $enquery,
+			'statuses'  => $statuses,  
+			'sources'	=> $sources
+		];
+		$this->runView(__METHOD__)->renderWithData($resalt);
+	}
+
+	public function sortByAction($param)
+	{
+		$enqueries = $this->model->getEnquiries($param);
+		$resalt = [
+			'title' 	=> 'Лиды сортированные',
+			'message' 	=> $this->message,
+			'enquiries' => $enqueries,
+			'total' => '',
+			'stay_as_enquery' => '',
+		];
+		$this->runView(__METHOD__)->renderWithData($resalt);
+		// dd(__CLASS__);
+	}
+
 }

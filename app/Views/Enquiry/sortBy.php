@@ -12,20 +12,22 @@
 	.red{color:red;}
 </style>
 <div class="card mb-4">
-	<div class="card-header"><?=$title . ' / всего: ' .$total ?></div>
+	<div class="card-header"><?=$title . ' / всего: ' .$total?></div>
 	<div class="card-body" style="padding:0px;">
 		<div class="table-responsive">
 			<table class="table table-bordered table-hover table-sm" id="dataTable" width="100%" cellspacing="0">
 				<thead>
 					<tr style="background: 1px hsl(110.4, 100%, 95.1%);">
 						<th>Дата <i class="fas fa-sort"></i></th>
-						<th id="order_status"> <select id="status_selector_id" class="status-select round">
-							<option value="">Статус sort</option>
-							<option value="new">Новый</option>
-							<option value="processing">В обработке</option>
-							<option value="accepted">Принят</option>
-							<option value="all">Все</option>
-							<option value="no_status">Нет статуса</option>
+						<th id="order_status">
+							<select id="status_selector_id" class="status-select round">
+								<option value="">Статус sort</option>
+								<option value="new">Новый</option>
+								<option value="processing">В обработке</option>
+								<option value="accepted">Принят</option>
+								<option value="all">Все</option>
+								<option value="no_status">Нет статуса</option>
+							</select>
 						 </th>
 						<th>Клиент</th>
 						<th>Адрес</th>
