@@ -246,23 +246,29 @@ class SluiceController extends Controller
 			}
 		}
 ///// lead handling
-		if( ($this->post['from_node'] == 'lead_update_status') ){
-			$model = new AppM\Enquiry();
-			$res = $model->updateStatus($this->post['id'], $this->post['val']);
-			if( is_numeric($res)){
-				echo 1;
-				return;
+		if( ($info = explode('_', $this->post['from_node']))[0] === 'lead'){
+			$model_lead = new AppM\Enquiry();
+			if( $info[1] == 'delete'){
+				echo ($model_lead->delete($this->post['id']) == 1) ? '1' : '0';
+				return true;
 			}
-			echo $res;
-			return;
-		}	
+			$method = $info[1].'LeadMain';
+			$column = $info[2]. (isset($info[3]) ? "_".$info[3] : '');
+			echo $model_lead->$method($this->post['id'], $this->post['val'], $column);
+		}
+
+		// if( ($this->post['from_node'] == 'lead_update_status') ){
+		// 	$model = new AppM\Enquiry();
+		// 	$res = $model->updateStatus($this->post['id'], $this->post['val']);
+		// 	if( is_numeric($res)){
+		// 		echo 1;
+		// 		return;
+		// 	}
+		// 	echo $res;
+		// 	return;
+		// }	
 		if( ($this->post['from_node'] == 'lead_delete') ){
 			$model_lead = new AppM\Enquiry();
-			if ($model_lead->delete($this->post['id']) == 1){
-				echo '1';
-			} else{
-				echo '0';
-			}
 		}
 ////
 	}

@@ -40,27 +40,29 @@ foreach($statuses as $status){
 	$status_options .='<option value="'.$status.'" '.$selected.'>'.$status.'</option>';
 }
 $status_options .= '</select>';
-
 ?>
+
+<?php if( !empty($message )){ ?>
+	<div class="alert alert-<?=$message['type']?>" role="alert">  <?=$message['text']?> </div>
+<?php } ?>
+<?php if( $enquery ){ ?>
 <div class="row">
 	<div class="col-6 p-0">
 		<div class="card">
 			<div class="card-header"><i class="fas fa-funnel-dollar"></i> <?=$title?>
-				<div class="del-buttom" id="" onclick=\"del(".$enquiry['id'].")\" title="удалить лид">X</div>
+			<div class="del-buttom" id="" onclick="del(<?=$enquery['id']?>)" title="удалить лид">X</div>
 				<div class="enquery_id_block" id=""><?=$enquery['date']?></div>
 				<div class="enquery_id_block" id=""> ID <?=$enquery['id']?> </div>
 				<input class="form-control" id="lead_id" hidden value="<?=$enquery['id']?>">
 			</div>
-			<div class="card-body p-1" style="padding:0px;">
+			<div class="card-body p-1" id="cart_body" style="padding:0px;">
 				<div class="row">
 					<div class="col-3 enquery_info_item_name"> ФИО </div> 
-					<div class="col enquery_info_item">
-						<input class="form-control" id=""  value="<?=$enquery['client_name']?>"> 
-					</div>
+					<div class="col enquery_info_item"><a href="/client/<?=$enquery['client_id']?>" class=""><?=$enquery['client_name']?></a></div>
 				</div>
 				<div class="row">
 					<div class="col-3 enquery_info_item_name"> Адрес </div> <div class="col enquery_info_item">
-						<input class="form-control" id=""  value="<?=$enquery['address']?>"> 
+						<input class="form-control" id="address_input"  value="<?=$enquery['address']?>"> 
 					</div>
 				</div>
 				<div class="row">
@@ -85,37 +87,6 @@ $status_options .= '</select>';
 	</div>
 </div>
 <script src="/assets/js/admin_sluice.js"></script>
+<script src="/assets/js/lead_edit_hendler.js"></script>
 
-
-<script>
-function del(id)
-{
-	let res = goSluice(id, '', 'lead_delete');
-	res.then(data => {
-		data.text().then(function(text) {
-			if( text == '1' ){
-				document.getElementById(id).style.display = 'none';
-			}
-			console.log(text)
-		})
-	})
-}	
-function changeStatus(node)
-{
-	let new_status = node.options[node.selectedIndex];
-	console.log(lead_id);
-	if (confirm("Изменить статуc?") == true) {
-		let res = goSluice(lead_id.value, new_status.value,'lead_update_status');
-		res.then(data => {
-			data.text().then(function(text) {
-				if( text == '1' ){
-					// location.reload();
-				}
-				console.log(text)
-			})
-		})
-	} else {
-		// node.selectedIndex = current_enquiry.status_option_id; 
-	} 
-}
-</script>
+<?php } ?>

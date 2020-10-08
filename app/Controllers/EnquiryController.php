@@ -5,7 +5,7 @@ namespace AppCont;
 class EnquiryController extends Controller
 {
 	public $model;
-	private $message;
+	private $message = [];
 
 	public function __construct()
 	{
@@ -33,9 +33,12 @@ class EnquiryController extends Controller
 	public function enquiryAction($id)
 	{
 		$enquery = $this->model->getEnquiry($id);
+		if(!$enquery){
+			$this->message = ['text'=>'Нет такого лида', 'type'=>'danger'];
+		}
 		$statuses = $this->model->getENUMoptions('status');
 		$sources = $this->model->getENUMoptions('source');
-		// dd($statuses);
+		// dd($this->message);
 		$resalt = [
 			'title' 	=> 'Лид',
 			'message' 	=> $this->message,

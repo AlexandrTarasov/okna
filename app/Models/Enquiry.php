@@ -26,7 +26,11 @@ class Enquiry extends Model
 	{
 		$sql ="select leads.*, c.name as client_name from `leads` left join clients as c on (leads.client_id = c.id)
 			where leads.id = $id order by leads.id desc  ";
-		return $this->db->row($sql)[0];
+		$res = $this->db->row($sql);
+		if(!empty( $res )){
+			return $this->db->row($sql)[0];
+		}else {return false;}
+		// return $this->db->row($sql)[0];
 	}
 
 	public function getTotalEnquiries()
@@ -103,5 +107,16 @@ class Enquiry extends Model
 			$trimmedvals[] = $value;
 		}
 		return $trimmedvals;
+	}
+	public function updateLeadMain($id, $val, $column)
+	{
+		if( $id==='' || $column==='' ){
+			return "There is no id or column name passed in ".__FUNCTION__;
+		}
+		if( $val === '' ){
+			$val = "NULL";
+		}else{$val = "'$val'";}
+		return $this->db->update("UPDATE `leads` SET `".$column."` = $val 
+			WHERE id='".$id."' ");
 	}
 }
