@@ -56,6 +56,7 @@ class SluiceController extends Controller
 				}
 				$enquiry_data[$key] = $this->test_input($val);
 			}
+			$enquiry_data['who_added_id']= $_SESSION['user_id'];
 			// if client exists 
 			if($this->post['client_id'] !== ''){
 				if ( is_numeric($model->setLead($this->post['client_id'], $enquiry_data)) ){
@@ -225,13 +226,17 @@ class SluiceController extends Controller
 
 //client handling
 		if( ($info = explode('_', $this->post['from_node']))[0] === 'client'){
+			$model_client = new AppM\Client();
+			if( $info[1] == 'delete'){
+				echo ($model_client->delete($this->post['id']) == 1) ? '1' : '0';
+				return true;
+			}
 			if( $info[2] === 'phone' || $info[2] === 'phone2'){
 				$this->post['val'] = $this->cleanPhone($this->post['val']);
 			}
 			$method = $info[1].'ClientMain';
 			$column = $info[2]. (isset($info[3]) ? "_".$info[3] : '');
-			$model_order = new AppM\Client();
-			echo $model_order->$method($this->post['id'], $this->post['val'], $column);
+			echo $model_client->$method($this->post['id'], $this->post['val'], $column);
 		}
 //
 		if( ($this->post['from_node'] == 'enquery_client_name_exists') ){

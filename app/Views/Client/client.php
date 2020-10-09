@@ -1,6 +1,4 @@
-<?php
-$created_date = explode(' ', $client[0]['created_at'])[0];
-?>
+
 <style>
 	.client_id_block{ width: 100px; float: right; text-align: center;
 		background: hsl(204.8, 100%, 87.6%); border-radius: 4px; font-weight: bold;
@@ -15,15 +13,33 @@ $created_date = explode(' ', $client[0]['created_at'])[0];
 	.viber_on{color:purple;}
 	.viber_off{color:gray;}
 	.form-control { transition: background 1s; }
+	.del-buttom{float: right;
+		background: hsl(0, 100%, 80.2%);
+		padding: 0 5px 0 5px;
+		border-radius: 3px;
+		border: 1px solid red;
+		height: 24px;
+		margin-left: 10px;
+		color: hsl(236.3, 33.3%, 9.4%);
+		cursor:pointer;
+	}
 </style>
+<?php if( !empty($message )){ ?>
+	<div class="alert alert-<?=$message['type']?>" role="alert">  <?=$message['text']?> </div>
+<?php } ?>
+<?php if( $client ){ ?>
+<?php $created_date = explode(' ', $client[0]['created_at'])[0]; ?>
 <div class="row">
 	<div class="col-5 p-0">
 		<div class="card">
 			<div class="card-header"><?=$title?>
+<?php if( $_SESSION["user_role"] === '3'){ ?>
+				<div class="del-buttom" id=""  onclick="del(<?=$client[0]['id']?>)" title="удалить лид">X</div>
+<?php  } ?>
 				<div class="client_id_block" id=""> ID <?=$client[0]['id']?> </div>
 				<input class="form-control" id="id" hidden value="<?=$client[0]['id']?>">
 			</div>
-			<div class="card-body p-1" style="padding:0px;">
+			<div class="card-body p-1" style="padding:0px;" id="cart_body">
 				<div class="row">
 					<div class="col-3 client_info_item_name"> Создан </div> 
 					<div class="col client_info_item">
@@ -137,7 +153,7 @@ $payments->showElem();
 </div>
 <script src="/assets/js/client_edit_hendler.js"></script>
 <script src="/assets/js/admin_sluice.js"></script>
-
+<?php } ?>
 
 
 

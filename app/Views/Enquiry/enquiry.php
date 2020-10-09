@@ -50,7 +50,9 @@ $status_options .= '</select>';
 	<div class="col-6 p-0">
 		<div class="card">
 			<div class="card-header"><i class="fas fa-funnel-dollar"></i> <?=$title?>
-			<div class="del-buttom" id="" onclick="del(<?=$enquery['id']?>)" title="удалить лид">X</div>
+<?php if( $_SESSION["user_role"] === '3'){ ?>
+				<div class="del-buttom" id=""  onclick="del(<?=$enquery['id']?>)" title="удалить лид">X</div>
+<?php  } ?>
 				<div class="enquery_id_block" id=""><?=$enquery['date']?></div>
 				<div class="enquery_id_block" id=""> ID <?=$enquery['id']?> </div>
 				<input class="form-control" id="lead_id" hidden value="<?=$enquery['id']?>">

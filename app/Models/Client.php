@@ -64,4 +64,11 @@ class Client extends Model
 		return $this->db->update("UPDATE `clients` SET `".$column."` = $val 
 			WHERE id='".$id."' ");
 	}
+	public function delete($id)
+	{
+		/*TODO
+		 * also delete orders and payments of client
+		 */
+		return $this->db->update("DELETE FROM `clients` WHERE `id`='".$id."' ");
+	}
 }

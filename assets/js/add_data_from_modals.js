@@ -9,7 +9,8 @@ add_enquiry_modal_form.onsubmit = async (e) => {
 	});
 	response.text().then(function (text){
 		if( text === '1' ){
-			add_enquery_modal_body.innerHTML = '<div class="alert alert-info" role="alert">Запрос добавлен</div>';
+			add_enquery_modal_body.innerHTML = '<div class="alert alert-info" role="alert">Лид добавлен</div>';
+			setTimeout(function(){ location.reload(); }, 1500);
 		}else{
 			back_message_enquery_modal.innerHTML = text;
 		}

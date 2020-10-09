@@ -94,3 +94,17 @@ function responseHendler(res, node)
 	})
 }
 
+function del(id)
+{
+	console.log(document.getElementById('cart_body'));
+	let res = goSluice(id, '', 'client_delete');
+	res.then(data => {
+		data.text().then(function(text) {
+			if( text == '1' ){
+				document.getElementById('cart_body').innerHTML = 'deleted';
+			}
+			console.log(text)
+		})
+	})
+}	
+

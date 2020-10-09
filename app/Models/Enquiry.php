@@ -53,7 +53,7 @@ class Enquiry extends Model
 			$address = $data['address'];
 			$comment = $data['comment'];
 		}
-		$res = $this->db->query("INSERT INTO `clients` (`name`, `phone`, `phone2`, `address`,`comment`, `email`, `viber`, `viber_is`) 
+		$res = $this->db->query("INSERT INTO `clients` (`name`, `phone`, `phone2`, `address`,`comment`, `email`, `viber`, `viber_is`, `who_added_user_id`) 
 			VALUES (
 				'".$data['fio']."', 
 				'".$data['phone_1']."', 
@@ -62,8 +62,9 @@ class Enquiry extends Model
 				'".$comment."', 
 				'".$data['email']."', 
 				'',
-				'".$data['viber_is']."') ");
-		return (int) $this->db->lastId();
+				'".$data['viber_is']."',
+				".intval($data['who_added_id']).") ");
+			return (int) $this->db->lastId();
 	}
 
 	public function checkClientByPhone($phone)
@@ -74,14 +75,15 @@ class Enquiry extends Model
 
 	public function setLead($last_client_id, $data)
 	{
-		$res = $this->db->query("INSERT INTO `leads` (`client_id`, `address`, `comment`, `source`, `date`, `status`) 
+		$res = $this->db->query("INSERT INTO `leads` (`client_id`, `address`, `comment`, `source`, `date`, `status`, `who_added_user_id`) 
 			VALUES (
 				'".$last_client_id."', 
 				'".$data['address']."', 
 				'".$data['comment']."', 
 				'".$data['source']."',
 				now(),
-				'".$data['status']."')");
+				'".$data['status']."',
+				".intval($data['who_added_id']).") ");
 		return (int) $this->db->lastId();
 	}
 	public function updateStatus($id, $status)
