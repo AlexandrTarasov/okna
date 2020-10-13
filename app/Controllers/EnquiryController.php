@@ -2,6 +2,8 @@
 
 namespace AppCont;
 
+use Kilte\Pagination\Pagination;
+
 class EnquiryController extends Controller
 {
 	public $model;
@@ -12,20 +14,30 @@ class EnquiryController extends Controller
 		parent::__construct(__CLASS__);
 	}
 
-	public function indexAction($url='')
+	public function indexAction($current_page = 0)
 	{
-		$enqueries = $this->model->getEnquiries();
-		$total = $this->model->getTotalEnquiries();
+		$neighbours = 4;
+		$items_per_page = 50; 
+		if(isset($_GET['num_of_rec']) AND (($_GET['num_of_rec']) == 20 || ($_GET['num_of_rec'] == 100) ) ) {
+			$items_per_page = $_GET['num_of_rec']; 
+		}
 
-		// dd($enqueries);
+		$totalItems = $this->model->getTotalEnquiries();
+		$pagination = new Pagination($totalItems, $current_page, $items_per_page, $neighbours);
+		$offset = $pagination->offset();
+		$limit = $pagination->limit();
+		$pages = $pagination->build();
+
+		$enqueries = $this->model->getEnquiries('', $items_per_page, $offset);
+
+		// dd($offset);
 		$resalt = [
 			'title' => 'Лиды',
 			'message' => $this->message,
 			'enquiries' => $enqueries,
-			// 'total' => count($enqueries),
-			'total' => count($total),
+			'total' => $totalItems,
 			'stay_as_enquery' => count($enqueries),
-			// 'orders' => $orders,
+			'pagination'=> $pages,
 		];
 		$this->runView(__METHOD__)->renderWithData($resalt);
 	}

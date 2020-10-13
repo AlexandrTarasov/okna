@@ -10,9 +10,10 @@
 	.today_lead{background: lightgreen; color:black;}
 	.cursor{cursor:pointer;}
 	.red{color:red;}
+	.fa-funnel-dollar { color: hsl(205.7, 42%, 60.8%); }
 </style>
 <div class="card mb-4">
-	<div class="card-header"><?=$title . ' / всего: ' .$total ?></div>
+	<div class="card-header"><i class="fas fa-funnel-dollar"></i> <?=$title . ' / всего: ' .$total ?></div>
 	<div class="card-body" style="padding:0px;">
 		<div class="table-responsive">
 			<table class="table table-bordered table-hover table-sm" id="dataTable" width="100%" cellspacing="0">
@@ -103,6 +104,33 @@ foreach($enquiries as $enquiry){
 		</div>
 	</div>
 </div>
+
+<nav aria-label="...">
+	<ul class="pagination pagination-sm">
+<?php  
+	foreach($pagination as $key => $item){
+		if( $item == 'less' ){
+			echo '<li class="page-item">';
+				echo '<a class="page-link" href="/enquiry/page/'.$key.'" aria-label="Previous"> <span aria-hidden="true">&laquo;</span> </a>';
+			echo '</li>';
+			continue;
+		}
+		if( $item == 'more' ){
+			echo '<li class="page-item">';
+				echo '<a class="page-link" href="/enquiry/page/'.$key.'" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a>';
+			echo '</li>';
+			continue;
+		}
+		if( $item == 'current' ){
+			echo '<li class="page-item active"><a class="page-link" href="#">'.$key.'</a></li>';
+			continue;
+		}
+		echo '<li class="page-item"><a class="page-link" href="/enquiry/page/'.$key.'">'.$key.'</a></li>';
+	}
+?>
+	</ul>
+</nav>
+
 <script src="/assets/js/admin_sluice.js"></script>
 <script>
 	let current_enquiry = {

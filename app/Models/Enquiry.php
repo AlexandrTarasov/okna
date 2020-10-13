@@ -4,8 +4,9 @@ namespace AppM;
 
 class Enquiry extends Model
 {
-	public function getEnquiries($sort_by = '')
+	public function getEnquiries($sort_by = '', $limit, $offset = "")
 	{
+		// dd($offset);
 		$satatus = "";
 		if( $sort_by !== '' ){
 			if( $sort_by == 'no_status' ){
@@ -14,11 +15,13 @@ class Enquiry extends Model
 			}else{
 				$satatus = "where status = '$sort_by'";
 			}
-		}elseif( $sort_by == 'all' ){
-			$satatus = "";
-		}
+		}elseif( $sort_by == 'all' ){ $satatus = ""; }
+
+		$offset = " OFFSET ".$offset; 
+		// dd($offset);
+
 		$sql ="select leads.*, c.name as client_name from `leads` left join clients as c on (leads.client_id = c.id)
-			$satatus order by id desc limit 30 ";
+			$satatus order by id desc limit $limit $offset";
 		return $this->db->row($sql);
 	}
 
@@ -35,8 +38,8 @@ class Enquiry extends Model
 
 	public function getTotalEnquiries()
 	{
-		$sql ="SELECT * FROM `leads` ";
-		return $this->db->row($sql);
+		$sql ="SELECT COUNT(*) as a FROM `leads` ";
+		return (int) $this->db->row($sql)[0]['a'];
 	}
 
 	public function getClientEnquiry($client_id)

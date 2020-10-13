@@ -23,6 +23,7 @@ $router->add([
 	'/enquiry'		    => 'AppCont\EnquiryController@indexAction',
 	'/enquiry/sort/:any'=> 'AppCont\EnquiryController@sortByAction',
 	'/enquiry/:num'	    => 'AppCont\EnquiryController@enquiryAction',
+	'/enquiry/page/:num'=> 'AppCont\EnquiryController@indexAction',
 	'/suppliers'		=> 'AppCont\SupplierController@indexAction',
 	'/supplier/:num'	=> 'AppCont\SupplierController@supplierAction',
 	'/users'		    => 'AppCont\UserController@indexAction',

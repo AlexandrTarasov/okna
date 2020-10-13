@@ -9,7 +9,8 @@
 		}
     },
     "require": {
-        "bit55/litero": "^0.9.0"
+        "bit55/litero": "^0.9.0",
+        "amstaffix/pagination": "^1.1"
     },
     "authors": [
         {
