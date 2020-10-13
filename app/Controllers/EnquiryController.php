@@ -8,6 +8,7 @@ class EnquiryController extends Controller
 {
 	public $model;
 	private $message = [];
+	public $items_per_page = 50;
 
 	public function __construct()
 	{
@@ -17,18 +18,19 @@ class EnquiryController extends Controller
 	public function indexAction($current_page = 0)
 	{
 		$neighbours = 4;
-		$items_per_page = 50; 
+		$ipp_for_pagination = '';
+
 		if(isset($_GET['num_of_rec']) AND (($_GET['num_of_rec']) == 20 || ($_GET['num_of_rec'] == 100) ) ) {
-			$items_per_page = $_GET['num_of_rec']; 
+			$this->items_per_page  = $_GET['num_of_rec']; 
+			$ipp_for_pagination = '?num_of_rec='.$_GET['num_of_rec']; 
 		}
 
 		$totalItems = $this->model->getTotalEnquiries();
-		$pagination = new Pagination($totalItems, $current_page, $items_per_page, $neighbours);
+		$pagination = new Pagination($totalItems, $current_page, $this->items_per_page, $neighbours);
 		$offset = $pagination->offset();
-		$limit = $pagination->limit();
 		$pages = $pagination->build();
 
-		$enqueries = $this->model->getEnquiries('', $items_per_page, $offset);
+		$enqueries = $this->model->getEnquiries('', $this->items_per_page, $offset);
 
 		// dd($offset);
 		$resalt = [
@@ -38,6 +40,7 @@ class EnquiryController extends Controller
 			'total' => $totalItems,
 			'stay_as_enquery' => count($enqueries),
 			'pagination'=> $pages,
+			'ipp' => $ipp_for_pagination,
 		];
 		$this->runView(__METHOD__)->renderWithData($resalt);
 	}
@@ -61,15 +64,40 @@ class EnquiryController extends Controller
 		$this->runView(__METHOD__)->renderWithData($resalt);
 	}
 
-	public function sortByAction($param)
+	public function sortByAction($path)
 	{
-		$enqueries = $this->model->getEnquiries($param);
+		$neighbours = 4;
+		$ipp_for_pagination = '';
+		$current_page = 0;
+		$sort_by = 'all';
+
+		if( strpos($path, '/page/') ){
+			$parts_of_url = explode('/', $path);
+			$sort_by = $parts_of_url['0'];
+			$current_page = $parts_of_url['2'];
+
+		}else{ $sort_by = $path;}
+
+		// dd($sort_by);
+		if(isset($_GET['num_of_rec']) AND (($_GET['num_of_rec']) == 20 || ($_GET['num_of_rec'] == 100) ) ) {
+			$this->items_per_page  = $_GET['num_of_rec']; 
+			$ipp_for_pagination = '?num_of_rec='.$_GET['num_of_rec']; 
+		}
+
+		$totalItems = $this->model->getTotalEnquiries($sort_by);
+		$pagination = new Pagination($totalItems, $current_page, $this->items_per_page, $neighbours);
+		$offset = $pagination->offset();
+		$pages = $pagination->build();
+
+		$enqueries = $this->model->getEnquiries($sort_by, $this->items_per_page,  $offset) ;
 		$resalt = [
 			'title' 	=> 'Лиды сортированные',
 			'message' 	=> $this->message,
 			'enquiries' => $enqueries,
-			'total' => '',
-			'stay_as_enquery' => '',
+			'total' => $totalItems,
+			'sort_by' => $sort_by,
+			'pagination'=> $pages,
+			'ipp' => $ipp_for_pagination,
 		];
 		$this->runView(__METHOD__)->renderWithData($resalt);
 		// dd(__CLASS__);

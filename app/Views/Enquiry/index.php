@@ -11,9 +11,12 @@
 	.cursor{cursor:pointer;}
 	.red{color:red;}
 	.fa-funnel-dollar { color: hsl(205.7, 42%, 60.8%); }
+	.btn-sm{padding: 0.1rem 0.5rem;}
 </style>
 <div class="card mb-4">
-	<div class="card-header"><i class="fas fa-funnel-dollar"></i> <?=$title . ' / всего: ' .$total ?></div>
+	<div class="card-header"><i class="fas fa-funnel-dollar"></i> <?=$title . ' / всего: ' .$total ?> / выводить по: 
+		<a href="?num_of_rec=20" type="button" class="btn btn-outline-secondary btn-sm">20</a> 
+		<a href="?num_of_rec=100" type="button" class="btn btn-outline-secondary btn-sm">100</a></div>
 	<div class="card-body" style="padding:0px;">
 		<div class="table-responsive">
 			<table class="table table-bordered table-hover table-sm" id="dataTable" width="100%" cellspacing="0">
@@ -30,16 +33,7 @@
 						 </th>
 						<th>Клиент</th>
 						<th>Адрес</th>
-						<th>Ресурс
-<!-- <select id="source_selector_id" class="status&#45;select round"> -->
-<!-- 							<option value="">Источник sort</option> -->
-<!-- 							<option value="call">Звонок</option> -->
-<!-- 							<option value="youtube">YouTube</option> -->
-<!-- 							<option value="adwords">Adwords</option> -->
-<!-- 							<option value="facebook">Facebook</option> -->
-<!-- 							<option value="instagram">Instagram</option> -->
-<!-- 							<option value="recommendation">Рекомендация</option> -->
-						</th>
+						<th>Ресурс</th>
 						<th>Коммент.</th>
 						<th>Действие</th>
 					</tr>
@@ -111,13 +105,13 @@ foreach($enquiries as $enquiry){
 	foreach($pagination as $key => $item){
 		if( $item == 'less' ){
 			echo '<li class="page-item">';
-				echo '<a class="page-link" href="/enquiry/page/'.$key.'" aria-label="Previous"> <span aria-hidden="true">&laquo;</span> </a>';
+				echo '<a class="page-link" href="/enquiry/page/'.$key.$ipp.'" aria-label="Previous"> <span aria-hidden="true">&laquo;</span> </a>';
 			echo '</li>';
 			continue;
 		}
 		if( $item == 'more' ){
 			echo '<li class="page-item">';
-				echo '<a class="page-link" href="/enquiry/page/'.$key.'" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a>';
+				echo '<a class="page-link" href="/enquiry/page/'.$key.$ipp.'" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a>';
 			echo '</li>';
 			continue;
 		}
@@ -125,7 +119,7 @@ foreach($enquiries as $enquiry){
 			echo '<li class="page-item active"><a class="page-link" href="#">'.$key.'</a></li>';
 			continue;
 		}
-		echo '<li class="page-item"><a class="page-link" href="/enquiry/page/'.$key.'">'.$key.'</a></li>';
+		echo '<li class="page-item"><a class="page-link" href="/enquiry/page/'.$key.$ipp.'">'.$key.'</a></li>';
 	}
 ?>
 	</ul>

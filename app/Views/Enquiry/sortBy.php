@@ -12,7 +12,10 @@
 	.red{color:red;}
 </style>
 <div class="card mb-4">
-	<div class="card-header"><?=$title . ' / всего: ' .$total?></div>
+	<div class="card-header"><?=$title . ' / всего: ' .$total?> / выводить по: 
+		<a href="?num_of_rec=20" type="button" class="btn btn-outline-secondary btn-sm">20</a> 
+		<a href="?num_of_rec=100" type="button" class="btn btn-outline-secondary btn-sm">100</a>
+	</div>
 	<div class="card-body" style="padding:0px;">
 		<div class="table-responsive">
 			<table class="table table-bordered table-hover table-sm" id="dataTable" width="100%" cellspacing="0">
@@ -105,6 +108,35 @@ foreach($enquiries as $enquiry){
 		</div>
 	</div>
 </div>
+
+<nav aria-label="...">
+	<ul class="pagination pagination-sm">
+<?php  
+	foreach($pagination as $key => $item){
+		if( $item == 'less' ){
+			echo '<li class="page-item">';
+				echo '<a class="page-link" href="/enquiry/sort/'.$sort_by.$key.'/page/'.$ipp.'" aria-label="Previous"> <span aria-hidden="true">&laquo;</span> </a>';
+			echo '</li>';
+			continue;
+		}
+		if( $item == 'more' ){
+			echo '<li class="page-item">';
+				echo '<a class="page-link" href="/enquiry/sort/'.$sort_by.$key.'/page/'.$ipp.'" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a>';
+			echo '</li>';
+			continue;
+		}
+		if( $item == 'current' ){
+			echo '<li class="page-item active"><a class="page-link" href="#">'.$key.'</a></li>';
+			continue;
+		}
+		echo '<li class="page-item"><a class="page-link" href="/enquiry/sort/'.$sort_by.'/page/'.$key.$ipp.'">'.$key.'</a></li>';
+	}
+?>
+	</ul>
+</nav>
+
+
+
 <script src="/assets/js/admin_sluice.js"></script>
 <script>
 	let current_enquiry = {

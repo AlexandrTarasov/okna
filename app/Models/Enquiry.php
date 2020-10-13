@@ -10,7 +10,6 @@ class Enquiry extends Model
 		$satatus = "";
 		if( $sort_by !== '' ){
 			if( $sort_by == 'no_status' ){
-				
 				$satatus = "where status = ''";
 			}else{
 				$satatus = "where status = '$sort_by'";
@@ -18,10 +17,10 @@ class Enquiry extends Model
 		}elseif( $sort_by == 'all' ){ $satatus = ""; }
 
 		$offset = " OFFSET ".$offset; 
-		// dd($offset);
 
 		$sql ="select leads.*, c.name as client_name from `leads` left join clients as c on (leads.client_id = c.id)
 			$satatus order by id desc limit $limit $offset";
+		// dd($sql);
 		return $this->db->row($sql);
 	}
 
@@ -36,9 +35,18 @@ class Enquiry extends Model
 		// return $this->db->row($sql)[0];
 	}
 
-	public function getTotalEnquiries()
+	public function getTotalEnquiries($sort_by = '')
 	{
-		$sql ="SELECT COUNT(*) as a FROM `leads` ";
+		$satatus = "";
+		if( $sort_by !== '' ){
+			if( $sort_by == 'no_status' ){
+				$satatus = "where status = ''";
+			}else{
+				$satatus = "where status = '$sort_by'";
+			}
+		}elseif( $sort_by == 'all' ){ $satatus = ""; }
+
+		$sql ="SELECT COUNT(*) as a FROM `leads` $satatus ";
 		return (int) $this->db->row($sql)[0]['a'];
 	}
 
