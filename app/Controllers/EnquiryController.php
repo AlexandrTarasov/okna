@@ -18,7 +18,7 @@ class EnquiryController extends Controller
 	public function indexAction($current_page = 0)
 	{
 		$neighbours = 4;
-		$ipp_for_pagination = '';
+		$ipp_for_pagination = ''; //ipp -items per page
 
 		if(isset($_GET['num_of_rec']) AND (($_GET['num_of_rec']) == 20 || ($_GET['num_of_rec'] == 100) ) ) {
 			$this->items_per_page  = $_GET['num_of_rec']; 
@@ -32,13 +32,11 @@ class EnquiryController extends Controller
 
 		$enqueries = $this->model->getEnquiries('', $this->items_per_page, $offset);
 
-		// dd($offset);
 		$resalt = [
 			'title' => 'Лиды',
 			'message' => $this->message,
 			'enquiries' => $enqueries,
 			'total' => $totalItems,
-			'stay_as_enquery' => count($enqueries),
 			'pagination'=> $pages,
 			'ipp' => $ipp_for_pagination,
 		];

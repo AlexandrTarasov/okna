@@ -14,6 +14,7 @@ $router->add([
 	'/orders'			=> 'AppCont\OrderController@indexAction',
 	'/request_for_out'	=> 'AppCont\TakeoutsController@indexAction',
 	'/order/:num'		=> 'AppCont\OrderController@orderAction',
+	'/orders/page/:num'	=> 'AppCont\OrderController@indexAction',
 	'/orders/sort/:any'	=> 'AppCont\OrderController@sortByAction',
 	'/clients'		    => 'AppCont\ClientController@indexAction',
 	'/client/:num'		=> 'AppCont\ClientController@clientAction',

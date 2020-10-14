@@ -5,42 +5,75 @@ namespace AppCont;
 use AppComp\Status;
 use AppM\Enquiry;
 use AppComp\HTMLWrapper;
+use Kilte\Pagination\Pagination;
 
 class OrderController extends Controller
 {
 	public $model;
-	private $message;
+	private $message = [];
+	public $items_per_page = 50;
+	public $manager_id = '';
 
 	public function __construct()
 	{
 		parent::__construct(__CLASS__);
+
+		if( $_SESSION['user_role'] === '2'){
+			$this->manager_id = $_SESSION['user_id'];
+		}
 	}
 
-	public function indexAction($url='')
+	public function indexAction($current_page = 0)
 	{
 		// $prod_id = explode('_', $url);
-		$manager_id = '';
-		if( $_SESSION['user_role'] === '2'){
-			$manager_id = $_SESSION['user_id'];
-		}
-		$orders = $this->model->getOrders($manager_id);
+		// dd($url);
+		$neighbours = 4;
+
+		$totalItems = $this->model->getAllOrders();
+		$pagination = new Pagination($totalItems, $current_page, $this->items_per_page, $neighbours);
+		$offset = $pagination->offset();
+		$pages = $pagination->build();
+
+		$orders = $this->model->getOrders($this->manager_id, $this->items_per_page, $offset);
+
 		$resalt = [
 			'title' => 'Заказы ',
 			'message' => $this->message,
 			'orders' => $orders,
-			'total' => count($orders),
+			'total' => $totalItems,
+			'pagination'=> $pages,
+			'ipp' => '',
 		];
 		$this->runView(__METHOD__)->renderWithData($resalt);
 	}
 
-	public function sortByAction($param)
+	public function sortByAction($path)
 	{
-		$orders = $this->model->getOrdersBy($param);
+		$neighbours = 4;
+		$ipp_for_pagination = '';
+		$current_page = 0;
+		$sort_by = 'all';
+
+		if( strpos($path, '/page/') ){
+			$parts_of_url = explode('/', $path);
+			$sort_by = $parts_of_url['0'];
+			$current_page = $parts_of_url['2'];
+
+		}else{ $sort_by = $path;}
+
+		$totalItems = $this->model->getAllOrders($sort_by);
+		$pagination = new Pagination($totalItems, $current_page, $this->items_per_page, $neighbours);
+		$offset = $pagination->offset();
+		$pages = $pagination->build();
+
+		$orders = $this->model->getOrdersBy($sort_by);
 		$resalt = [
 			'title' => 'Сортированые заказы',
 			'message' => $this->message,
 			'orders' => $orders,
-			'total' => count($orders),
+			'pagination'=> $pages,
+			'ipp' => '',
+			'total' => $totalItems,
 		];
 		$this->runView('AppCont\OrderController::indexAction')->renderWithData($resalt);
 	}

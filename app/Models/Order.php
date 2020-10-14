@@ -4,17 +4,20 @@ namespace AppM;
 
 class Order extends Model
 {
-	public function getOrders($manager_id = '')
+	public function getOrders($manager_id = '', $limit, $offset = "")
 	{
 		$extra_sql = '';
 		if( $manager_id !== '' ){
 			$extra_sql = " AND manager_id = $manager_id";
 		}
+		$offset = " OFFSET ".$offset; 
+
 		$sql ="SELECT orders.*, users.name as inst_name, clients.name AS client_name FROM `orders` 
 			LEFT JOIN  clients ON (clients.id = orders.client_id)
 			LEFT JOIN  users ON (users.id = orders.installer_id) 
 			WHERE status != 'archive' $extra_sql
-			ORDER BY montage_date DESC";
+			ORDER BY montage_date DESC LIMIT $limit $offset";
+		// dd($sql);
 		return $this->db->row($sql);
 	}
 
@@ -42,10 +45,20 @@ class Order extends Model
 		return $this->db->row($sql);
 	}
 
-	public function getAllOrders()
+	public function getAllOrders($sort_by = '')
 	{
-		$sql = "SELECT * from `orders`";
-		return $this->db->row($sql);
+		// dd($sort_by);
+		$satatus = "";
+		if( $sort_by !== '' ){
+			if( $sort_by == 'no_status' ){
+				$satatus = "where status = ''";
+			}else{
+				$satatus = "where status = '$sort_by'";
+			}
+		}elseif( $sort_by == '' ){ $satatus = " where status != 'archive'"; }
+
+		$sql = "SELECT COUNT(*) AS a from `orders` $satatus ";
+		return (int) $this->db->row($sql)[0]['a'];
 	}
 
 	public function getLastOne()

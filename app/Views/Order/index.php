@@ -95,6 +95,35 @@ foreach($orders as $order){
 		</div>
 	</div>
 </div>
+
+<nav aria-label="...">
+	<ul class="pagination pagination-sm">
+<?php  
+	foreach($pagination as $key => $item){
+		if( $item == 'less' ){
+			echo '<li class="page-item">';
+				echo '<a class="page-link" href="/orders/page/'.$key.$ipp.'" aria-label="Previous"> <span aria-hidden="true">&laquo;</span> </a>';
+			echo '</li>';
+			continue;
+		}
+		if( $item == 'more' ){
+			echo '<li class="page-item">';
+				echo '<a class="page-link" href="/orders/page/'.$key.$ipp.'" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a>';
+			echo '</li>';
+			continue;
+		}
+		if( $item == 'current' ){
+			echo '<li class="page-item active"><a class="page-link" href="#">'.$key.'</a></li>';
+			continue;
+		}
+		echo '<li class="page-item"><a class="page-link" href="/orders/page/'.$key.$ipp.'">'.$key.'</a></li>';
+	}
+?>
+	</ul>
+</nav>
+
+
+
 <script>
 	let current_order = {
 		status_option_id : '',
