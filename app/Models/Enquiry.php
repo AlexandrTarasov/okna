@@ -84,6 +84,7 @@ class Enquiry extends Model
 		return $this->db->row($sql);
 	}
 
+
 	public function setLead($last_client_id, $data)
 	{
 		$res = $this->db->query("INSERT INTO `leads` (`client_id`, `address`, `comment`, `source`, `date`, `status`, `who_added_user_id`) 

@@ -18,17 +18,27 @@
 	.today_montage{background: lightgreen;}
 	.form_css{right: 5px; position: absolute; top: 5px;}
 	.fa-shopping-cart{color: hsl(205.7, 42%, 60.8%);}
+	.order_serch_dropdown {
+		border: 1px solid hsl(0, 6%, 77.1%);
+		font-size: 14px;
+		display:none;
+		background:white;
+		margin-top: -1px;
+	}
+	.order_serch_dropdown li span{border-bottom: 1px solid hsl(0, 1.6%, 75.3%); cursor:pointer; }
+	.order_serch_dropdown ul{margin-left: -20px;}
 </style>
 <div class="card mb-4">
 	<div class="card-header"> <i class="fas fa-shopping-cart"></i> <?=$title .': '. $total?>
-			<form class="d-none d-md-inline-block form-inline form_css">
+			<form class="d-none d-md-inline-block form-inline form_css" action="/order_search" method="post">
 				<div class="input-group">
 					<input class="form-control" style="width:290px;" type="search" id="search" name="search"
-  pattern="[^'\x22]+" placeholder="(Aдрес или Клиент или № доровора)" aria-label="Search" aria-describedby="basic-addon2" />
+  pattern="[^'\x22]+" placeholder="(адрес / имя клиента / телефон)" aria-label="Search" aria-describedby="basic-addon2" />
 					<div class="input-group-append">
-						<button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+						<button class="btn btn-primary"  type="submit"><i class="fas fa-search"></i></button>
 					</div>
 				</div>
+				<div class="row order_serch_dropdown" id="order_suggestions_dropdown"></div>
 			</form>
 
 </div>
@@ -123,7 +133,7 @@ foreach($orders as $order){
 </nav>
 
 
-
+<script src="/assets/js/user/sluice.js"></script>
 <script>
 	let current_order = {
 		status_option_id : '',
@@ -134,5 +144,60 @@ foreach($orders as $order){
 		window.location.href = "/orders/sort/"+e.target.value;
 	}
 
+	search.oninput= async (e)=>{
+		let keywords = search.value;
 
+		if(keywords.length > 3){
+			if(!isNaN(keywords)){
+				let clean_number = keywords.replace(/\(|\)|\-|_/gi, '');
+				let response = await goUserSluice('', clean_number, 'search_for_order_phone')
+				// response.text().then(data => { 
+				// 	console.log(data)
+				// });
+				// return;
+				response.json().then(data => { 
+					showDataInDropList(data);
+				});
+			}else{
+				let response = await goUserSluice('', keywords, 'search_clien_address_or_name');
+				response.json().then(data => { 
+					showDataInDropList(data);
+				});
+			}
+		}else{
+			order_suggestions_dropdown.innerHTML = '';
+			order_suggestions_dropdown.style.displsy = 'none';
+		}
+
+	}
+
+	function showClientOrders(id){
+		location.replace("/order_search?o="+id);
+		console.log(id);
+	}
+
+	function showDataInDropList(data)
+	{
+		let one_client_line = '<ul>';
+		let usable_phone = '';
+		if('number' == typeof data){ 
+			order_suggestions_dropdown.innerHTML = '';
+			order_suggestions_dropdown.style.display = 'none';
+			return;
+		}
+		for (client of data) {
+			if( client.phone ){
+				let p_1 = client.phone.slice(2, 5);
+				let p_2 = client.phone.slice(5, 8);
+				let p_3 = client.phone.slice(8, 10);
+				let p_4 = client.phone.slice(10, 12);
+				usable_phone = '(' + p_1 + ')-' + p_2 + '-' + p_3 + '-' + p_4 ;
+			}
+			one_client_line += '<li><span style="color:blue;" onclick="showClientOrders(\''+ client.order_id +'\')"> '+ client.name +'</span> | '+ usable_phone +' | '+ client.address +'</li>';
+		} 
+		one_client_line +='</ul>';
+
+		order_suggestions_dropdown.style.display = 'block';
+		order_suggestions_dropdown.innerHTML = one_client_line;
+	}
 </script>

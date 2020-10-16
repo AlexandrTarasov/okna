@@ -149,4 +149,26 @@ class OrderController extends Controller
 		];
 		$this->runView(__METHOD__)->renderWithData($resalt);
 	}
+	public function searchAction()
+	{
+		$id		= $this->test_input($_GET["o"]);
+		$order = $this->model->getOrder($id);
+		// dd($order);
+		$resalt = [
+			'title' => 'Заказ ',
+			'message' => $this->message,
+			'orders' => $order,
+			'total' => 1,
+			'pagination'=> [],
+			'ipp' => '',
+		];
+		$this->runView('AppCont\OrderController::indexAction')->renderWithData($resalt);
+	}
+
+	private function test_input($data) {
+	  $data = trim($data);
+	  $data = stripslashes($data);
+	  $data = htmlspecialchars($data);
+	  return $data;
+	}
 }

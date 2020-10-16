@@ -47,6 +47,22 @@ class Client extends Model
 	{
 		return $this->db->row("SELECT id, name, phone, address FROM `clients` WHERE name LIKE '%$name%' LIMIT 20");
 	}
+
+	public function getClientByPartOfPhone($phone_part)
+	{
+		$sql = "SELECT clients.id as id, clients.name as name, clients.phone as phone, clients.address as address, orders.id as order_id from  clients 
+			INNER JOIN  orders ON (clients.id = orders.client_id)
+			LEFT JOIN  users ON (users.id = orders.installer_id) 
+			WHERE clients.phone LIKE '%".$phone_part."%' OR clients.phone2  LIKE '%".$phone_part."%' LIMIT 40";
+		return $this->db->row($sql);
+	}
+	public function getClientByAddressOrName($phone_part)
+	{
+		$sql = "SELECT clients.id as id, clients.name as name, clients.phone as phone, clients.address as address, orders.id as order_id from  clients 
+			INNER JOIN  orders ON (clients.id = orders.client_id)
+			WHERE clients.address LIKE '%".$phone_part."%' OR clients.name  LIKE '%".$phone_part."%' LIMIT 40";
+		return $this->db->row($sql);
+	}
 	public function updateClientComment($id, $val)
 	{
 		return $this->db->update("UPDATE `clients` SET `comment` = '".$val."'
