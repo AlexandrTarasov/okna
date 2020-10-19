@@ -22,6 +22,7 @@
 			<table class="table table-bordered table-hover table-sm" id="dataTable" width="100%" cellspacing="0">
 				<thead>
 					<tr style="background: 1px hsl(110.4, 100%, 95.1%);">
+						<?=($_SESSION['user_role'] === '3') ? '<th>Менеджер</th>' : ''?>
 						<th>Дата <i class="fas fa-sort"></i></th>
 						<th id="order_status"> <select id="status_selector_id" class="status-select round">
 							<option value="">Статус sort</option>
@@ -79,8 +80,10 @@ foreach($enquiries as $enquiry){
 	$select_of_statuses .= "</select>";
 
 	// ! statuses processing
-
 	echo"<tr id='".$enquiry['id']."'>"; 
+	if($_SESSION['user_role'] === '3'){
+		echo'<td>'.$enquiry['manager_name'].'</td>';
+	}
 	echo'<td><input id="" class="'.$montage_date_class.'" type="date" title = "'.$montage_date_title.'" disabled value="'.$enquiry['date'].'"></td>';
 	echo'<td>'.$select_of_statuses.'</td>';
 	echo"<td><a href='/client/".$enquiry['client_id']."' class=''>".$enquiry['client_name']."</a></td>";

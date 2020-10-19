@@ -18,7 +18,9 @@ class Enquiry extends Model
 
 		$offset = " OFFSET ".$offset; 
 
-		$sql ="select leads.*, c.name as client_name from `leads` left join clients as c on (leads.client_id = c.id)
+		$sql ="select leads.*, c.name as client_name, u.name as manager_name 
+			from `leads` left join clients as c on (leads.client_id = c.id)
+			left join users as u on (leads.who_added_user_id  = u.id)
 			$satatus order by id desc limit $limit $offset";
 		// dd($sql);
 		return $this->db->row($sql);
