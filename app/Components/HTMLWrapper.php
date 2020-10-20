@@ -136,10 +136,12 @@ class HTMLWrapper
 
 				if( $key === 'type' ){
 					if( $val === 'income' ){
-						$temp_arr[0] = '<th>'.$this->wrapInBadge($val, 'success').'</th>';
+						$method = 'Приход';
+						$temp_arr[0] = '<th>'.$this->wrapInBadge($method, 'success').'</th>';
 					}
 					if( $val === 'outgo' ){
-						$temp_arr[0] = '<th>'.$this->wrapInBadge($val, 'danger').'</th>';
+						$method = 'Расход';
+						$temp_arr[0] = '<th>'.$this->wrapInBadge($method, 'danger').'</th>';
 					}
 				}
 

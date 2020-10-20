@@ -60,6 +60,9 @@ class Enquiry extends Model
 	public function setClient($data, $only='')
 	{
 		/*TODO viber fiels have to take it away farther*/
+		$data['comment'] = str_replace("'", "\'", $data['comment']);
+		$data['address'] = str_replace("'", "\'", $data['address']);
+		$data['fio'] = str_replace("'", "\'", $data['fio']);
 		$address = '';
 		$comment = '';
 		if( $only === 'only' ){
@@ -76,7 +79,7 @@ class Enquiry extends Model
 				'".$data['email']."', 
 				'',
 				'".$data['viber_is']."',
-				".intval($data['who_added_id']).") ");
+				".$_SESSION['user_id'].") ");
 			return (int) $this->db->lastId();
 	}
 
@@ -89,6 +92,8 @@ class Enquiry extends Model
 
 	public function setLead($last_client_id, $data)
 	{
+		$data['comment'] = str_replace("'", "\'", $data['comment']);
+		$data['address'] = str_replace("'", "\'", $data['address']);
 		$res = $this->db->query("INSERT INTO `leads` (`client_id`, `address`, `comment`, `source`, `date`, `status`, `who_added_user_id`) 
 			VALUES (
 				'".$last_client_id."', 
@@ -129,6 +134,7 @@ class Enquiry extends Model
 		if( $id==='' || $column==='' ){
 			return "There is no id or column name passed in ".__FUNCTION__;
 		}
+		$val = str_replace("'", "\'", $val);
 		if( $val === '' ){
 			$val = "NULL";
 		}else{$val = "'$val'";}

@@ -5,7 +5,6 @@ use AppM;
 
 class UserSluiceController extends Controller
 {
-
 	private $post;
 	
 	public function __construct()

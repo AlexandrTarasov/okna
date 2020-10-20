@@ -176,6 +176,8 @@
 								<option value="instagram">Instagram</option>
 								<option value="recommendation">Рекомендация</option>
 								<option value="youtube">Youtube</option>
+								<option value="repeated-appeal">Повторное обращение</option>
+								<option value="office-visit">Визит в офис</option>
 							</select>
 						</div>
 						<!--div class="col mb-2">

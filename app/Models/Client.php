@@ -56,11 +56,13 @@ class Client extends Model
 			WHERE clients.phone LIKE '%".$phone_part."%' OR clients.phone2  LIKE '%".$phone_part."%' LIMIT 40";
 		return $this->db->row($sql);
 	}
-	public function getClientByAddressOrName($phone_part)
+	public function getClientByAddressOrName($val)
 	{
-		$sql = "SELECT clients.id as id, clients.name as name, clients.phone as phone, clients.address as address, orders.id as order_id from  clients 
-			INNER JOIN  orders ON (clients.id = orders.client_id)
-			WHERE clients.address LIKE '%".$phone_part."%' OR clients.name  LIKE '%".$phone_part."%' LIMIT 40";
+		$sql = "SELECT clients.id as id, clients.name as name, clients.phone as phone, 
+			orders.address as address, orders.id as order_id 
+			from  clients INNER JOIN  orders ON (clients.id = orders.client_id)
+			WHERE clients.address LIKE '%".$val."%' OR clients.name  LIKE '%".$val."%' 
+			OR orders.address  LIKE '%".$val."%' LIMIT 40";
 		return $this->db->row($sql);
 	}
 	public function updateClientComment($id, $val)
