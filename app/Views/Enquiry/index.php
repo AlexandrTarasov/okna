@@ -36,7 +36,6 @@
 						<th>Адрес</th>
 						<th>Ресурс</th>
 						<th>Коммент.</th>
-						<th>Действие</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -91,8 +90,6 @@ foreach($enquiries as $enquiry){
 	echo"<td class=\"text-center\">".$source."</td>";
 	echo"<td>".$enquiry['comment']."</td>";
 	// echo"<td style='text-align:center;'> <i style='color:red;' class=\"far fa-trash-alt\"></i> </td>";
-	echo"<td style='text-align:center;'> <button  type=\"button\" style=\"padding:0 3px 0 3px; font-size:13px;\" ".$button_status."
-		title='Принять в заказы' onclick=\"makeOrder(".$enquiry['id'].", ".$enquiry['client_id'].", '".$enquiry['address']."')\" class=\"btn btn-success\">В&nbsp;ЗАКАЗЫ</button></td>";
 	echo"</tr>"; 
 }
 ?>
@@ -166,27 +163,5 @@ order_status.onchange=(e)=>{
 		window.location.href = "/enquiry/sort/"+e.target.value;
 	}
 }
-
-
-function makeOrder(enquery_id, client_id, address){
-	res = goSluice(enquery_id, client_id+'||'+address, 'generate_enquiry')
-	res.then(data => {
-		data.text().then(function(text) {
-			/*if text is number*/
-			if( isNumeric(text)){
-				window.location.href = "/order/"+text;
-			}
-			else{ console.log(text); }
-		})
-	}).catch(err => {
-		console.error('Error: ', err);
-	});
-}
-
-function isNumeric(value) {
-    return /^-{0,1}\d+$/.test(value);
-}
-
-
 
 </script>

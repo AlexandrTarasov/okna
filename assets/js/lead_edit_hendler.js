@@ -3,23 +3,38 @@ let lead = {
 	source :'',
 	address: '',
 	comment: '',
+	advance_calculation_1: '',
+	advance_calculation_2: '',
+	advance_calculation_3: '',
 };
-
-
 
 address_input.oninput=(e)=>{
 	lead.address = address_input.value;
 	let res = goSluice(lead.id, lead.address, 'lead_update_address');
 	responseHendler(res, address_input);
 }
-
-
 comment_input.oninput=(e)=>{
 	lead.comment = comment_input.value;
 	let res = goSluice(lead.id, lead.comment, 'lead_update_comment');
 	responseHendler(res, comment_input);
 }
 
+
+advance_calculation_1.oninput=(e)=>{
+	lead.advance_calculation_1 = advance_calculation_1.value;
+	let res = goSluice(lead.id, lead.advance_calculation_1, 'lead_update_advance_calculation1');
+	responseHendler(res, advance_calculation_1);
+}
+advance_calculation_2.oninput=(e)=>{
+	lead.advance_calculation_2 = advance_calculation_2.value;
+	let res = goSluice(lead.id, lead.advance_calculation_2, 'lead_update_advance_calculation2');
+	responseHendler(res,  advance_calculation_2);
+}
+advance_calculation_3.oninput=(e)=>{
+	lead.advance_calculation_3 = advance_calculation_3.value;
+	let res = goSluice(lead.id, lead.advance_calculation_3, 'lead_update_advance_calculation3');
+	responseHendler(res, advance_calculation_3);
+}
 
 function responseHendler(res, node)
 {

@@ -40,6 +40,9 @@ foreach($statuses as $status){
 	$status_options .='<option value="'.$status.'" '.$selected.'>'.$status.'</option>';
 }
 $status_options .= '</select>';
+
+$disabled = ($enquery['status'] === 'accepted') ? 'disabled' : '';
+
 ?>
 
 <?php if( !empty($message )){ ?>
@@ -84,6 +87,30 @@ $status_options .= '</select>';
 						<textarea class="form-control" style="width: 100%;" id="comment_input"><?=$enquery['comment']?></textarea>
 					</div>
 				</div>
+				Предварительные расчёты
+				<div class="row">
+					<div class="col-3 enquery_info_item_name"> расчёт №1 </div> <div class="col enquery_info_item">
+						<input class="form-control" id="advance_calculation_1"  value="<?=$enquery['advance_calculation1']?>"> 
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-3 enquery_info_item_name"> расчёт №1 </div> <div class="col enquery_info_item">
+						<input class="form-control" id="advance_calculation_2"  value="<?=$enquery['advance_calculation2']?>"> 
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-3 enquery_info_item_name"> расчёт №1 </div> <div class="col enquery_info_item">
+						<input class="form-control" id="advance_calculation_3"  value="<?=$enquery['advance_calculation3']?>"> 
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-6 text-center">
+						<button type="button" class="btn btn-warning">ЗАЯВКА НА ЗАМЕР</button>
+					</div>
+					<div class="col-6 text-center">
+					<button type="button" <?=$disabled?> onclick="makeOrder(<?=$enquery['id']?>, <?=$enquery['client_id']?>,'<?=$enquery['address']?>')" class="btn btn-success">&#160;&#160;&#160;&#160;&#160;В ЗАКАЗЫ&#160;&#160;&#160;&#160;&#160;</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -92,3 +119,25 @@ $status_options .= '</select>';
 <script src="/assets/js/lead_edit_hendler.js"></script>
 
 <?php } ?>
+	<script>
+	 
+function makeOrder(enquery_id, client_id, address){
+	res = goSluice(enquery_id, client_id+'||'+address, 'generate_enquiry')
+	res.then(data => {
+		data.text().then(function(text) {
+			/*if text is number*/
+			if( isNumeric(text)){
+				window.location.href = "/order/"+text;
+			}
+			else{ console.log(text); }
+		})
+	}).catch(err => {
+		console.error('Error: ', err);
+	});
+}
+
+function isNumeric(value) {
+    return /^-{0,1}\d+$/.test(value);
+}
+
+</script>
