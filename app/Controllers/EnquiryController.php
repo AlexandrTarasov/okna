@@ -9,6 +9,25 @@ class EnquiryController extends Controller
 	public $model;
 	private $message = [];
 	public $items_per_page = 50;
+	public $statuses_ru = [
+		'new'		=>'новый',
+		'processing'=>'в обработке',
+		'accepted'  =>'принят в заказ',
+		'canceled'	=>'отменён',
+		'measuring' =>'замер',
+	];
+	public $sources_ru = [
+		'adwords'		=>'Ads',
+		'facebook'		=>'Фейсбук',
+		'instagram' 	=>'Инстаграм',
+		'recommendation'=>'Рекомендация',
+		'call'    		=> 'Звонок',
+		'youtube'		=> 'Ютуб',
+		'site'   		=> 'Сайт',
+		'dear-agent'  	=> 'Дорогой Агент',
+		'repeated-appeal' => 'Повторное обращение',
+		'office-visit'	=> 'Визит в офис',
+	];
 
 	public function __construct()
 	{
@@ -51,13 +70,15 @@ class EnquiryController extends Controller
 		}
 		$statuses = $this->model->getENUMoptions('status');
 		$sources = $this->model->getENUMoptions('source');
-		// dd($this->message);
+		// dd($statuses);
 		$resalt = [
 			'title' 	=> 'Лид',
 			'message' 	=> $this->message,
 			'enquery' 	=> $enquery,
 			'statuses'  => $statuses,  
-			'sources'	=> $sources
+			'statuses_ru'  => $this->statuses_ru,  
+			'sources'	=> $sources,
+			'sources_ru'=> $this->sources_ru,
 		];
 		$this->runView(__METHOD__)->renderWithData($resalt);
 	}

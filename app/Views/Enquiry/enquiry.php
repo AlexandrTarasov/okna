@@ -27,21 +27,23 @@
 	.fa-funnel-dollar{color: hsl(205.7, 42%, 60.8%);}
 </style>
 <?php
+
+$disabled = ($enquery['status'] === 'accepted') ? 'disabled' : '';
+
 $sources_options = '<select class="custom-select source-'.$enquery['source'].'"  onchange="changeSource(this)">';
 foreach($sources as $source){
 	$selected_source = ( $source == $enquery['source'] ) ? 'selected' : '';
-	$sources_options .='<option value="'.$source.'" '.$selected_source.'>'.$source.'</option>';
+	$sources_options .='<option value="'.$source.'" '.$selected_source.'>'.$sources_ru[$source].'</option>';
 }
 $sources_options .= '</select>';
 
-$status_options = '<select class="custom-select status-'.$enquery['status'].'" onchange="changeStatus(this)">';
+$status_options = '<select class="custom-select status-'.$enquery['status'].'" '.$disabled.' onchange="changeStatus(this)">';
 foreach($statuses as $status){
 	$selected = ( $status == $enquery['status'] ) ? 'selected' : ''; 
-	$status_options .='<option value="'.$status.'" '.$selected.'>'.$status.'</option>';
+	$status_options .='<option value="'.$status.'" '.$selected.'>'.$statuses_ru[$status].'</option>';
 }
 $status_options .= '</select>';
 
-$disabled = ($enquery['status'] === 'accepted') ? 'disabled' : '';
 
 ?>
 

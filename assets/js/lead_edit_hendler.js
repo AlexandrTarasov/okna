@@ -69,6 +69,11 @@ function changeSource(node)
 function changeStatus(node)
 {
 	let new_status = node.options[node.selectedIndex];
+	console.log(new_status);
+	if( new_status.value =='accepted' ){
+		alert('этот статус присваивается при нажатии кнопки (в заказы)');
+		return;
+	}
 	let res = goSluice(lead_id.value, new_status.value, 'lead_update_status');
 	res.then(data => {
 		data.text().then(function(text) {
